@@ -1,0 +1,37 @@
+name: Java CI with Maven
+
+on: [ push, pull_request ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: run tests
+        run: mvn -B test --file pom.xml
+
+  checkstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: run checkstyle
+        run: mvn -B checkstyle:check --file pom.xml
+
+  spotbugs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: run spotbugs
+        run: mvn -B spotbugs:check --file pom.xml
