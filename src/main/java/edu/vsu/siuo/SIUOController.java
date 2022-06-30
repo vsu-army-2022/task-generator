@@ -1,14 +1,14 @@
 package edu.vsu.siuo;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 
 public class SIUOController {
     @FXML
-    private Label welcomeText;
+    private Button buttonCreateTasks;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    protected void buttonCreateTasksOnClick() {
+        System.out.println("Сгенерировано");
     }
 }

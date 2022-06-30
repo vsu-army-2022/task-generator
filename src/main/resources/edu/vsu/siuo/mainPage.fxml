@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.vsu.siuo.SIUOController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Настройки">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Общие" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Выбор режима">
+            <items>
+              <MenuItem mnemonicParsing="false" text="НЗР (ПС &lt; 5-00)" />
+                  <MenuItem mnemonicParsing="false" text="НЗР (большое смещение)" />
+                  <MenuItem mnemonicParsing="false" text="Дальномер (ПС &lt; 5-00)" />
+                  <MenuItem mnemonicParsing="false" text="Дальномер (большое смещение)" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Помощь">
+            <items>
+              <MenuItem mnemonicParsing="false" text="О нас" />
+                  <MenuItem mnemonicParsing="false" text="Документация" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField id="textFieldNumberOfTasks" alignment="CENTER" layoutX="164.0" layoutY="22.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
+            <Text id="labelNumberOfTasks" layoutX="23.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество вариантов" />
+            <Button id="buttonCreateTasks" fx:id="buttonCreateTasks" layoutX="222.0" layoutY="22.0" mnemonicParsing="false" onAction="#buttonCreateTasksOnClick" prefHeight="25.0" prefWidth="161.0" text="Сгенерировать" />
+         </children></AnchorPane>
+   </center>
+</BorderPane>
