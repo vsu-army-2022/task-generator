@@ -3,7 +3,7 @@ package edu.vsu.siuo;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class SIUOController {
     @FXML
     private Label welcomeText;
 
