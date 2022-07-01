@@ -38,7 +38,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField id="textFieldNumberOfTasks" alignment="CENTER" layoutX="164.0" layoutY="22.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
+            <TextField id="textFieldNumberOfTasks" fx:id="textFieldNumberOfTasks" alignment="CENTER" layoutX="164.0" layoutY="22.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
             <Text id="labelNumberOfTasks" layoutX="23.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество вариантов" />
             <Button id="buttonCreateTasks" fx:id="buttonCreateTasks" layoutX="222.0" layoutY="22.0" mnemonicParsing="false" onAction="#buttonCreateTasksOnClick" prefHeight="25.0" prefWidth="161.0" text="Сгенерировать" />
          </children></AnchorPane>
