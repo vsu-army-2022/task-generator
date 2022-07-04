@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.stream.IntStream;
 
 public class Functions {
@@ -270,5 +269,17 @@ public class Functions {
             e.printStackTrace();
         }
         return ts;
+    }
+
+    public static ArrayList<Double> ts (String power, double distance){
+        HashMap<String, ArrayList<ArrayList<Double>>> ts = getTS();
+        if (distance%200 > 0){
+            if (distance%200 > 200 - distance%200){
+                distance += (200 - distance%200);
+            } else {
+                distance -= distance%200;
+            }
+        }
+        return ts.get(power).get((int)(distance-600)/200);
     }
 }
