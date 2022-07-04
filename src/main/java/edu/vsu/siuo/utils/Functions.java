@@ -32,6 +32,17 @@ public class Functions {
         return kkk;
     }
 
+    public String modAngDash(double a) {
+        double b = Math.abs(a);
+        double c = Math.floor(b / 100);
+        double d = b % 100;
+        String ds = Double.toString(d);
+        if (d < 10) {
+            ds = "0" + d;
+        }
+        return c + "-" + ds;
+    }
+
 
     double[] findDalnUgol(double x1, double y1, double x2, double y2) {
         // катеты ОП - цели
@@ -148,13 +159,13 @@ public class Functions {
             as = (a < 0 ? 'Л' : 'П') + Math.abs(a) + ", ";
         }
         if (f != null) {
-            f = ", Фр. " + modAngDash(f);
+            f = ", Фр. " + modAngDash(Double.parseDouble(f));
         }
         return as + TYPES.get(h) + f;
     }
 
     public String formatNablDalnomer(String a, String h, double d, double ak, double dk) {
-        if (!a.equals("")) a = modAngDash(ak + a);
+        if (!a.equals("")) a = modAngDash(ak + Double.parseDouble(a));
         if (h.equals("xz")) h = "«?»";
         if (h.equals("one_p")) h = Double.toString(dk + d);
         if (h.equals("one_n")) h = Double.toString(dk - d);
