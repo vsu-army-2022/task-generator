@@ -4,7 +4,6 @@ import edu.vsu.siuo.domains.AnalysisResult;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Functions {
