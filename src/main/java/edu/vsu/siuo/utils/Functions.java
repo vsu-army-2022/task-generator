@@ -2,6 +2,11 @@ package edu.vsu.siuo.utils;
 
 import edu.vsu.siuo.domains.AnalysisResult;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Functions {
@@ -176,5 +181,62 @@ public class Functions {
         if (al != null) al = (al < 0 ? 'Л' : 'П') + Math.abs(al);
         if (ap != null) ap = (ap < 0 ? 'Л' : 'П') + Math.abs(ap);
         return al + ", " + ap;
+    }
+
+    public static HashMap<String, ArrayList<ArrayList<Double>>> getTS() {
+        String type = null;
+        HashMap<String, ArrayList<ArrayList<Double>>> ts = new HashMap<>();
+        ts.put("Полный", new ArrayList<>());
+        ts.put("Уменьшенный", new ArrayList<>());
+        ts.put("Первый", new ArrayList<>());
+        ts.put("Второй", new ArrayList<>());
+        ts.put("Третий", new ArrayList<>());
+        ts.put("Четвертый", new ArrayList<>());
+        try (FileReader fr = new FileReader("src\\main\\resources\\edu\\vsu\\siuo\\ts.txt")) {
+            BufferedReader reader = new BufferedReader(fr);
+            String line = reader.readLine();
+            while (line != null) {
+                if (line.contains("Полный")){
+                   type = "p";
+                } else if (line.contains("Уменьшенный")){
+                    type = "u";
+                } else if (line.contains("Первый")){
+                    type = "1";
+                } else if (line.contains("Второй")){
+                    type = "2";
+                } else if (line.contains("Третий")){
+                    type = "3";
+                } else if (line.contains("Четвертый")){
+                    type = "4";
+                } else if (line.split("\t").length == 4 && !line.contains("Дальн")){
+                    String[] line_ts = line.split("\t");
+
+                    ArrayList<Double> list_ts = new ArrayList<>();
+                    list_ts.add(Double.parseDouble(line_ts[0]));
+                    list_ts.add(Double.parseDouble(line_ts[1]));
+                    list_ts.add(Double.parseDouble(line_ts[2]));
+                    list_ts.add(Double.parseDouble(line_ts[3]));
+
+                    switch (type){
+                        case "p":
+                            ts.get("Полный").add(list_ts);
+                        case "u":
+                            ts.get("Уменьшенный").add(list_ts);
+                        case "1":
+                            ts.get("Первый").add(list_ts);
+                        case "2":
+                            ts.get("Второй").add(list_ts);
+                        case "3":
+                            ts.get("Третий").add(list_ts);
+                        case "4":
+                            ts.get("Четвертый").add(list_ts);
+                    }
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ts;
     }
 }
