@@ -2,6 +2,8 @@ package edu.vsu.siuo.utils;
 
 import edu.vsu.siuo.domains.AnalysisResult;
 
+import java.util.Map;
+
 public class Functions {
 
     public double converseToRad(double a) {
@@ -129,5 +131,39 @@ public class Functions {
         }
 
         return analysisResult;
+    }
+
+    public String vPricel(double d) {
+        if (d > 0) {
+            return "+" + d;
+        }
+        // fixme сравнение с eps?
+        // if d == 0
+        return "";
+    }
+
+    public String formatNabl(Double a, String h, String f, Map<String, String> TYPES) {
+        String as = "";
+        if (a != null) {
+            as = (a < 0 ? 'Л' : 'П') + Math.abs(a) + ", ";
+        }
+        if (f != null) {
+            f = ", Фр. " + modAngDash(f);
+        }
+        return as + TYPES.get(h) + f;
+    }
+
+    public String formatNablDalnomer(String a, String h, double d, double ak, double dk) {
+        if (!a.equals("")) a = modAngDash(ak + a);
+        if (h.equals("xz")) h = "«?»";
+        if (h.equals("one_p")) h = Double.toString(dk + d);
+        if (h.equals("one_n")) h = Double.toString(dk - d);
+        return a + ", " + h;
+    }
+
+    public String formatNablSn(Double al, Double ap) {
+        if (al != null) al = (al < 0 ? 'Л' : 'П') + Math.abs(al);
+        if (ap != null) ap = (ap < 0 ? 'Л' : 'П') + Math.abs(ap);
+        return al + ", " + ap;
     }
 }
