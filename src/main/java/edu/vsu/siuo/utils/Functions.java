@@ -6,15 +6,15 @@ import java.util.Map;
 
 public class Functions {
 
-    public double converseToRad(double a) {
+    public static double converseToRad(double a) {
         return a * Math.PI / 30 / 100;
     }
 
-    public double converseToDelAngle(double rad) {
+    public static double converseToDelAngle(double rad) {
         return Math.round(rad * 30 / Math.PI * 100) % 6000;
     }
 
-    public String angDash(double a) {
+    public static String angDash(double a) {
         double b = Math.abs(a);
         double c = Math.floor(b / 100);
         double d = b % 100;
@@ -32,7 +32,7 @@ public class Functions {
         return kkk;
     }
 
-    public String modAngDash(double a) {
+    public static String modAngDash(double a) {
         double b = Math.abs(a);
         double c = Math.floor(b / 100);
         double d = b % 100;
@@ -44,7 +44,7 @@ public class Functions {
     }
 
 
-    double[] findDalnUgol(double x1, double y1, double x2, double y2) {
+    public static double[] findDalnUgol(double x1, double y1, double x2, double y2) {
         // катеты ОП - цели
         double kat_x = x1 - x2;
         double kat_y = y1 - y2;
@@ -74,7 +74,7 @@ public class Functions {
         return new double[]{dal, a_du};
     }
 
-    public AnalysisResult analyzePuo(double dk, double ak, double knp_x, double knp_y, Double np_x, Double np_y, double op_x, double op_y, double on) {
+    public static AnalysisResult analyzePuo(double dk, double ak, double knp_x, double knp_y, Double np_x, Double np_y, double op_x, double op_y, double on) {
 
         AnalysisResult analysisResult = new AnalysisResult();
 
@@ -144,7 +144,7 @@ public class Functions {
         return analysisResult;
     }
 
-    public String vPricel(double d) {
+    public static String vPricel(double d) {
         if (d > 0) {
             return "+" + d;
         }
@@ -153,7 +153,7 @@ public class Functions {
         return "";
     }
 
-    public String formatNabl(Double a, String h, String f, Map<String, String> TYPES) {
+    public static String formatNabl(Double a, String h, String f, Map<String, String> TYPES) {
         String as = "";
         if (a != null) {
             as = (a < 0 ? 'Л' : 'П') + Math.abs(a) + ", ";
@@ -164,7 +164,7 @@ public class Functions {
         return as + TYPES.get(h) + f;
     }
 
-    public String formatNablDalnomer(String a, String h, double d, double ak, double dk) {
+    public static String formatNablDalnomer(String a, String h, double d, double ak, double dk) {
         if (!a.equals("")) a = modAngDash(ak + Double.parseDouble(a));
         if (h.equals("xz")) h = "«?»";
         if (h.equals("one_p")) h = Double.toString(dk + d);
@@ -172,7 +172,7 @@ public class Functions {
         return a + ", " + h;
     }
 
-    public String formatNablSn(Double al, Double ap) {
+    public static String formatNablSn(Double al, Double ap) {
         if (al != null) al = (al < 0 ? 'Л' : 'П') + Math.abs(al);
         if (ap != null) ap = (ap < 0 ? 'Л' : 'П') + Math.abs(ap);
         return al + ", " + ap;
