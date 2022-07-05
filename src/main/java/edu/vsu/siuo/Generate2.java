@@ -3,6 +3,7 @@ package edu.vsu.siuo;
 import edu.vsu.siuo.domains.AnalysisResult;
 import edu.vsu.siuo.domains.TaskDto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,12 +15,14 @@ import static edu.vsu.siuo.utils.Utils.round;
 
 public class Generate2 {
 
-    public void generate(int kol_varik) {
+    public List<TaskDto> generate(int taskCount) {
         // todo validation
 
-        int zad_ps5 = 0;
+        List<TaskDto> taskDtos = new ArrayList<>();
+
+        int taskNumber = 0;
         // общий цикл: множество вариантов
-        while (zad_ps5 < kol_varik) {
+        while (taskNumber < taskCount) {
 
             int rashod = 0;
 
@@ -91,7 +94,7 @@ public class Generate2 {
 
             if (analysisResult.getPs() < 490 && analysisResult.getDovTop() < 380 && analysisResult.getDovTop() > -380 && Math.abs(ak - on) < 750) {
 
-                zad_ps5++;
+                taskNumber++;
 
                 // генерируем ГРП
                 Map<Integer, Map<String, Integer>> grp = new HashMap<>();
@@ -138,7 +141,11 @@ public class Generate2 {
                     shu = Math.round(analysisResult.getPs() / analysisResult.getDalTop() * 100);
                 }
 
-                double ps_rad, sin_pc, kc, muD, shu100;
+                double ps_rad = 0;
+                double sin_pc = 0;
+                double kc = 0;
+                double muD = 0;
+                double shu100 = 0;
 
                 if (analysisResult.getPs() > 500) { // ПРК: находим коэффециенты Мюд,Кс, Шу100
                     ps_rad = converseToRad(analysisResult.getPs());
@@ -250,17 +257,109 @@ public class Generate2 {
                 // result
                 TaskDto taskDto = new TaskDto();
 
-                taskDto.setOH(on);
-
-                taskDto.setXop(op_x);
-                taskDto.setYop(op_y);
-                taskDto.setHop(op_h);
-                taskDto.setXknp(knp_x);
-                taskDto.setYknp(knp_y);
-                taskDto.setHknp(knp_h);
-
-                taskDto.setLoad(zaryd);
+//                taskDto.setOh(on);
+//
+//                taskDto.setXop(op_x);
+//                taskDto.setYop(op_y);
+//                taskDto.setHop(op_h);
+//                taskDto.setXknp(knp_x);
+//                taskDto.setYknp(knp_y);
+//                taskDto.setHknp(knp_h);
+//
+//                taskDto.setLoad(zaryd);
+//
+//                List<Integer> distance = List.of(
+//                        grp.get(0).get("D") / 1000,
+//                        grp.get(1).get("D") / 1000,
+//                        grp.get(2).get("D") / 1000
+//                );
+//                taskDto.setDistance(distance);
+//
+//                List<Integer> range = List.of(
+//                        grp.get(0).get("dD"),
+//                        grp.get(1).get("dD"),
+//                        grp.get(2).get("dD")
+//                );
+//                taskDto.setRange(range);
+//
+//                List<Integer> direction = List.of(
+//                        grp.get(0).get("dd"),
+//                        grp.get(1).get("dd"),
+//                        grp.get(2).get("dd")
+//                );
+//                taskDto.setDirection(direction);
+//
+//                taskDto.setTargetType(c_type);
+//                taskDto.setAC(ak);
+//                taskDto.setDK(dk);
+//                taskDto.setEpsC(ec_knp);
+//                taskDto.setFDu(fcdu);
+//                taskDto.setGC(gc);
+//
+//                if (analysisResult.getPs() > 500) {
+//                    double pr1 = Math.abs(fcdu * muD);
+//                    double pr2 = Math.abs(gc * kc);
+//
+//                    double ugl1 = Math.abs(fcdu * ku * kc);
+//                    double ugl2 = Math.abs(gc / 100 * shu100);
+//
+//                    long gc_op = Math.round(pr1 + pr2);
+//                    long fcdu_op = Math.round(ugl1 + ugl2);
+//
+//
+//                    gc = gc_op;
+//                    fcdu = fcdu_op;
+//                }
+//
+//                double bat_veer = 0;
+//
+//                if (fcdu == 0) {
+//                    String bat_veer_v = "сосредоточенный";
+//                } else {
+//                    if (analysisResult.getPs() < 500) {
+//
+//                        bat_veer = fcdu / 6 * ku;
+//                    } else {
+//                        bat_veer = fcdu / 6;
+//                    }
+//                    String bat_veer_v = modAngDash(bat_veer);
+//                }
+//
+//                // todo fixme
+//                int fcm = (int) ((fcdu * dk) / 1000);
+//
+//
+//                if (gc > 200) gc = 200;
+//
+//                if (dxt == 0) dxt = 0.0001;
+//
+//
+//                int uu = 0;
+//                // скачок, УУ, УП
+//                if (fcm > 300 && c_type.equals("po") || fcm > 150 && c_type.equals("pu")) {
+//                    uu = 2;
+//                } else {
+//                    uu = 1;
+//                }
+//
+//                String uu_v = "";
+//
+//                if (uu == 2) {
+//                    uu_v = " установок " + uu + ',';
+//                }
+//
+//                String skachok = "";
+//                int up = 0;
+//                if (gc >= 100) {
+//                    up = 3;
+//                    skachok = " скачок " + Math.round(gc / 3 / dxt) + ',';
+//                } else {
+//                    up = 1;
+//                    skachok = "";
+//                }
             }
         }
+
+        return taskDtos;
     }
 }
