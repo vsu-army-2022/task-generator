@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -31,8 +32,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Помощь">
             <items>
-              <MenuItem mnemonicParsing="false" text="О нас" />
-                  <MenuItem mnemonicParsing="false" text="Документация" />
+              <MenuItem fx:id="menuItemAboutUs" mnemonicParsing="false" onAction="#menuItemAboutUsClick" text="О нас" />
+                  <MenuItem fx:id="menuItemDocuments" mnemonicParsing="false" onAction="#menuItemDocumentsClick" text="Документация" />
             </items>
           </Menu>
         </menus>
@@ -41,6 +42,14 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
+            <Pane fx:id="paneDocuments" prefHeight="374.0" prefWidth="600.0">
+               <children>
+                  <TextArea editable="false" layoutX="15.0" layoutY="8.0" prefHeight="350.0" prefWidth="569.0" text="Документация:&#10;...">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </TextArea>
+               </children></Pane>
             <Pane fx:id="paneMain" prefHeight="374.0" prefWidth="600.0" visible="false">
                <children>
                   <Label fx:id="labelType" alignment="CENTER" contentDisplay="CENTER" layoutX="143.0" layoutY="14.0" prefHeight="26.0" prefWidth="315.0" text="НЗР (ПС &lt; 5-00)" textAlignment="CENTER">
@@ -53,7 +62,7 @@
                   <TextField id="textFieldNumberOfTasks" fx:id="textFieldNumberOfTasks" alignment="CENTER" layoutX="245.0" layoutY="53.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
                </children>
             </Pane>
-            <Pane fx:id="paneSettings" prefHeight="375.0" prefWidth="600.0">
+            <Pane fx:id="paneSettings" prefHeight="375.0" prefWidth="600.0" visible="false">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="114.0" text="Место сохранения: " />
                   <Label fx:id="labelSettingsPath" layoutX="134.0" layoutY="11.0" lineSpacing="3.0" prefHeight="23.0" prefWidth="351.0" text="C:/Desktop" underline="true">
@@ -64,6 +73,15 @@
                   <Button fx:id="buttonChoosePath" layoutX="493.0" layoutY="10.0" mnemonicParsing="false" onAction="#buttonChoosePathClick" prefHeight="25.0" prefWidth="94.0" text="Выбрать путь" />
                   <Label layoutX="14.0" layoutY="42.0" text="Максимальное количество вариантов:" />
                   <TextField fx:id="textFieldNumberTasks" layoutX="235.0" layoutY="38.0" prefHeight="25.0" prefWidth="71.0" />
+               </children>
+            </Pane>
+            <Pane fx:id="paneAboutUs" prefHeight="375.0" prefWidth="600.0" visible="false">
+               <children>
+                  <TextArea editable="false" layoutX="29.0" layoutY="21.0" prefHeight="337.0" prefWidth="545.0" text="    Программа создана для военного учебного центра ВГУ, студентами &#10;факультета компьютерных наук (2022 выпуск), а именно:&#10;    Лисаев Денис &#10;    Шумбасов Всеволод&#10;    Первицкий Дмитрий&#10;    Колесов Антон&#10;&#10;">
+                     <font>
+                        <Font name="JetBrains Mono Bold" size="12.0" />
+                     </font>
+                  </TextArea>
                </children>
             </Pane>
          </children></AnchorPane>

@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,6 +19,8 @@ public class SIUOController implements Initializable {
     private int maxNumberOfTasks = 100;
     private File selectedDirectory = null;
     static int type = 0;
+    private Pane selectedPane;
+    private Boolean isOpenFiles = true;
 
     @FXML
     private Button buttonCreateTasks;
@@ -30,6 +33,10 @@ public class SIUOController implements Initializable {
     @FXML
     private Pane paneSettings;
     @FXML
+    private Pane paneAboutUs;
+    @FXML
+    private Pane paneDocuments;
+    @FXML
     private Label labelSettingsPath;
     @FXML
     private Button buttonChoosePath;
@@ -37,47 +44,45 @@ public class SIUOController implements Initializable {
     private TextField textFieldNumberTasks;
 
     @FXML
-    protected void buttonCreateTasksOnClick() {
+    protected void buttonCreateTasksOnClick() throws IOException {
         System.out.println(selectedDirectory.getAbsolutePath());
         System.out.println("Сгенерировано");
+        if (isOpenFiles){
+            Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
+        }
     }
 
     @FXML
     protected void menuItemNzrLess5Click(){
-        paneSettings.setVisible(false);
-        paneMain.setVisible(true);
+        selectPane(paneMain);
         type = 0;
         labelType.setText("НЗР (ПС < 5-00)");
     }
 
     @FXML
     protected void  menuItemNzrBigMoveClick(){
-        paneSettings.setVisible(false);
-        paneMain.setVisible(true);
+        selectPane(paneMain);
         type = 1;
         labelType.setText("НЗР (Большое смещение)");
     }
 
     @FXML
     protected void  menuItemDalnomerLess5Click(){
-        paneSettings.setVisible(false);
-        paneMain.setVisible(true);
+        selectPane(paneMain);
         type = 2;
         labelType.setText("Дальномер (ПС < 5-00)");
     }
 
     @FXML
     protected void  menuItemDalnomerBigMoveClick(){
-        paneSettings.setVisible(false);
-        paneMain.setVisible(true);
+        selectPane(paneMain);
         type = 3;
         labelType.setText("Дальномер (Большое смещение)");
     }
 
     @FXML
     protected void menuItemSettingsGeneralClick(){
-        paneMain.setVisible(false);
-        paneSettings.setVisible(true);
+        selectPane(paneSettings);
     }
 
     @FXML
@@ -88,10 +93,31 @@ public class SIUOController implements Initializable {
         labelSettingsPath.setText(this.selectedDirectory.getAbsolutePath());
     }
 
+    @FXML
+    protected void menuItemAboutUsClick(){
+        selectPane(paneAboutUs);
+    }
+
+    @FXML
+    protected void menuItemDocumentsClick(){
+        selectPane(paneDocuments);
+    }
+
+    private void selectPane(Pane pane){
+        this.selectedPane.setVisible(false);
+        pane.setVisible(true);
+        selectedPane = pane;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        paneMain.setVisible(true);
+        selectedDirectory = new File("D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo");
+        labelSettingsPath.setText("D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo");
+        selectedPane = paneMain;
+        selectedPane.setVisible(true);
         paneSettings.setVisible(false);
+        paneAboutUs.setVisible(false);
+        paneDocuments.setVisible(false);
         textFieldNumberOfTasks.addEventFilter(KeyEvent.KEY_TYPED, t -> {
             char ar[] = t.getCharacter().toCharArray();
             char ch = ar[t.getCharacter().toCharArray().length - 1];
