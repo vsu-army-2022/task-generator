@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.vsu.siuo.SIUOController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Настройки">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Общие" />
-            </items>
-          </Menu>
+          <Menu fx:id="menuSettings" mnemonicParsing="false" text="Настройки">
+               <items>
+                  <MenuItem fx:id="menuItemSettingsGeneral" mnemonicParsing="false" onAction="#menuItemSettingsGeneralClick" text="Общие" />
+               </items></Menu>
           <Menu mnemonicParsing="false" text="Выбор режима">
             <items>
-              <MenuItem mnemonicParsing="false" text="НЗР (ПС &lt; 5-00)" />
-                  <MenuItem mnemonicParsing="false" text="НЗР (большое смещение)" />
-                  <MenuItem mnemonicParsing="false" text="Дальномер (ПС &lt; 5-00)" />
-                  <MenuItem mnemonicParsing="false" text="Дальномер (большое смещение)" />
+              <MenuItem fx:id="menuItemNzrLess5" mnemonicParsing="false" onAction="#menuItemNzrLess5Click" text="НЗР (ПС &lt; 5-00)" />
+                  <MenuItem fx:id="menuItemNzrBigMove" mnemonicParsing="false" onAction="#menuItemNzrBigMoveClick" text="НЗР (большое смещение)" />
+                  <MenuItem fx:id="menuItemDalnomerLess5" mnemonicParsing="false" onAction="#menuItemDalnomerLess5Click" text="Дальномер (ПС &lt; 5-00)" />
+                  <MenuItem fx:id="menuItemDalnomerBigMove" mnemonicParsing="false" onAction="#menuItemDalnomerBigMoveClick" text="Дальномер (большое смещение)" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Помощь">
@@ -38,9 +41,31 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField id="textFieldNumberOfTasks" fx:id="textFieldNumberOfTasks" alignment="CENTER" layoutX="164.0" layoutY="22.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
-            <Text id="labelNumberOfTasks" layoutX="23.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество вариантов" />
-            <Button id="buttonCreateTasks" fx:id="buttonCreateTasks" layoutX="222.0" layoutY="22.0" mnemonicParsing="false" onAction="#buttonCreateTasksOnClick" prefHeight="25.0" prefWidth="161.0" text="Сгенерировать" />
+            <Pane fx:id="paneMain" prefHeight="374.0" prefWidth="600.0" visible="false">
+               <children>
+                  <Label fx:id="labelType" alignment="CENTER" contentDisplay="CENTER" layoutX="143.0" layoutY="14.0" prefHeight="26.0" prefWidth="315.0" text="НЗР (ПС &lt; 5-00)" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+                  <Button id="buttonCreateTasks" fx:id="buttonCreateTasks" layoutX="300.0" layoutY="53.0" mnemonicParsing="false" onAction="#buttonCreateTasksOnClick" prefHeight="25.0" prefWidth="161.0" text="Сгенерировать" />
+                  <Text id="labelNumberOfTasks" layoutX="105.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество вариантов" />
+                  <TextField id="textFieldNumberOfTasks" fx:id="textFieldNumberOfTasks" alignment="CENTER" layoutX="245.0" layoutY="53.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
+               </children>
+            </Pane>
+            <Pane fx:id="paneSettings" prefHeight="375.0" prefWidth="600.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="114.0" text="Место сохранения: " />
+                  <Label fx:id="labelSettingsPath" layoutX="134.0" layoutY="11.0" lineSpacing="3.0" prefHeight="23.0" prefWidth="351.0" text="C:/Desktop" underline="true">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <Button fx:id="buttonChoosePath" layoutX="493.0" layoutY="10.0" mnemonicParsing="false" onAction="#buttonChoosePathClick" prefHeight="25.0" prefWidth="94.0" text="Выбрать путь" />
+                  <Label layoutX="14.0" layoutY="42.0" text="Максимальное количество вариантов:" />
+                  <TextField fx:id="textFieldNumberTasks" layoutX="235.0" layoutY="38.0" prefHeight="25.0" prefWidth="71.0" />
+               </children>
+            </Pane>
          </children></AnchorPane>
    </center>
 </BorderPane>
