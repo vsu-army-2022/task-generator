@@ -157,7 +157,7 @@ public class Generate {
                 }
 
                 // исчисленная дальность и доворот
-                Map<String, Double> grp_count = grpCount(grp, analysisResult.getDalTop());
+                List<Double> grp_count = grpCount(grp, analysisResult.getDalTop());
                 double ddi = grp_count.get(0);
                 double dai = grp_count.get(1);
 
