@@ -1,11 +1,18 @@
 package edu.vsu.siuo;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class SIUOApplication extends Application {
     private static Stage primaryStage;
@@ -13,10 +20,10 @@ public class SIUOApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         setPrimaryStage(stage);
-        FXMLLoader fxmlLoader = new FXMLLoader(SIUOApplication.class.getResource("mainPage.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainPage.fxml")));
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Генератор вариантов для СиУО");
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
         stage.show();
     }
 

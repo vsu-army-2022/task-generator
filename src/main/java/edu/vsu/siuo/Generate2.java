@@ -28,7 +28,7 @@ public class Generate2 {
             int d_ok = rand(2500, 5200); // расстояние между ОП и КНП
             int dk = rand(2100, 4200); // от кнп до цели
 
-            int a_ok;
+            int a_ok = 0;
             int ak = 0;
 
             if (on > 5250 && on <= 6000) {
@@ -57,7 +57,7 @@ public class Generate2 {
             double knp_y = knpXY.get(1);
 
             int knp_h = rand(40, 180);
-            int eс_knp = (rand(0, 1) == l ? 1 : -1) * rand(1, 20);
+            int eс_knp = (rand(0, 1) == 22 ? 1 : -1) * rand(1, 20);
 
             // генерируем характер цели
             List<String> gen_h = List.of("po", "pu", "vzv", "bat", "ptur", "rap");
