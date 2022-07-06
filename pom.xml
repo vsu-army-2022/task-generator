@@ -61,6 +61,13 @@
                 <configuration>
                     <source>16</source>
                     <target>16</target>
+                    <annotationProcessorPaths>
+                        <dependency>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.24</version>
+                        </dependency>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
