@@ -93,24 +93,24 @@ public class Functions {
 
         // координаты X и Y цели
         double cel_x = knp_x + kat_knp_x;
-//        analysisResult.setCelX(cel_x);
+        analysisResult.setCelX(cel_x);
         double cel_y = knp_y + kat_knp_y;
-//        analysisResult.setCelY(cel_y);
+        analysisResult.setCelY(cel_y);
 
         double[] daln_ugol = findDalnUgol(cel_x, cel_y, op_x, op_y);
         double dal_top = daln_ugol[0];
-//        analysisResult.setDalTop(dal_top);
+        analysisResult.setDalTop(dal_top);
         double a_knp_op_du = daln_ugol[1];
 
         double ps = Math.abs(a_knp_op_du - ak);
-//        analysisResult.setPs(ps);
+        analysisResult.setPs(ps);
 
         double dov_top = a_knp_op_du - on;
-//        analysisResult.setDovTop(dov_top);
+        analysisResult.setDovTop(dov_top);
 
         // ОП Слева или Справа ?
         String op_dir = a_knp_op_du > ak ? "l" : "r";
-//        analysisResult.setOpDir(op_dir);
+        analysisResult.setOpDir(op_dir);
 
 
         // сопряженка
@@ -120,30 +120,30 @@ public class Functions {
             double a_np_op_du = daln_ugol[1];
 
             double alfa_np = Math.abs(a_np_op_du - a_knp_op_du);
-//            analysisResult.setAlfaNp(alfa_np);
+            analysisResult.setAlfaNp(alfa_np);
 
             double gamma = Math.abs(a_np_op_du - ak);
-//            analysisResult.setGamma(gamma);
+            analysisResult.setGamma(gamma);
 
 
             if (ak > a_np_op_du) {
-//                analysisResult.setDpL(dk);
-//                analysisResult.setApL(ps);
-//                analysisResult.setDpR(dal_np);
-//                analysisResult.setApR(alfa_np);
+                analysisResult.setDpL(dk);
+                analysisResult.setApL(ps);
+                analysisResult.setDpR(dal_np);
+                analysisResult.setApR(alfa_np);
             } else {
-//                analysisResult.setDpL(dal_np);
-//                analysisResult.setApL(alfa_np);
-//                analysisResult.setDpR(dk);
-//                analysisResult.setApR(ps);
+                analysisResult.setDpL(dal_np);
+                analysisResult.setApL(alfa_np);
+                analysisResult.setDpR(dk);
+                analysisResult.setApR(ps);
             }
 
 
             // Позиция ОП при сопряженке
             if ((ak < a_knp_op_du && a_knp_op_du < a_np_op_du) || (ak > a_knp_op_du && a_knp_op_du > a_np_op_du)) {
-//                analysisResult.setOpDirSopryzh("Посередине");
+                analysisResult.setOpDirSopryzh("Посередине");
             } else {
-//                analysisResult.setOpDirSopryzh(op_dir.equals("l") ? "Слева" : "Справа");
+                analysisResult.setOpDirSopryzh(op_dir.equals("l") ? "Слева" : "Справа");
             }
         }
 
