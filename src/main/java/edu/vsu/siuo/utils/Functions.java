@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class Functions {
 
@@ -16,8 +15,8 @@ public class Functions {
         return a * Math.PI / 30 / 100;
     }
 
-    public static double converseToDelAngle(double rad) {
-        return Math.round(rad * 30 / Math.PI * 100) % 6000;
+    public static int converseToDelAngle(double rad) {
+        return (int) (Math.round(rad * 30 / Math.PI * 100) % 6000);
     }
 
     public static String angDash(double a) {
