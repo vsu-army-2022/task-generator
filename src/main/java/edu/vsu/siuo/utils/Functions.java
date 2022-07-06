@@ -48,7 +48,7 @@ public class Functions {
 
         // дальность топографическая
         double dt = Math.sqrt(kat_x * kat_x + kat_y * kat_y);
-        double dal = (int) dt;
+        int dal = (int) dt;
 
         // доворот, пс
         if (kat_x == 0) kat_x = 0.0000000001; // скрываем ошибку (на ноль делить нельзя)

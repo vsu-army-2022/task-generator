@@ -68,22 +68,35 @@ class FunctionsTest {
 
     @Test
     public void findDalnUgol_1() {
-        double x1 = 79550.319787779;
-        double y1 = 78470;
-        double x2 = 47756.227797568;
-        double y2 = 39604;
+        double x1 = 65854.021665374;
+        double y1 = 85664.027840319;
+        double x2 = 64808;
+        double y2 = 79738;
 
         double[] result = Functions.findDalnUgol(x1, y1, x2, y2);
 
-        assertEquals(8223, result[0]);
-        assertEquals(1374, result[1]);
+        assertEquals(6017, result[0], DELTA);
+        assertEquals(1333, result[1], DELTA);
     }
+
+//    @Test
+//    public void findDalnUgol_11() {
+//        double x1 = 78697.330659282;
+//        double y1 = 46254.916336925;
+//        double x2 = 83633;
+//        double y2 = 45448;
+//
+//        double[] result = Functions.findDalnUgol(x1, y1, x2, y2);
+//
+//        assertEquals(5001, result[0], DELTA);
+//        assertEquals(2845, result[1], DELTA);
+//    }
 
     @Test
     public void findDalnUgol_2() {
         double x1 = 22001.16889929;
-        double y1 = 25253;
-        double x2 = 40472.297986083;
+        double y1 = 40472.297986083;
+        double x2 = 25253;
         double y2 = 34337;
 
         double[] result = Functions.findDalnUgol(x1, y1, x2, y2);
@@ -95,8 +108,8 @@ class FunctionsTest {
     @Test
     public void findDalnUgol_3() {
         double x1 = 91683.688147674;
-        double y1 = 94975;
-        double x2 = 72580.401827997;
+        double y1 = 72580.401827997;
+        double x2 = 94975;
         double y2 = 77203;
 
         double[] result = Functions.findDalnUgol(x1, y1, x2, y2);
@@ -108,8 +121,8 @@ class FunctionsTest {
     @Test
     public void findDalnUgol_4() {
         double x1 = 68367.077235971;
-        double y1 = 66640;
-        double x2 = 70661.301797983;
+        double y1 = 70661.301797983;
+        double x2 = 66640;
         double y2 = 78825;
 
         double[] result = Functions.findDalnUgol(x1, y1, x2, y2);
