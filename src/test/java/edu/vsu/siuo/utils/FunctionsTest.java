@@ -66,6 +66,7 @@ class FunctionsTest {
         assertEquals("32-00", result);
     }
 
+    @Test
     public void grpCount_1() {
         int d = 4978;
         Map<Integer, Map<String, Integer>> grp = new HashMap<>();
@@ -78,6 +79,7 @@ class FunctionsTest {
         assertEquals(-16, result.get(1));
     }
 
+    @Test
     public void grpCount_2() {
         int d = 4612;
         Map<Integer, Map<String, Integer>> grp = new HashMap<>();
