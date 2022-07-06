@@ -21,32 +21,23 @@ public class Functions {
     }
 
     public static String angDash(double a) {
-        double b = Math.abs(a);
-        double c = Math.floor(b / 100);
-        double d = b % 100;
-        String dd = Double.toString(d);
-        if (d < 10) {
-            dd = "0" + d;
+        int c = ((int)Math.abs(a)) / 100;
+        int d = (int) Math.abs(a) % 100;
+        String dd =  (d < 10 ? "0" + d : Integer.toString(d));
+
+        String result = (a < 0 ? "-" : "+") + c + "-" + dd;
+
+        if (result.equals("+0-00")) {
+            result = "";
         }
 
-        String kkk = (a < 0 ? "-" : "+") + c + "-" + dd;
-
-        if (kkk.equals("+0-00")) {
-            kkk = "";
-        }
-
-        return kkk;
+        return result;
     }
 
     public static String modAngDash(double a) {
-        double b = Math.abs(a);
-        double c = Math.floor(b / 100);
-        double d = b % 100;
-        String ds = Double.toString(d);
-        if (d < 10) {
-            ds = "0" + d;
-        }
-        return c + "-" + ds;
+        int c =  Math.abs((int) a) / 100;
+        int d = (int)Math.abs(a) % 100;
+        return c + "-" + (d < 10 ? "0" + d : d);
     }
 
 
