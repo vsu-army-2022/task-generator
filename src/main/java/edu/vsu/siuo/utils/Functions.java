@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class Functions {
 
@@ -16,37 +16,28 @@ public class Functions {
         return a * Math.PI / 30 / 100;
     }
 
-    public static double converseToDelAngle(double rad) {
-        return Math.round(rad * 30 / Math.PI * 100) % 6000;
+    public static int converseToDelAngle(double rad) {
+        return (int) (Math.round(rad * 30 / Math.PI * 100) % 6000);
     }
 
     public static String angDash(double a) {
-        double b = Math.abs(a);
-        double c = Math.floor(b / 100);
-        double d = b % 100;
-        String dd = Double.toString(d);
-        if (d < 10) {
-            dd = "0" + d;
+        int c = ((int) Math.abs(a)) / 100;
+        int d = (int) Math.abs(a) % 100;
+        String dd = (d < 10 ? "0" + d : Integer.toString(d));
+
+        String result = (a < 0 ? "-" : "+") + c + "-" + dd;
+
+        if (result.equals("+0-00")) {
+            result = "";
         }
 
-        String kkk = (a < 0 ? "-" : "+") + c + "-" + dd;
-
-        if (kkk.equals("+0-00")) {
-            kkk = "";
-        }
-
-        return kkk;
+        return result;
     }
 
     public static String modAngDash(double a) {
-        double b = Math.abs(a);
-        double c = Math.floor(b / 100);
-        double d = b % 100;
-        String ds = Double.toString(d);
-        if (d < 10) {
-            ds = "0" + d;
-        }
-        return c + "-" + ds;
+        int c = Math.abs((int) a) / 100;
+        int d = (int) Math.abs(a) % 100;
+        return c + "-" + (d < 10 ? "0" + d : d);
     }
 
 
@@ -57,7 +48,7 @@ public class Functions {
 
         // дальность топографическая
         double dt = Math.sqrt(kat_x * kat_x + kat_y * kat_y);
-        double dal = (int) dt;
+        int dal = (int) dt;
 
         // доворот, пс
         if (kat_x == 0) kat_x = 0.0000000001; // скрываем ошибку (на ноль делить нельзя)
@@ -159,15 +150,16 @@ public class Functions {
         return "";
     }
 
-    public static String formatNabl(Double a, String h, String f, Map<String, String> TYPES) {
-        String as = "";
+    public static String formatNabl(Integer a, String h, Integer f, Map<String, String> TYPES) {
+        String as = String.valueOf(a);
         if (a != null) {
-            as = (a < 0 ? 'Л' : 'П') + Math.abs(a) + ", ";
+            as = (a < 0 ? "Л" : "П") + Math.abs(a) + ", ";
         }
+        String fs = String.valueOf(f);
         if (f != null) {
-            f = ", Фр. " + modAngDash(Double.parseDouble(f));
+            fs = ", Фр. " + modAngDash(f);
         }
-        return as + TYPES.get(h) + f;
+        return as + TYPES.get(h) + fs;
     }
 
     public static String formatNablDalnomer(String a, String h, double d, double ak, double dk) {
@@ -184,37 +176,38 @@ public class Functions {
         return al + ", " + ap;
     }
 
-    public static Map<String, Double> grpCount(Map<String, Map<Integer, Double>> d, double strD) {
-        IntStream.range(0, 2).forEach(i -> d.get("D").put(i, d.get("D").get(i) - d.get("dD").get(i)));
-
-        Map<String, Double> left = new HashMap<>();
-        Map<String, Double> right = new HashMap<>();
-        if (strD < d.get("D").get(1)) {
-            sidePut(d, left, 0);
-            sidePut(d, right, 1);
-        } else {
-            sidePut(d, left, 1);
-            sidePut(d, right, 2);
-        }
-
-        Map<String, Double> ret = new HashMap<>();
-        d.keySet().stream().filter(grp -> !grp.equals("D")).forEach(grp -> {
-            double tmp = left.get(grp) +
-                         (right.get(grp) - left.get(grp)) *
-                         (strD - left.get("D")) /
-                         (right.get("D") - left.get("D"));
-            ret.put(grp, tmp);
-        });
-
-        ret.replaceAll((g, v) -> (double) Math.round(ret.get(g)));
-        return ret;
+    public static List<Double> grpCount(Map<Integer, Map<String, Integer>> d, double strD) {
+//        IntStream.range(0, 2).forEach(i -> d.get("D").put(i, d.get("D").get(i) - d.get("dD").get(i)));
+//
+//        Map<String, Double> left = new HashMap<>();
+//        Map<String, Double> right = new HashMap<>();
+//        if (strD < d.get("D").get(1)) {
+//            sidePut(d, left, 0);
+//            sidePut(d, right, 1);
+//        } else {
+//            sidePut(d, left, 1);
+//            sidePut(d, right, 2);
+//        }
+//
+//        Map<String, Double> ret = new HashMap<>();
+//        d.keySet().stream().filter(grp -> !grp.equals("D")).forEach(grp -> {
+//            double tmp = left.get(grp) +
+//                         (right.get(grp) - left.get(grp)) *
+//                         (strD - left.get("D")) /
+//                         (right.get("D") - left.get("D"));
+//            ret.put(grp, tmp);
+//        });
+//
+//        ret.replaceAll((g, v) -> (double) Math.round(ret.get(g)));
+//        return ret;
+        return List.of();
     }
 
     private static void sidePut(Map<String, Map<Integer, Double>> d, Map<String, Double> side, int i) {
         d.keySet().forEach(grp -> side.put(grp, d.get(grp).get(i)));
     }
 
-    public static HashMap<String, ArrayList<ArrayList<Double>>> getTS () {
+    public static HashMap<String, ArrayList<ArrayList<Double>>> getTS() {
         String type = null;
         HashMap<String, ArrayList<ArrayList<Double>>> ts = new HashMap<>();
         ts.put("Полный", new ArrayList<>());
@@ -271,15 +264,15 @@ public class Functions {
         return ts;
     }
 
-    public static ArrayList<Double> ts (String power, double distance){
+    public static ArrayList<Double> ts(String power, double distance) {
         HashMap<String, ArrayList<ArrayList<Double>>> ts = getTS();
-        if (distance%200 > 0){
-            if (distance%200 > 200 - distance%200){
-                distance += (200 - distance%200);
+        if (distance % 200 > 0) {
+            if (distance % 200 > 200 - distance % 200) {
+                distance += (200 - distance % 200);
             } else {
-                distance -= distance%200;
+                distance -= distance % 200;
             }
         }
-        return ts.get(power).get((int)(distance-600)/200);
+        return ts.get(power).get((int) (distance - 600) / 200);
     }
 }
