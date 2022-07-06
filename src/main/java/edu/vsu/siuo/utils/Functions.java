@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Functions {
@@ -183,7 +184,7 @@ public class Functions {
         return al + ", " + ap;
     }
 
-    public static Map<String, Double> grpCount(Map<Integer, Map<String, Integer>> d, double strD) {
+    public static List<Double> grpCount(Map<Integer, Map<String, Integer>> d, double strD) {
 //        IntStream.range(0, 2).forEach(i -> d.get("D").put(i, d.get("D").get(i) - d.get("dD").get(i)));
 //
 //        Map<String, Double> left = new HashMap<>();
@@ -207,7 +208,7 @@ public class Functions {
 //
 //        ret.replaceAll((g, v) -> (double) Math.round(ret.get(g)));
 //        return ret;
-        return Map.of();
+        return List.of();
     }
 
     private static void sidePut(Map<String, Map<Integer, Double>> d, Map<String, Double> side, int i) {
