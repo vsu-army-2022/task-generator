@@ -26,7 +26,6 @@ public class TaskDto {
     private String targetType;
     private int alphaC;
     private int dK;
-
     private int epsC;
     private int fDu;
     private long gC;
@@ -44,11 +43,11 @@ public class TaskDto {
     private int deltaX;
 
     private int ps;
-    private int op;
+    private String op;
     private int vD;
 
     private int fDuOp;
-    private int gcOP;
+    private int gCOp;
 
     private List<TaskCommand> commands;
 
@@ -57,7 +56,7 @@ public class TaskDto {
         private String description;
         private int pR;
         private int yR;
-        private int de;
+        private String de;
         private String observation;
     }
 }
