@@ -1,5 +1,6 @@
 package edu.vsu.siuo.utils;
 
+import edu.vsu.siuo.enums.Powers;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -147,26 +148,26 @@ class FunctionsTest {
 
     @Test
     public void ts_1() {
-        String gun = "1";
+        Powers power = Powers.Power1;
         double dci = 7029.0;
 
-        ArrayList<Double> result = Functions.ts(gun, dci);
+        ArrayList<Double> result = Functions.ts(power, dci);
 
-        assertEquals(259.61111111111, result.get(0), DELTA);
-        assertEquals(18, result.get(1), DELTA);
-        assertEquals(17, result.get(2), DELTA);
+        assertEquals(259.61111111111, result.get(1), DELTA);
+        assertEquals(18, result.get(2), DELTA);
+        assertEquals(17, result.get(3), DELTA);
     }
 
     @Test
     public void ts_2() {
-        String gun = "2";
+        Powers gun = Powers.Power2;
         double dci = 5961.0;
 
         ArrayList<Double> result = Functions.ts(gun, dci);
 
-        assertEquals(263.4, result.get(0), DELTA);
-        assertEquals(15, result.get(1), DELTA);
-        assertEquals(14, result.get(2), DELTA);
+        assertEquals(263.4, result.get(1), DELTA);
+        assertEquals(15, result.get(2), DELTA);
+        assertEquals(14, result.get(3), DELTA);
     }
 
     @Test
