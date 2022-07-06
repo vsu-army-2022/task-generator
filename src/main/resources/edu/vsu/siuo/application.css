@@ -22,3 +22,15 @@
     -fx-cursor: hand;
     -fx-background-color: #F75590;
 }
+
+.text-area {
+    -fx-control-inner-background:#2c4423;
+    -fx-font-family: Consolas;
+    -fx-highlight-text-fill: #2c4423;
+    -fx-text-fill: white;
+    -fx-highlight-fill: #2c4423;
+}
+
+.text-area:focused {
+    -fx-highlight-fill: #2c4423;
+}
