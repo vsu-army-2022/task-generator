@@ -282,44 +282,5 @@ public class Functions {
         } else {
             return ts.get(power).get((int) (distance - 200) / 200);
         }
-
-
-
-
-
-//        double defaultDistance = distance;
-//        HashMap<Powers, ArrayList<ArrayList<Double>>> ts = getTS();
-//        ArrayList<Double> result = new ArrayList<>();
-//        double remainder;
-//        if (distance % 200 > 0 && distance > 200) {
-//            if (distance % 200 > 200 - distance % 200) {
-//                remainder = (200 - distance % 200);
-//                distance += remainder;
-//            } else {
-//                remainder = distance % 200;
-//                distance -= remainder;
-//            }
-//            int closelyIndex = (int) (distance - 200) / 200;
-//            ArrayList<Double> closelyValue = ts.get(power).get(closelyIndex);
-//            ArrayList<Double> nextValue;
-//            if (closelyValue.get(0) > distance){
-//                nextValue = ts.get(power).get(closelyIndex-1);
-//            } else {
-//                nextValue = ts.get(power).get(closelyIndex+1);
-//            }
-//            double distanceDiffernce = nextValue.get(0) - closelyValue.get(0);
-//            double prDiffernce = Math.abs(nextValue.get(1) - closelyValue.get(1))/distanceDiffernce;
-//            double xDiffernce = Math.abs(nextValue.get(2) - closelyValue.get(2))/distanceDiffernce;
-//            double vdDiffernce = Math.abs(nextValue.get(3) - closelyValue.get(3))/distanceDiffernce;
-//
-//            result.add(defaultDistance);
-//            result.add(closelyValue.get(1) + (prDiffernce*remainder));
-//            result.add(closelyValue.get(2) + (xDiffernce*remainder));
-//            result.add(closelyValue.get(3) + (vdDiffernce*remainder));
-//
-//            return result;
-//        } else {
-//            return ts.get(power).get((int) (distance - 200) / 200);
-//        }
     }
 }
