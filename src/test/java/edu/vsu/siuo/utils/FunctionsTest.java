@@ -49,7 +49,7 @@ class FunctionsTest {
     }
 
     @Test
-    public void modAngDash_1() {
+    public void KmodAngDash_1() {
         double a = -978;
 
         String result = Functions.modAngDash(a);
