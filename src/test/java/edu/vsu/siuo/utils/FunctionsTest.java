@@ -2,6 +2,7 @@ package edu.vsu.siuo.utils;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FunctionsTest {
 
     private final double DELTA = 0.01;
+
+    Map<String, String> TYPES = Map.of(
+            "-11", "",
+            "xz", "«?»",
+            "one_p", "«+»",
+            "one_n", "«-»",
+            "all_p", "Все «+»",
+            "all_n", "Все «-»",
+            "pre_p", "Преобладание «+»",
+            "pre_n", "Преобладание «-»",
+            "rav_p", "Равенство «+» и «-» от-но ДГЦ",
+            "rav_n", "Равенство «+» и «-» от-но БГЦ"
+    );
 
     @Test
     public void converseToRad() {
@@ -116,6 +130,58 @@ class FunctionsTest {
 
         assertEquals(8344, result[0]);
         assertEquals(4699, result[1]);
+    }
+
+    @Test
+    public void ts_1() {
+        String gun = "1";
+        double dci = 7029.0;
+
+        ArrayList<Double> result = Functions.ts(gun, dci);
+
+        assertEquals(259.61111111111, result.get(0), DELTA);
+        assertEquals(18, result.get(1), DELTA);
+        assertEquals(17, result.get(2), DELTA);
+    }
+
+    @Test
+    public void ts_2() {
+        String gun = "2";
+        double dci = 5961.0;
+
+        ArrayList<Double> result = Functions.ts(gun, dci);
+
+        assertEquals(263.4, result.get(0), DELTA);
+        assertEquals(15, result.get(1), DELTA);
+        assertEquals(14, result.get(2), DELTA);
+    }
+
+    @Test
+    public void v_pricel_1() {
+        String result = Functions.vPricel(174);
+
+        assertEquals("+174", result);
+    }
+
+    @Test
+    public void v_pricel_2() {
+        String result = Functions.vPricel(-0.0);
+
+        assertEquals("", result);
+    }
+
+    @Test
+    public void format_nabl_1() {
+        String result = Functions.formatNabl(16, "all_p", 6, TYPES);
+
+        assertEquals("П16, Все «+», Фр. 0-06", result);
+    }
+
+    @Test
+    public void format_nabl_2() {
+        String result = Functions.formatNabl(88, "one_n", null, TYPES);
+
+        assertEquals("П88, «-»", result);
     }
 
     @Test

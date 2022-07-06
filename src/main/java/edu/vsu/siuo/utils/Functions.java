@@ -21,9 +21,9 @@ public class Functions {
     }
 
     public static String angDash(double a) {
-        int c = ((int)Math.abs(a)) / 100;
+        int c = ((int) Math.abs(a)) / 100;
         int d = (int) Math.abs(a) % 100;
-        String dd =  (d < 10 ? "0" + d : Integer.toString(d));
+        String dd = (d < 10 ? "0" + d : Integer.toString(d));
 
         String result = (a < 0 ? "-" : "+") + c + "-" + dd;
 
@@ -35,8 +35,8 @@ public class Functions {
     }
 
     public static String modAngDash(double a) {
-        int c =  Math.abs((int) a) / 100;
-        int d = (int)Math.abs(a) % 100;
+        int c = Math.abs((int) a) / 100;
+        int d = (int) Math.abs(a) % 100;
         return c + "-" + (d < 10 ? "0" + d : d);
     }
 
@@ -150,15 +150,16 @@ public class Functions {
         return "";
     }
 
-    public static String formatNabl(Double a, String h, String f, Map<String, String> TYPES) {
-        String as = "";
+    public static String formatNabl(Integer a, String h, Integer f, Map<String, String> TYPES) {
+        String as = String.valueOf(a);
         if (a != null) {
-            as = (a < 0 ? 'Л' : 'П') + Math.abs(a) + ", ";
+            as = (a < 0 ? "Л" : "П") + Math.abs(a) + ", ";
         }
+        String fs = String.valueOf(f);
         if (f != null) {
-            f = ", Фр. " + modAngDash(Double.parseDouble(f));
+            fs = ", Фр. " + modAngDash(f);
         }
-        return as + TYPES.get(h) + f;
+        return as + TYPES.get(h) + fs;
     }
 
     public static String formatNablDalnomer(String a, String h, double d, double ak, double dk) {

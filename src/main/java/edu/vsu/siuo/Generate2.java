@@ -434,7 +434,7 @@ public class Generate2 {
                 firstCommand.setPR((int) pric);
                 firstCommand.setYR((int) urov);
                 firstCommand.setDe("ОН\t" + angDash(dov_isch));
-                firstCommand.setObservation(formatNabl((Double) shot.get(0).get("a"), (String) shot.get(0).get("type"), (String) shot.get(0).get("f"), TYPES));
+                firstCommand.setObservation(formatNabl((Integer) shot.get(0).get("a"), (String) shot.get(0).get("type"), (Integer) shot.get(0).get("f"), TYPES));
                 commands.add(firstCommand);
 
                 taskDtos.add(taskDto);
@@ -559,7 +559,7 @@ public class Generate2 {
 
 
                     // формируем наблюдение
-                    String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl((Double) shot.get(i + 1).get("a"), (String) shot.get(i + 1).get("type"), (String) shot.get(i + 1).get("f"), TYPES));
+                    String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl((Integer) shot.get(i + 1).get("a"), (String) shot.get(i + 1).get("type"), (Integer) shot.get(i + 1).get("f"), TYPES));
 
                     TaskCommand command = new TaskCommand();
                     command.setDescription(komand);
