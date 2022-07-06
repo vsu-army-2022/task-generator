@@ -2,6 +2,7 @@ package edu.vsu.siuo;
 
 import edu.vsu.siuo.domains.AnalysisResult;
 import edu.vsu.siuo.domains.TaskDto;
+import edu.vsu.siuo.enums.Powers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -210,13 +211,13 @@ public class Generate2 {
                 // генерируем заряд
                 List<String> gen_z = List.of("p", "u", "1", "2", "3", "4");
 
-                String zaryd = null;
+                Powers zaryd = null;
                 if (dal_isch < 4800) {
-                    zaryd = gen_z.get(rand(4, 5));
+                    zaryd = (rand(3, 4) == 3 ? Powers.Power3 : Powers.Power4);
                 } else if (dal_isch >= 4800 && dal_isch < 7400) {
-                    zaryd = gen_z.get(rand(2, 3));
+                    zaryd = (rand(1, 2) == 1 ? Powers.Power1 : Powers.Power2);
                 } else if (dal_isch >= 7400) {
-                    zaryd = gen_z.get(rand(0, 1));
+                    zaryd = (rand(0, 1) == 1 ? Powers.Reduced : Powers.Full);
                 }
 
 

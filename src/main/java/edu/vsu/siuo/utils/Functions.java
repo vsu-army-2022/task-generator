@@ -1,6 +1,7 @@
 package edu.vsu.siuo.utils;
 
 import edu.vsu.siuo.domains.AnalysisResult;
+import edu.vsu.siuo.enums.Powers;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -143,7 +144,7 @@ public class Functions {
 
     public static String vPricel(double d) {
         if (d > 0) {
-            return "+" + d;
+            return "+" + (int)d;
         }
         // fixme сравнение с eps?
         // if d == 0
@@ -158,6 +159,8 @@ public class Functions {
         String fs = String.valueOf(f);
         if (f != null) {
             fs = ", Фр. " + modAngDash(f);
+        } else {
+            fs = "";
         }
         return as + TYPES.get(h) + fs;
     }
@@ -207,31 +210,31 @@ public class Functions {
         d.keySet().forEach(grp -> side.put(grp, d.get(grp).get(i)));
     }
 
-    public static HashMap<String, ArrayList<ArrayList<Double>>> getTS() {
-        String type = null;
-        HashMap<String, ArrayList<ArrayList<Double>>> ts = new HashMap<>();
-        ts.put("Полный", new ArrayList<>());
-        ts.put("Уменьшенный", new ArrayList<>());
-        ts.put("Первый", new ArrayList<>());
-        ts.put("Второй", new ArrayList<>());
-        ts.put("Третий", new ArrayList<>());
-        ts.put("Четвертый", new ArrayList<>());
+    public static HashMap<Powers, ArrayList<ArrayList<Double>>> getTS() {
+        Powers type = null;
+        HashMap<Powers, ArrayList<ArrayList<Double>>> ts = new HashMap<>();
+        ts.put(Powers.Full, new ArrayList<>());
+        ts.put(Powers.Reduced, new ArrayList<>());
+        ts.put(Powers.Power1, new ArrayList<>());
+        ts.put(Powers.Power2, new ArrayList<>());
+        ts.put(Powers.Power3, new ArrayList<>());
+        ts.put(Powers.Power4, new ArrayList<>());
         try (FileReader fr = new FileReader("src\\main\\resources\\edu\\vsu\\siuo\\ts.txt")) {
             BufferedReader reader = new BufferedReader(fr);
             String line = reader.readLine();
             while (line != null) {
                 if (line.contains("Полный")) {
-                    type = "p";
+                    type = Powers.Full;
                 } else if (line.contains("Уменьшенный")) {
-                    type = "u";
+                    type = Powers.Reduced;
                 } else if (line.contains("Первый")) {
-                    type = "1";
+                    type = Powers.Power1;
                 } else if (line.contains("Второй")) {
-                    type = "2";
+                    type = Powers.Power2;
                 } else if (line.contains("Третий")) {
-                    type = "3";
+                    type = Powers.Power3;
                 } else if (line.contains("Четвертый")) {
-                    type = "4";
+                    type = Powers.Power4;
                 } else if (line.split("\t").length == 4 && !line.contains("Дальн")) {
                     String[] line_ts = line.split("\t");
 
@@ -241,20 +244,7 @@ public class Functions {
                     list_ts.add(Double.parseDouble(line_ts[2]));
                     list_ts.add(Double.parseDouble(line_ts[3]));
 
-                    switch (type) {
-                        case "p":
-                            ts.get("Полный").add(list_ts);
-                        case "u":
-                            ts.get("Уменьшенный").add(list_ts);
-                        case "1":
-                            ts.get("Первый").add(list_ts);
-                        case "2":
-                            ts.get("Второй").add(list_ts);
-                        case "3":
-                            ts.get("Третий").add(list_ts);
-                        case "4":
-                            ts.get("Четвертый").add(list_ts);
-                    }
+                    ts.get(type).add(list_ts);
                 }
                 line = reader.readLine();
             }
@@ -264,15 +254,72 @@ public class Functions {
         return ts;
     }
 
-    public static ArrayList<Double> ts(String power, double distance) {
-        HashMap<String, ArrayList<ArrayList<Double>>> ts = getTS();
-        if (distance % 200 > 0) {
+    public static ArrayList<Double> ts (Powers power, double distance) {
+        HashMap<Powers, ArrayList<ArrayList<Double>>> ts = getTS();
+        ArrayList<Double> result = new ArrayList<>();
+        result.add(distance);
+        double closelyDistance;
+        double remainder;
+
+        if (distance % 200 > 0 && distance > 200) {
             if (distance % 200 > 200 - distance % 200) {
-                distance += (200 - distance % 200);
+                remainder = -(200 - distance % 200);
             } else {
-                distance -= distance % 200;
+                remainder = distance % 200;
             }
+            closelyDistance = distance - remainder;
+            int closelyIndex = (int) (closelyDistance - 200) / 200;
+            ArrayList<Double> closelyValue = ts.get(power).get(closelyIndex);
+            int nextIndex;
+            nextIndex = (remainder > 0 && closelyIndex + 1 < ts.get(power).size() ? closelyIndex + 1 : closelyIndex - 1);
+            nextIndex = (nextIndex < 0 ? closelyIndex : nextIndex);
+            ArrayList<Double> nextValue = ts.get(power).get(nextIndex);
+            double distanceDiffernce = Math.abs(closelyValue.get(0) - nextValue.get(0));
+            result.add(closelyValue.get(1) + Math.abs(closelyValue.get(1) - nextValue.get(1))/distanceDiffernce*remainder);
+            result.add(closelyValue.get(2) + Math.abs(closelyValue.get(2) - nextValue.get(2))/distanceDiffernce*remainder);
+            result.add(closelyValue.get(3) + Math.abs(closelyValue.get(3) - nextValue.get(3))/distanceDiffernce*remainder);
+            return result;
+        } else {
+            return ts.get(power).get((int) (distance - 200) / 200);
         }
-        return ts.get(power).get((int) (distance - 600) / 200);
+
+
+
+
+
+//        double defaultDistance = distance;
+//        HashMap<Powers, ArrayList<ArrayList<Double>>> ts = getTS();
+//        ArrayList<Double> result = new ArrayList<>();
+//        double remainder;
+//        if (distance % 200 > 0 && distance > 200) {
+//            if (distance % 200 > 200 - distance % 200) {
+//                remainder = (200 - distance % 200);
+//                distance += remainder;
+//            } else {
+//                remainder = distance % 200;
+//                distance -= remainder;
+//            }
+//            int closelyIndex = (int) (distance - 200) / 200;
+//            ArrayList<Double> closelyValue = ts.get(power).get(closelyIndex);
+//            ArrayList<Double> nextValue;
+//            if (closelyValue.get(0) > distance){
+//                nextValue = ts.get(power).get(closelyIndex-1);
+//            } else {
+//                nextValue = ts.get(power).get(closelyIndex+1);
+//            }
+//            double distanceDiffernce = nextValue.get(0) - closelyValue.get(0);
+//            double prDiffernce = Math.abs(nextValue.get(1) - closelyValue.get(1))/distanceDiffernce;
+//            double xDiffernce = Math.abs(nextValue.get(2) - closelyValue.get(2))/distanceDiffernce;
+//            double vdDiffernce = Math.abs(nextValue.get(3) - closelyValue.get(3))/distanceDiffernce;
+//
+//            result.add(defaultDistance);
+//            result.add(closelyValue.get(1) + (prDiffernce*remainder));
+//            result.add(closelyValue.get(2) + (xDiffernce*remainder));
+//            result.add(closelyValue.get(3) + (vdDiffernce*remainder));
+//
+//            return result;
+//        } else {
+//            return ts.get(power).get((int) (distance - 200) / 200);
+//        }
     }
 }

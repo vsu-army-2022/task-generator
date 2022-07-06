@@ -1,5 +1,6 @@
 package edu.vsu.siuo.domains;
 
+import edu.vsu.siuo.enums.Powers;
 import lombok.Data;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class TaskDto {
     private int hKnp;
 
     // todo change to enum
-    private String load;
+    private Powers load;
     private List<Integer> distance;
     private List<Integer> range;
     private List<Integer> direction;
