@@ -29,7 +29,7 @@
                                 <Font name="System Bold" size="17.0" />
                             </font>
                         </Label>
-                        <Button id="buttonCreateTasks" fx:id="buttonCreateTasks" layoutX="300.0" layoutY="53.0" mnemonicParsing="false" onAction="#buttonCreateTasksOnClick" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #202020; -fx-text-fill: white;" text="Сгенерировать" />
+                        <Button id="buttonCreateTasks" fx:id="buttonCreateTasks" layoutX="300.0" layoutY="53.0" mnemonicParsing="false" onAction="#buttonCreateTasksOnClick" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #202020; -fx-text-fill: white;" styleClass="btn" text="Сгенерировать" />
                         <Text id="labelNumberOfTasks" fill="WHITE" layoutX="105.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество вариантов" />
                         <TextField id="textFieldNumberOfTasks" fx:id="textFieldNumberOfTasks" alignment="CENTER" layoutX="245.0" layoutY="53.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
                     </children>
@@ -42,7 +42,7 @@
                                 <Insets />
                             </opaqueInsets>
                         </Label>
-                        <Button fx:id="buttonChoosePath" layoutX="470.0" layoutY="10.0" mnemonicParsing="false" onAction="#buttonChoosePathClick" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: #202020; -fx-text-fill: white;" text="Выбрать путь">
+                        <Button fx:id="buttonChoosePath" layoutX="470.0" layoutY="10.0" mnemonicParsing="false" onAction="#buttonChoosePathClick" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: #202020; -fx-text-fill: white;" styleClass="btn" text="Выбрать путь">
                             <graphic>
                                 <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -53,7 +53,7 @@
                         </Button>
                         <Label layoutX="14.0" layoutY="42.0" prefWidth="400.0" style="-fx-text-fill: white;" text="Максимальное количество вариантов:" />
                         <TextField fx:id="textFieldMaxNumberTasks" layoutX="232.0" layoutY="38.0" prefHeight="25.0" prefWidth="71.0" />
-                        <Button fx:id="buttonSaveSettings" layoutX="470.0" layoutY="312.0" mnemonicParsing="false" onAction="#buttonSaveSettingsClick" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: #202020; -fx-text-fill: white;" text="Сохранить">
+                        <Button fx:id="buttonSaveSettings" layoutX="470.0" layoutY="312.0" mnemonicParsing="false" onAction="#buttonSaveSettingsClick" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: #202020; -fx-text-fill: white;" styleClass="btn" text="Сохранить">
                             <graphic>
                                 <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -135,7 +135,7 @@
         </AnchorPane>
     </top>
     <bottom>
-        <AnchorPane prefHeight="29.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <AnchorPane maxWidth="-Infinity" prefHeight="50.0" prefWidth="318.0" BorderPane.alignment="BOTTOM_LEFT">
             <children>
                 <Label layoutX="6.0" layoutY="-26.0" prefHeight="75.0" prefWidth="71.0" style="-fx-text-fill: white;">
                     <graphic>
