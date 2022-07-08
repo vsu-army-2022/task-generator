@@ -1,7 +1,9 @@
 package edu.vsu.siuo;
 
 import edu.vsu.siuo.domains.AnalysisResult;
-import edu.vsu.siuo.domains.TaskDto;
+import edu.vsu.siuo.domains.dto.ProblemDto;
+import edu.vsu.siuo.domains.dto.SolutionDto;
+import edu.vsu.siuo.domains.dto.TaskDto;
 import edu.vsu.siuo.enums.Powers;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static edu.vsu.siuo.domains.TaskDto.*;
+import static edu.vsu.siuo.domains.dto.SolutionDto.TaskCommand;
 import static edu.vsu.siuo.utils.FuncGen.genKnpXY;
 import static edu.vsu.siuo.utils.Functions.*;
 import static edu.vsu.siuo.utils.Utils.rand;
@@ -17,44 +19,13 @@ import static edu.vsu.siuo.utils.Utils.round;
 
 public class Generate2 {
 
-    Map<String, String> GUNS = Map.of(
-            "p", "П",
-            "u", "У",
-            "1", "1",
-            "2", "2",
-            "3", "3",
-            "4", "4");
+    Map<String, String> GUNS = Map.of("p", "П", "u", "У", "1", "1", "2", "2", "3", "3", "4", "4");
 
-    Map<String, String> TYPES = Map.of(
-            "-11", "",
-            "xz", "«?»",
-            "one_p", "«+»",
-            "one_n", "«-»",
-            "all_p", "Все «+»",
-            "all_n", "Все «-»",
-            "pre_p", "Преобладание «+»",
-            "pre_n", "Преобладание «-»",
-            "rav_p", "Равенство «+» и «-» от-но ДГЦ",
-            "rav_n", "Равенство «+» и «-» от-но БГЦ"
-    );
+    Map<String, String> TYPES = Map.of("-11", "", "xz", "«?»", "one_p", "«+»", "one_n", "«-»", "all_p", "Все «+»", "all_n", "Все «-»", "pre_p", "Преобладание «+»", "pre_n", "Преобладание «-»", "rav_p", "Равенство «+» и «-» от-но ДГЦ", "rav_n", "Равенство «+» и «-» от-но БГЦ");
 
-    Map<String, String> TARGETS_WORD = Map.of(
-            "po", "открыто расположенные ЖС и ОС",
-            "pu", "ЖС и ОС, расположенные в окопах (траншеях)",
-            "bat", "батарея",
-            "vzv", "взвод буксируемых орудий",
-            "rap", "радиолокационная станция полевой артиллерии",
-            "ptur", "птур в окопе"
-    );
+    Map<String, String> TARGETS_WORD = Map.of("po", "открыто расположенные ЖС и ОС", "pu", "ЖС и ОС, расположенные в окопах (траншеях)", "bat", "батарея", "vzv", "взвод буксируемых орудий", "rap", "радиолокационная станция полевой артиллерии", "ptur", "птур в окопе");
 
-    Map<String, String> TARGETS = Map.of(
-            "po", "пехота",
-            "pu", "пехота укрытая",
-            "bat", "батарея",
-            "vzv", "взвод артиллерийский",
-            "rap", "РЛС",
-            "ptur", "птур в окопе"
-    );
+    Map<String, String> TARGETS = Map.of("po", "пехота", "pu", "пехота укрытая", "bat", "батарея", "vzv", "взвод артиллерийский", "rap", "РЛС", "ptur", "птур в окопе");
 
 
     public List<TaskDto> generate(int taskCount) {
@@ -301,46 +272,34 @@ public class Generate2 {
                 }
 
                 // result
-                TaskDto taskDto = new TaskDto();
+                ProblemDto problemDto = new ProblemDto();
 
-                taskDto.setOh(on);
+                problemDto.setOh(on);
 
-                taskDto.setXOp(op_x);
-                taskDto.setYOp(op_y);
-                taskDto.setHOp(op_h);
-                taskDto.setXKnp(knp_x);
-                taskDto.setYKnp(knp_y);
-                taskDto.setHKnp(knp_h);
+                problemDto.setXOp(op_x);
+                problemDto.setYOp(op_y);
+                problemDto.setHOp(op_h);
+                problemDto.setXKnp(knp_x);
+                problemDto.setYKnp(knp_y);
+                problemDto.setHKnp(knp_h);
 
-                taskDto.setLoad(zaryd);
+                problemDto.setLoad(zaryd);
 
-                List<Integer> distance = List.of(
-                        grp.get(0).get("D") / 1000,
-                        grp.get(1).get("D") / 1000,
-                        grp.get(2).get("D") / 1000
-                );
-                taskDto.setDistance(distance);
+                List<Integer> distance = List.of(grp.get(0).get("D") / 1000, grp.get(1).get("D") / 1000, grp.get(2).get("D") / 1000);
+                problemDto.setDistance(distance);
 
-                List<Integer> range = List.of(
-                        grp.get(0).get("dD"),
-                        grp.get(1).get("dD"),
-                        grp.get(2).get("dD")
-                );
-                taskDto.setRange(range);
+                List<Integer> range = List.of(grp.get(0).get("dD"), grp.get(1).get("dD"), grp.get(2).get("dD"));
+                problemDto.setRange(range);
 
-                List<Integer> direction = List.of(
-                        grp.get(0).get("dd"),
-                        grp.get(1).get("dd"),
-                        grp.get(2).get("dd")
-                );
-                taskDto.setDirection(direction);
+                List<Integer> direction = List.of(grp.get(0).get("dd"), grp.get(1).get("dd"), grp.get(2).get("dd"));
+                problemDto.setDirection(direction);
 
-                taskDto.setTargetType(c_type);
-                taskDto.setAlphaC(ak);
-                taskDto.setDK(dk);
-                taskDto.setEpsC(ec_knp);
-                taskDto.setFDu(fcdu);
-                taskDto.setGC(gc);
+                problemDto.setTargetType(c_type);
+                problemDto.setAlphaC(ak);
+                problemDto.setDK(dk);
+                problemDto.setEpsC(ec_knp);
+                problemDto.setFDu(fcdu);
+                problemDto.setGC(gc);
 
                 long gc_op = 0;
                 long fcdu_op = 0;
@@ -406,26 +365,29 @@ public class Generate2 {
                     skachok = "";
                 }
 
-                taskDto.setDCt((int) analysisResult.getDalTop());
-                taskDto.setDCt((int) ddi);
-                taskDto.setDCi((int) dal_isch);
+                SolutionDto solutionDto = new SolutionDto();
 
-                taskDto.setDeCt((int) analysisResult.getDovTop());
-                taskDto.setDeltaDeCt((int) dai);
-                taskDto.setDeCi((int) dov_isch);
 
-                taskDto.setKY((int) ku);
-                taskDto.setShY((int) shu);
-                taskDto.setDeltaX((int) dxt);
+                solutionDto.setDCt((int) analysisResult.getDalTop());
+                solutionDto.setDCt((int) ddi);
+                solutionDto.setDCi((int) dal_isch);
 
-                taskDto.setPs((int) analysisResult.getPs());
+                solutionDto.setDeCt((int) analysisResult.getDovTop());
+                solutionDto.setDeltaDeCt((int) dai);
+                solutionDto.setDeCi((int) dov_isch);
 
-                taskDto.setOp(analysisResult.getOpDir());
-                taskDto.setVD((int) vd);
+                solutionDto.setKY((int) ku);
+                solutionDto.setShY((int) shu);
+                solutionDto.setDeltaX((int) dxt);
+
+                solutionDto.setPs((int) analysisResult.getPs());
+
+                solutionDto.setOp(analysisResult.getOpDir());
+                solutionDto.setVD((int) vd);
 
                 if (analysisResult.getPs() > 500) {
-                    taskDto.setFDuOp((int) fcdu_op);
-                    taskDto.setGCOp((int) gc_op);
+                    solutionDto.setFDuOp((int) fcdu_op);
+                    solutionDto.setGCOp((int) gc_op);
                 }
 
                 List<TaskCommand> commands = new ArrayList<>();
@@ -437,8 +399,6 @@ public class Generate2 {
                 firstCommand.setDe("ОН\t" + angDash(dov_isch));
                 firstCommand.setObservation(formatNabl((Integer) shot.get(0).get("a"), (String) shot.get(0).get("type"), (Integer) shot.get(0).get("f"), TYPES));
                 commands.add(firstCommand);
-
-                taskDtos.add(taskDto);
 
                 int flag_k = 1; // для 1 команды батарее
                 int vilka = 200 /*8*vd*/;
@@ -473,18 +433,13 @@ public class Generate2 {
 
 
                         if (gc < 100) {
-                            if (har.equals("all_n") || har.equals("all_p"))
-                                dD = 50;
-                            if (har.equals("pre_n") || har.equals("pre_p"))
-                                dD = 25;
+                            if (har.equals("all_n") || har.equals("all_p")) dD = 50;
+                            if (har.equals("pre_n") || har.equals("pre_p")) dD = 25;
                         }
                         if (gc >= 100) {
-                            if (har.equals("all_n") || har.equals("all_p"))
-                                dD = gc;
-                            if (har.equals("pre_n") || har.equals("pre_p"))
-                                dD = Math.round(2 / 3 * gc);
-                            if (har.equals("rav_n") || har.equals("rav_p"))
-                                dD = Math.round(1 / 2 * gc);
+                            if (har.equals("all_n") || har.equals("all_p")) dD = gc;
+                            if (har.equals("pre_n") || har.equals("pre_p")) dD = Math.round(2 / 3 * gc);
+                            if (har.equals("rav_n") || har.equals("rav_p")) dD = Math.round(1 / 2 * gc);
                         }
 
                         int koef_fr;
@@ -532,8 +487,7 @@ public class Generate2 {
 
 
                         pricel = (int) Math.round(dD / dxt);
-                        if (per_ned.equals("p"))
-                            pricel *= -1;
+                        if (per_ned.equals("p")) pricel *= -1;
 
                         int kof_1 = (int) (-alfa * ku);
                         int kof_2 = (int) (dD / 100 * shu);
@@ -574,7 +528,12 @@ public class Generate2 {
                 lastCommand.setDescription("Стой, записать! Цель 21, «" + TARGETS.get(c_type) + "». «Лена»! «Амур» стрельбу по цели 21 закончил. Расход " + rashod + ". Я «Амур».");
                 commands.add(lastCommand);
 
-                taskDto.setCommands(commands);
+                solutionDto.setCommands(commands);
+
+                TaskDto taskDto = new TaskDto();
+                taskDto.setProblemDto(problemDto);
+                taskDto.setSolutionDto(solutionDto);
+
                 taskDtos.add(taskDto);
             }
         }

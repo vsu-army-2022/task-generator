@@ -1,36 +1,14 @@
-package edu.vsu.siuo.domains;
+package edu.vsu.siuo.domains.dto;
 
-import edu.vsu.siuo.enums.Powers;
 import lombok.Data;
 
 import java.util.List;
 
+/**
+ * Решение задачи
+ */
 @Data
-public class TaskDto {
-    private int taskNumber;
-    private int taskTopic;
-
-    private int oh;
-    private int xOp;
-    private int yOp;
-    private int hOp;
-    private int xKnp;
-    private int yKnp;
-    private int hKnp;
-
-    // todo change to enum
-    private Powers load;
-    private List<Integer> distance;
-    private List<Integer> range;
-    private List<Integer> direction;
-
-    private String targetType;
-    private int alphaC;
-    private int dK;
-    private int epsC;
-    private int fDu;
-    private long gC;
-
+public class SolutionDto {
     private int dCt;
     private int deltaDCt;
     private int dCi;
