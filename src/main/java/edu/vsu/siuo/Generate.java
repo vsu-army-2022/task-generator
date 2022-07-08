@@ -1,7 +1,7 @@
 package edu.vsu.siuo;
 
 import edu.vsu.siuo.domains.AnalysisResult;
-import edu.vsu.siuo.domains.TaskDto;
+import edu.vsu.siuo.domains.dto.TaskDto;
 import edu.vsu.siuo.domains.enums.Powers;
 
 import java.util.ArrayList;

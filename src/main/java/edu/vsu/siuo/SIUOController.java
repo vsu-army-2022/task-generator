@@ -1,7 +1,8 @@
 package edu.vsu.siuo;
 
 import edu.vsu.siuo.domains.Settings;
-import edu.vsu.siuo.domains.TaskDto;
+
+import edu.vsu.siuo.domains.dto.TaskDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -56,7 +57,7 @@ public class SIUOController implements Initializable {
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
         System.out.println(selectedDirectory.getAbsolutePath());
-        List<TaskDto> taskDtos = Generate2.generate(Integer.parseInt(textFieldNumberOfTasks.getText()));
+        List<TaskDto> taskDtos = Generate2.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText()));
         if (settings.getOpenFile()){
             Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
         }
