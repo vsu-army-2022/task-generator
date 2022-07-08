@@ -26,7 +26,7 @@ public class SIUOController implements Initializable {
     private File selectedDirectory = null;
     static int type = 0;
     private Pane selectedPane;
-    private Boolean isOpenFiles = true;
+    private Boolean isOpenFiles = false;
 
     private double x, y;
 
@@ -97,10 +97,14 @@ public class SIUOController implements Initializable {
 
     @FXML
     protected void buttonChoosePathClick(){
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File(settings.getDefaultPath()));
-        this.selectedDirectory = directoryChooser.showDialog(SIUOApplication.getPrimaryStage());
-        labelSettingsPath.setText(this.selectedDirectory.getAbsolutePath());
+        try {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setInitialDirectory(new File(settings.getDefaultPath()));
+            this.selectedDirectory = directoryChooser.showDialog(SIUOApplication.getPrimaryStage());
+            labelSettingsPath.setText(this.selectedDirectory.getAbsolutePath());
+        } catch (Exception e){
+            labelSettingsPath.setText(settings.getDefaultPath());
+        }
     }
 
     @FXML
