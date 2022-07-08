@@ -2,11 +2,13 @@ package edu.vsu.siuo;
 
 import edu.vsu.siuo.word.WordManager;
 import edu.vsu.siuo.domains.Settings;
-import edu.vsu.siuo.domains.TaskDto;
+
+import edu.vsu.siuo.domains.dto.TaskDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -42,7 +44,6 @@ public class SIUOController implements Initializable {
     private File selectedDirectory = null;
     static int type = 0;
     private Pane selectedPane;
-    private Boolean isOpenFiles = true;
 
     private double x, y;
 
@@ -66,6 +67,8 @@ public class SIUOController implements Initializable {
     private Button buttonChoosePath;
     @FXML
     private TextField textFieldMaxNumberTasks;
+    @FXML
+    private CheckBox checkBoxOpenFile;
 
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
@@ -114,16 +117,23 @@ public class SIUOController implements Initializable {
 
     @FXML
     protected void buttonChoosePathClick(){
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File(settings.getDefaultPath()));
-        this.selectedDirectory = directoryChooser.showDialog(SIUOApplication.getPrimaryStage());
-        labelSettingsPath.setText(this.selectedDirectory.getAbsolutePath());
+        try {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setInitialDirectory(new File(settings.getDefaultPath()));
+            this.selectedDirectory = directoryChooser.showDialog(SIUOApplication.getPrimaryStage());
+            labelSettingsPath.setText(this.selectedDirectory.getAbsolutePath());
+        } catch (Exception e){
+            labelSettingsPath.setText(settings.getDefaultPath());
+        }
     }
 
     @FXML
     public void buttonSaveSettingsClick() {
         settings.setDefaultPath(this.selectedDirectory.getAbsolutePath());
         settings.setMaxCountOfTasks(Integer.parseInt(textFieldMaxNumberTasks.getText()));
+        settings.setOpenFile(checkBoxOpenFile.isSelected());
+
+        menuItemNzrLess5Click();
     }
 
     @FXML
@@ -196,14 +206,14 @@ public class SIUOController implements Initializable {
     }
 
     @FXML
-    void dragged(MouseEvent event) {
+    private void dragged(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
     }
 
     @FXML
-    void pressed(MouseEvent event) {
+    private void pressed(MouseEvent event) {
         x = event.getSceneX();
         y = event.getSceneY();
     }
