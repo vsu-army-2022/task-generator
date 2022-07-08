@@ -9,6 +9,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2c4423; -fx-text-fill: white;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.vsu.siuo.SIUOController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: #2c4423; -fx-text-fill: white;" stylesheets="@application.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.vsu.siuo.SIUOController">
     <center>
         <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="294.0" prefWidth="600.0" BorderPane.alignment="BOTTOM_CENTER">
             <children>
@@ -28,12 +29,12 @@
                                 <Font name="System Bold" size="17.0" />
                             </font>
                         </Label>
-                        <Button id="buttonCreateTasks" fx:id="buttonCreateTasks" layoutX="300.0" layoutY="53.0" mnemonicParsing="false" onAction="#buttonCreateTasksOnClick" prefHeight="25.0" prefWidth="161.0" text="Сгенерировать" />
+                        <Button id="buttonCreateTasks" fx:id="buttonCreateTasks" layoutX="300.0" layoutY="53.0" mnemonicParsing="false" onAction="#buttonCreateTasksOnClick" prefHeight="25.0" prefWidth="161.0" style="-fx-background-color: #202020; -fx-text-fill: white;" text="Сгенерировать" />
                         <Text id="labelNumberOfTasks" fill="WHITE" layoutX="105.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество вариантов" />
                         <TextField id="textFieldNumberOfTasks" fx:id="textFieldNumberOfTasks" alignment="CENTER" layoutX="245.0" layoutY="53.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
                     </children>
                 </Pane>
-                <Pane fx:id="paneSettings" layoutY="-55.0" prefHeight="351.0" prefWidth="600.0">
+                <Pane fx:id="paneSettings" layoutY="-49.0" prefHeight="351.0" prefWidth="600.0" visible="false">
                     <children>
                         <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="200.0" style="-fx-text-fill: white;" text="Место сохранения: " />
                         <Label fx:id="labelSettingsPath" layoutX="128.0" layoutY="11.0" lineSpacing="3.0" prefHeight="23.0" prefWidth="351.0" style="-fx-text-fill: white;" text="____" underline="true">
@@ -41,20 +42,28 @@
                                 <Insets />
                             </opaqueInsets>
                         </Label>
-                        <Button fx:id="buttonChoosePath" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" onAction="#buttonChoosePathClick" prefHeight="25.0" prefWidth="108.0" style="-fx-background-color: #202020; -fx-text-fill: white;" text="Выбрать путь">
+                        <Button fx:id="buttonChoosePath" layoutX="470.0" layoutY="10.0" mnemonicParsing="false" onAction="#buttonChoosePathClick" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: #202020; -fx-text-fill: white;" text="Выбрать путь">
                             <graphic>
-                                <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <!--                                  <Image url="open-file-folder-emoji.png" />-->
+                                        <Image url="@open-file-folder-emoji.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
                         <Label layoutX="14.0" layoutY="42.0" prefWidth="400.0" style="-fx-text-fill: white;" text="Максимальное количество вариантов:" />
                         <TextField fx:id="textFieldMaxNumberTasks" layoutX="232.0" layoutY="38.0" prefHeight="25.0" prefWidth="71.0" />
-                  <Button fx:id="buttonSaveSettings" layoutX="479.0" layoutY="312.0" mnemonicParsing="false" onAction="#buttonSaveSettingsClick" prefHeight="25.0" prefWidth="108.0" text="Сохранить" />
-                  <Label layoutX="14.0" layoutY="74.0" prefHeight="17.0" prefWidth="214.0" style="-fx-text-fill: white;" text="Открывать файл после создания: " />
-                  <CheckBox fx:id="checkBoxOpenFile" layoutX="232.0" layoutY="74.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" text="CheckBox" />
+                        <Button fx:id="buttonSaveSettings" layoutX="470.0" layoutY="312.0" mnemonicParsing="false" onAction="#buttonSaveSettingsClick" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: #202020; -fx-text-fill: white;" text="Сохранить">
+                            <graphic>
+                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@save.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Label layoutX="14.0" layoutY="74.0" prefHeight="17.0" prefWidth="214.0" style="-fx-text-fill: white;" text="Открывать файл после создания: " />
+                        <CheckBox fx:id="checkBoxOpenFile" layoutX="232.0" layoutY="74.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="20.0" text="CheckBox" />
                     </children>
                 </Pane>
                 <Pane fx:id="paneAboutUs" layoutY="-55.0" prefHeight="350.0" prefWidth="600.0" visible="false">
@@ -66,7 +75,7 @@
                         </TextArea>
                     </children>
                 </Pane>
-                <Pane fx:id="paneDocuments" layoutY="-55.0" prefHeight="350.0" prefWidth="600.0" visible="false">
+                <Pane fx:id="paneDocuments" layoutY="-55.0" prefHeight="350.0" prefWidth="600.0">
                     <children>
                         <TextArea editable="false" layoutX="15.0" layoutY="20.0" prefHeight="140.0" prefWidth="570.0" style="-fx-background-color: #2c4423;" text="Документация:&#10;...">
                             <font>
@@ -81,7 +90,7 @@
     <top>
         <AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #202020;" BorderPane.alignment="CENTER">
             <children>
-                <MenuBar layoutY="25.0" maxWidth="-Infinity" prefHeight="26.0" prefWidth="277.0" style="-fx-background-color: #202020; -fx-text-fill: white">
+                <MenuBar layoutY="25.0" maxWidth="-Infinity" prefHeight="26.0" prefWidth="260.0" style="-fx-background-color: #202020; -fx-text-fill: white">
                     <menus>
                         <Menu fx:id="menuSettings" mnemonicParsing="false" style="-fx-text-fill: white;" text="Настройки">
                             <items>
@@ -125,4 +134,20 @@
             </children>
         </AnchorPane>
     </top>
+    <bottom>
+        <AnchorPane prefHeight="29.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label layoutX="6.0" layoutY="-26.0" prefHeight="75.0" prefWidth="71.0" style="-fx-text-fill: white;">
+                    <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@logo.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Label>
+            <Label layoutX="81.0" layoutY="27.0" text="© 2022 Военный Учебный Центр при ВГУ" textFill="#faf7f7" />
+            </children>
+        </AnchorPane>
+    </bottom>
 </BorderPane>

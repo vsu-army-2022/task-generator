@@ -188,14 +188,14 @@ public class SIUOController implements Initializable {
     }
 
     @FXML
-    void dragged(MouseEvent event) {
+    private void dragged(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
     }
 
     @FXML
-    void pressed(MouseEvent event) {
+    private void pressed(MouseEvent event) {
         x = event.getSceneX();
         y = event.getSceneY();
     }
