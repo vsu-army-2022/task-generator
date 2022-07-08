@@ -440,7 +440,7 @@ public class Generate2 {
         AnalysisResult analysisResult = analyzePuo(distanceFromKNPtoGoal, alphac, knp_x, knp_y, null, null, op_x, op_y, mainDirection);
 
         solutionDto.setDCt((int) analysisResult.getDalTop());
-//        solutionDto.setDCt((int) ddi);
+//        solutionDto.setDeltaDCt((int) ddi);
 //        solutionDto.setDCi((int) dal_isch);
 
         solutionDto.setDeCt((int) analysisResult.getDovTop());
@@ -455,15 +455,15 @@ public class Generate2 {
 
         solutionDto.setOp(analysisResult.getOpDir());
 //        solutionDto.setVD((int) vd);
-//
-//        if (analysisResult.getPs() > 500) {
+
+        if (analysisResult.getPs() > 500) {
 //            solutionDto.setFDuOp((int) fcdu_op);
 //            solutionDto.setGCOp((int) gc_op);
-//        }
-//
-//        List<TaskCommand> commands = new ArrayList<>();
-//
-//        TaskCommand firstCommand = new TaskCommand();
+        }
+
+        List<SolutionDto.TaskCommand> commands = new ArrayList<>();
+
+        SolutionDto.TaskCommand firstCommand = new SolutionDto.TaskCommand();
 //        firstCommand.setDescription("«Дон», стой! Цель 21, «" + TARGETS.get(targetType) + "». ОФ, Взрыватель «" + vzr + "». Заряд " + GUNS.get(zaryd) + ". Шкала тысячных, основному 1 сн. Огонь!");
 //        firstCommand.setPR((int) pric);
 //        firstCommand.setYR((int) urov);
@@ -607,10 +607,6 @@ public class Generate2 {
 //        taskDto.setSolutionDto(solutionDto);
 //
 //        taskDtos.add(taskDto);
-//
-//        //}
-//
-//        return problemDto;
 
         return solutionDto;
     }

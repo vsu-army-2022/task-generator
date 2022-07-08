@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Functions {
 
@@ -201,10 +202,10 @@ public class Functions {
             right.putAll(d.get(2));
         }
 
-        List<Double> ret = left.keySet().stream().filter(grp -> !grp.equals("D")).mapToDouble(grp -> left.get(grp) +
-                (right.get(grp) - left.get(grp)) *
-                        (strD - left.get("D")) /
-                        (right.get("D") - left.get("D"))).boxed().collect(Collectors.toList());
+        List<Double> ret = Stream
+                .of("dD", "dd")
+                .map(grp -> left.get(grp) + (right.get(grp) - left.get(grp)) * (strD - left.get("D")) / (right.get("D") - left.get("D")))
+                .collect(Collectors.toList());
 
         IntStream.range(0, ret.size() - 1).forEach(i -> ret.set(i, (double) Math.round(ret.get(i))));
 
