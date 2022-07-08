@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Data
 public class ProblemDto {
-    private int oh;
+    private int on;
     private int xOp;
     private int yOp;
     private int hOp;
