@@ -1,5 +1,6 @@
 package edu.vsu.siuo;
 
+import edu.vsu.siuo.word.WordManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,9 +17,29 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import static edu.vsu.siuo.word.WordManager.GenerateNameFile;
+
 public class SIUOController implements Initializable {
+
+    public static final String HZRSmall = "НЗР (ПС < 5-00)";
+    public static final String HZRBig = "НЗР (Большое смещение)";
+    public static final String DalnomerSmall = "Дальномер (ПС < 5-00)";
+    public static final String DalnomerBig = "Дальномер (Большое смещение)";
+
+    private static final Map<Integer, String> map;
+    static {
+        map = new HashMap<>();
+        map.put(0, HZRSmall);
+        map.put(1, HZRBig);
+        map.put(2, DalnomerSmall);
+        map.put(3, DalnomerBig);
+    }
+
     private int maxNumberOfTasks = 100;
     private File selectedDirectory = null;
     static int type = 0;
@@ -51,38 +72,39 @@ public class SIUOController implements Initializable {
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
         System.out.println(selectedDirectory.getAbsolutePath());
-        System.out.println("Сгенерировано");
-        if (isOpenFiles){
-            Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
-        }
+        WordManager wordManager = new WordManager(GenerateNameFile(map.get(this.type)));
+        wordManager.Write(Generate2.generate(10));
+//        if (isOpenFiles){
+//            Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
+//        }
     }
 
     @FXML
     protected void menuItemNzrLess5Click(){
         selectPane(paneMain);
         type = 0;
-        labelType.setText("НЗР (ПС < 5-00)");
+        labelType.setText(HZRSmall);
     }
 
     @FXML
     protected void  menuItemNzrBigMoveClick(){
         selectPane(paneMain);
         type = 1;
-        labelType.setText("НЗР (Большое смещение)");
+        labelType.setText(HZRBig);
     }
 
     @FXML
     protected void  menuItemDalnomerLess5Click(){
         selectPane(paneMain);
         type = 2;
-        labelType.setText("Дальномер (ПС < 5-00)");
+        labelType.setText(DalnomerSmall);
     }
 
     @FXML
     protected void  menuItemDalnomerBigMoveClick(){
         selectPane(paneMain);
         type = 3;
-        labelType.setText("Дальномер (Большое смещение)");
+        labelType.setText(DalnomerBig);
     }
 
     @FXML
