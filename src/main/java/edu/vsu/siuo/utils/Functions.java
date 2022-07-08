@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Functions {
 
@@ -144,7 +146,7 @@ public class Functions {
 
     public static String vPricel(double d) {
         if (d > 0) {
-            return "+" + (int)d;
+            return "+" + (int) d;
         }
         // fixme сравнение с eps?
         // if d == 0
@@ -180,34 +182,27 @@ public class Functions {
     }
 
     public static List<Double> grpCount(Map<Integer, Map<String, Integer>> d, double strD) {
-//        IntStream.range(0, 2).forEach(i -> d.get("D").put(i, d.get("D").get(i) - d.get("dD").get(i)));
-//
-//        Map<String, Double> left = new HashMap<>();
-//        Map<String, Double> right = new HashMap<>();
-//        if (strD < d.get("D").get(1)) {
-//            sidePut(d, left, 0);
-//            sidePut(d, right, 1);
-//        } else {
-//            sidePut(d, left, 1);
-//            sidePut(d, right, 2);
-//        }
-//
-//        Map<String, Double> ret = new HashMap<>();
-//        d.keySet().stream().filter(grp -> !grp.equals("D")).forEach(grp -> {
-//            double tmp = left.get(grp) +
-//                         (right.get(grp) - left.get(grp)) *
-//                         (strD - left.get("D")) /
-//                         (right.get("D") - left.get("D"));
-//            ret.put(grp, tmp);
-//        });
-//
-//        ret.replaceAll((g, v) -> (double) Math.round(ret.get(g)));
-//        return ret;
-        return List.of();
-    }
+        d.forEach((key, value) -> d.get(key).replace("D", d.get(key).get("D") - d.get(key).get("dD")));
 
-    private static void sidePut(Map<String, Map<Integer, Double>> d, Map<String, Double> side, int i) {
-        d.keySet().forEach(grp -> side.put(grp, d.get(grp).get(i)));
+        Map<String, Integer> left = new HashMap<>();
+        Map<String, Integer> right = new HashMap<>();
+
+        if (strD < d.get(1).get("D")) {
+            left.putAll(d.get(0));
+            right.putAll(d.get(1));
+        } else {
+            left.putAll(d.get(1));
+            right.putAll(d.get(2));
+        }
+
+        List<Double> ret = left.keySet().stream().filter(grp -> !grp.equals("D")).mapToDouble(grp -> left.get(grp) +
+                (right.get(grp) - left.get(grp)) *
+                        (strD - left.get("D")) /
+                        (right.get("D") - left.get("D"))).boxed().collect(Collectors.toList());
+
+        IntStream.range(0, ret.size() - 1).forEach(i -> ret.set(i, (double) Math.round(ret.get(i))));
+
+        return ret;
     }
 
     public static HashMap<Powers, ArrayList<ArrayList<Double>>> getTS() {
@@ -254,7 +249,7 @@ public class Functions {
         return ts;
     }
 
-    public static ArrayList<Double> ts (Powers power, double distance) {
+    public static ArrayList<Double> ts(Powers power, double distance) {
         HashMap<Powers, ArrayList<ArrayList<Double>>> ts = getTS();
         ArrayList<Double> result = new ArrayList<>();
         result.add(distance);
@@ -275,9 +270,9 @@ public class Functions {
             nextIndex = (nextIndex < 0 ? closelyIndex : nextIndex);
             ArrayList<Double> nextValue = ts.get(power).get(nextIndex);
             double distanceDiffernce = Math.abs(closelyValue.get(0) - nextValue.get(0));
-            result.add(closelyValue.get(1) + Math.abs(closelyValue.get(1) - nextValue.get(1))/distanceDiffernce*remainder);
-            result.add(closelyValue.get(2) + Math.abs(closelyValue.get(2) - nextValue.get(2))/distanceDiffernce*remainder);
-            result.add(closelyValue.get(3) + Math.abs(closelyValue.get(3) - nextValue.get(3))/distanceDiffernce*remainder);
+            result.add(closelyValue.get(1) + Math.abs(closelyValue.get(1) - nextValue.get(1)) / distanceDiffernce * remainder);
+            result.add(closelyValue.get(2) + Math.abs(closelyValue.get(2) - nextValue.get(2)) / distanceDiffernce * remainder);
+            result.add(closelyValue.get(3) + Math.abs(closelyValue.get(3) - nextValue.get(3)) / distanceDiffernce * remainder);
             return result;
         } else {
             return ts.get(power).get((int) (distance - 200) / 200);
