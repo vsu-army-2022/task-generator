@@ -444,8 +444,6 @@ public class Generate2 {
                 firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getF(), TYPES));
                 commands.add(firstCommand);
 
-                taskDtos.add(taskDto);
-
                 int flag_k = 1; // для 1 команды батарее
                 int vilka = 200 /*8*vd*/;
 
@@ -584,8 +582,8 @@ public class Generate2 {
                 taskDto.setCommands(commands);
                 taskDtos.add(taskDto);
             }
-        }
 
+        }
         return taskDtos;
     }
 }
