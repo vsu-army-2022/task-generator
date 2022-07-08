@@ -56,8 +56,11 @@ public class SIUOController implements Initializable {
 
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
-        System.out.println(selectedDirectory.getAbsolutePath());
-        List<TaskDto> taskDtos = Generate2.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText()));
+        List<TaskDto> taskDtos;
+        if (type == 0) {System.out.println("В процессе 0");}
+        else if (type == 1) {taskDtos = Generate2.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText()));}
+        else if (type == 2) {System.out.println("В процессе 2");}
+        else if (type == 3) {System.out.println("В процессе 3");}
         if (settings.getOpenFile()){
             Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
         }
@@ -189,14 +192,14 @@ public class SIUOController implements Initializable {
     }
 
     @FXML
-    void dragged(MouseEvent event) {
+    private void dragged(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
     }
 
     @FXML
-    void pressed(MouseEvent event) {
+    private void pressed(MouseEvent event) {
         x = event.getSceneX();
         y = event.getSceneY();
     }
