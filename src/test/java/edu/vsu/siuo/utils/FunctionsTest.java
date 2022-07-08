@@ -1,6 +1,6 @@
 package edu.vsu.siuo.utils;
 
-import edu.vsu.siuo.enums.Powers;
+import edu.vsu.siuo.domains.enums.Powers;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

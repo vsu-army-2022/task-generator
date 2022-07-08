@@ -1,6 +1,6 @@
 package edu.vsu.siuo.domains;
 
-import edu.vsu.siuo.enums.Powers;
+import edu.vsu.siuo.domains.enums.Powers;
 import lombok.Data;
 
 import java.util.List;

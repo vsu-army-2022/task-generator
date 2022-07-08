@@ -10,7 +10,11 @@ public final class Utils {
             max = tmp;
         }
         Random random = new Random();
-        return random.nextInt(max + Math.abs(min))-Math.abs(min);
+        if (min < 0) {
+            return random.nextInt(max + Math.abs(min)) - Math.abs(min);
+        } else {
+            return random.nextInt(max - min) + min;
+        }
     }
 
     public static double round(double value, int places) {

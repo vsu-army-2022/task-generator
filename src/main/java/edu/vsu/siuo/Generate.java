@@ -2,7 +2,7 @@ package edu.vsu.siuo;
 
 import edu.vsu.siuo.domains.AnalysisResult;
 import edu.vsu.siuo.domains.TaskDto;
-import edu.vsu.siuo.enums.Powers;
+import edu.vsu.siuo.domains.enums.Powers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
