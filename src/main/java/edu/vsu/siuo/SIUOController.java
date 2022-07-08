@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -26,7 +27,6 @@ public class SIUOController implements Initializable {
     private File selectedDirectory = null;
     static int type = 0;
     private Pane selectedPane;
-    private Boolean isOpenFiles = false;
 
     private double x, y;
 
@@ -50,12 +50,14 @@ public class SIUOController implements Initializable {
     private Button buttonChoosePath;
     @FXML
     private TextField textFieldMaxNumberTasks;
+    @FXML
+    private CheckBox checkBoxOpenFile;
 
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
         System.out.println(selectedDirectory.getAbsolutePath());
         List<TaskDto> taskDtos = Generate2.generate(Integer.parseInt(textFieldNumberOfTasks.getText()));
-        if (isOpenFiles){
+        if (settings.getOpenFile()){
             Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
         }
     }
@@ -111,6 +113,9 @@ public class SIUOController implements Initializable {
     public void buttonSaveSettingsClick() {
         settings.setDefaultPath(this.selectedDirectory.getAbsolutePath());
         settings.setMaxCountOfTasks(Integer.parseInt(textFieldMaxNumberTasks.getText()));
+        settings.setOpenFile(checkBoxOpenFile.isSelected());
+
+        menuItemNzrLess5Click();
     }
 
     @FXML

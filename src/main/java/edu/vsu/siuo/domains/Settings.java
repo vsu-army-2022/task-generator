@@ -6,4 +6,5 @@ import lombok.Data;
 public class Settings {
     int maxCountOfTasks = 100;
     String defaultPath = System.getProperty("user.home");
+    Boolean openFile = false;
 }
