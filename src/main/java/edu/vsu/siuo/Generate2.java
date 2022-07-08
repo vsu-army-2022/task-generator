@@ -17,48 +17,47 @@ import static edu.vsu.siuo.utils.Utils.round;
 
 public class Generate2 {
 
-    Map<String, String> GUNS = Map.of(
-            "p", "П",
-            "u", "У",
-            "1", "1",
-            "2", "2",
-            "3", "3",
-            "4", "4");
-
-    Map<String, String> TYPES = Map.of(
-            "-11", "",
-            "xz", "«?»",
-            "one_p", "«+»",
-            "one_n", "«-»",
-            "all_p", "Все «+»",
-            "all_n", "Все «-»",
-            "pre_p", "Преобладание «+»",
-            "pre_n", "Преобладание «-»",
-            "rav_p", "Равенство «+» и «-» от-но ДГЦ",
-            "rav_n", "Равенство «+» и «-» от-но БГЦ"
-    );
-
-    Map<String, String> TARGETS_WORD = Map.of(
-            "po", "открыто расположенные ЖС и ОС",
-            "pu", "ЖС и ОС, расположенные в окопах (траншеях)",
-            "bat", "батарея",
-            "vzv", "взвод буксируемых орудий",
-            "rap", "радиолокационная станция полевой артиллерии",
-            "ptur", "птур в окопе"
-    );
-
-    Map<String, String> TARGETS = Map.of(
-            "po", "пехота",
-            "pu", "пехота укрытая",
-            "bat", "батарея",
-            "vzv", "взвод артиллерийский",
-            "rap", "РЛС",
-            "ptur", "птур в окопе"
-    );
-
-
-    public List<TaskDto> generate(int taskCount) {
+    public static List<TaskDto> generate(int taskCount) {
         // todo validation
+
+        Map<String, String> GUNS = Map.of(
+                "p", "П",
+                "u", "У",
+                "1", "1",
+                "2", "2",
+                "3", "3",
+                "4", "4");
+
+        Map<String, String> TYPES = Map.of(
+                "-11", "",
+                "xz", "«?»",
+                "one_p", "«+»",
+                "one_n", "«-»",
+                "all_p", "Все «+»",
+                "all_n", "Все «-»",
+                "pre_p", "Преобладание «+»",
+                "pre_n", "Преобладание «-»",
+                "rav_p", "Равенство «+» и «-» от-но ДГЦ",
+                "rav_n", "Равенство «+» и «-» от-но БГЦ"
+        );
+
+        Map<String, String> TARGETS_WORD = Map.of(
+                "po", "открыто расположенные ЖС и ОС",
+                "pu", "ЖС и ОС, расположенные в окопах (траншеях)",
+                "bat", "батарея",
+                "vzv", "взвод буксируемых орудий",
+                "rap", "радиолокационная станция полевой артиллерии",
+                "ptur", "птур в окопе"
+        );
+
+        Map<String, String> TARGETS = Map.of(
+                "po", "пехота",
+                "pu", "пехота укрытая",
+                "bat", "батарея",
+                "vzv", "взвод артиллерийский",
+                "rap", "РЛС",
+                "ptur", "птур в окопе"
+        );
 
         List<TaskDto> taskDtos = new ArrayList<>();
 
@@ -206,10 +205,6 @@ public class Generate2 {
 
                 double dal_isch = analysisResult.getDalTop() + ddi;
                 double dov_isch = analysisResult.getDovTop() + dai;
-
-
-                // генерируем заряд
-                List<String> gen_z = List.of("p", "u", "1", "2", "3", "4");
 
                 Powers zaryd = null;
                 if (dal_isch < 4800) {
