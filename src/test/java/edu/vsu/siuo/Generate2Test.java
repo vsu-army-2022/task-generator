@@ -14,30 +14,46 @@ class Generate2Test {
     @Test
     void generateSolution() {
         ProblemDto problemDto = new ProblemDto();
-        problemDto.setOn(5900);
-        problemDto.setXOp(30729);
-        problemDto.setYOp(89961);
-        problemDto.setHOp(146);
-        problemDto.setXKnp(34255);
-        problemDto.setYKnp(89512);
-        problemDto.setHKnp(117);
+        problemDto.setOn(4200);
+        problemDto.setXOp(84263);
+        problemDto.setYOp(44174);
+        problemDto.setHOp(99);
+        problemDto.setXKnp(86522);
+        problemDto.setYKnp(41546);
+        problemDto.setHKnp(41);
 
-        problemDto.setLoad(Powers.Reduced);
-        problemDto.setDistance(List.of(6, 8, 10));
-        problemDto.setRange(List.of(-52, -173, -286));
-        problemDto.setDirection(List.of(-8, -10, -15));
+        problemDto.setLoad(Powers.Power1);
+        problemDto.setDistance(List.of(4, 6, 8));
+        problemDto.setRange(List.of(196, 324, 415));
+        problemDto.setDirection(List.of(6, 12, 16));
 
-        problemDto.setTargetType("открыто расположенные ЖС и ОС");
-        problemDto.setAlphaC(5681);
-        problemDto.setDK(4093);
-        problemDto.setEpsC(-2);
-        problemDto.setFDu(68);
-        problemDto.setGC(152);
+        problemDto.setTargetType("ЖС и ОС, расположенные в окопах (траншеях)");
+        problemDto.setAlphaC(3929);
+        problemDto.setDK(3502);
+        problemDto.setEpsC(8);
+        problemDto.setFDu(64);
+        problemDto.setGC(62);
 
         SolutionDto solutionDto = Generate2.generateSolution(problemDto);
 
-//        assertEquals(7602, solutionDto.getDCt());
-//        assertEquals(-140, solutionDto.getDeltaDCt());
-        assertEquals(7462, solutionDto.getDCi());
+        assertEquals(5529,solutionDto.getDCt());
+//        assertEquals(314,solutionDto.getDeltaDCt());
+//        assertEquals(5843,solutionDto.getDCi());
+
+        assertEquals(350,solutionDto.getDeCt());
+//        assertEquals(null,solutionDto.getDeltaDeCt());
+//        assertEquals(null,solutionDto.getDeCi());
+//
+//        assertEquals(null,solutionDto.getKY());
+//        assertEquals(null,solutionDto.getShY());
+//        assertEquals(null,solutionDto.getDeltaX());
+//
+//
+//        assertEquals(null,solutionDto.getPs());
+//        assertEquals(null,solutionDto.getOp());
+//        assertEquals(null,solutionDto.getVD());
+//
+//        assertEquals(null,solutionDto.getFDuOp());
+//        assertEquals(null,solutionDto.getGCOp());
     }
 }
