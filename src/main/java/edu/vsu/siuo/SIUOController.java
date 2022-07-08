@@ -55,8 +55,17 @@ public class SIUOController implements Initializable {
 
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
-        System.out.println(selectedDirectory.getAbsolutePath());
-        List<TaskDto> taskDtos = Generate2.generate(Integer.parseInt(textFieldNumberOfTasks.getText()));
+        List<TaskDto> taskDtos;
+        switch (type){
+            case 0:
+                System.out.println("В процессе");
+            case 1:
+                taskDtos = Generate2.generate(Integer.parseInt(textFieldNumberOfTasks.getText()));
+            case 2:
+                System.out.println("В процессе");
+            case 3:
+                System.out.println("В процессе");
+        }
         if (settings.getOpenFile()){
             Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
         }
