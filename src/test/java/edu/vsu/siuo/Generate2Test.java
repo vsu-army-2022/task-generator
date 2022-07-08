@@ -27,7 +27,7 @@ class Generate2Test {
         problemDto.setRange(List.of(196, 324, 415));
         problemDto.setDirection(List.of(6, 12, 16));
 
-        problemDto.setTargetType("ЖС и ОС, расположенные в окопах (траншеях)");
+        //problemDto.setTargetType( "ЖС и ОС, расположенные в окопах (траншеях)");
         problemDto.setAlphaC(3929);
         problemDto.setDK(3502);
         problemDto.setEpsC(8);

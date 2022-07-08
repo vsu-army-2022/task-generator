@@ -33,8 +33,8 @@ public class Generate {
             int op_y = rand(20000, 97000);
             int op_h = rand(40, 180);
 
-            int d_ok = rand(2500, 5200); // расстояние между ОП и КНП
-            int dk = rand(2100, 4200); // от кнп до цели
+            int distanceFromKNPToOP = rand(2500, 5200); // расстояние между ОП и КНП
+            int distanceFromKNPToTarget = rand(2100, 4200); // от кнп до цели
 
             int a_ok = 0;
             int ak = 0;
@@ -60,7 +60,7 @@ public class Generate {
                 ak = rand(3800, 5200);
             }
 
-            List<Integer> knpXY = genKnpXY(op_x, op_y, d_ok, a_ok);
+            List<Integer> knpXY = genKnpXY(op_x, op_y, distanceFromKNPToOP, a_ok);
             int knp_x = knpXY.get(0);
             int knp_y = knpXY.get(1);
 
@@ -75,15 +75,15 @@ public class Generate {
             int fcdu = 0;
             if (c_type.equals("po") || c_type.equals("pu")) {
                 gc = rand(30, 200);
-                fcdu = rand(Math.round(150 * 1000 / dk), Math.round(300 * 1000 / dk)); // 300 м (максимальная ширина цели)
+                fcdu = rand(Math.round(150 * 1000 / distanceFromKNPToTarget), Math.round(300 * 1000 / distanceFromKNPToTarget)); // 300 м (максимальная ширина цели)
             }
             if (c_type.equals("bat")) {
                 gc = rand(40, 120);
-                fcdu = rand(Math.round(180 * 1000 / dk), Math.round(240 * 1000 / dk));
+                fcdu = rand(Math.round(180 * 1000 / distanceFromKNPToTarget), Math.round(240 * 1000 / distanceFromKNPToTarget));
             }
             if (c_type.equals("vzv")) {
                 gc = rand(40, 90);
-                fcdu = rand(Math.round(90 * 1000 / dk), Math.round(120 * 1000 / dk));
+                fcdu = rand(Math.round(90 * 1000 / distanceFromKNPToTarget), Math.round(120 * 1000 / distanceFromKNPToTarget));
             }
             if (c_type.equals("rap") || c_type.equals("ptur")) {
                 gc = 0;
@@ -91,7 +91,7 @@ public class Generate {
             }
 
             // fixme np_x, np_y = null?
-            AnalysisResult analysisResult = analyzePuo(dk, ak, knp_x, knp_y, null, null, op_x, op_y, on);
+            AnalysisResult analysisResult = analyzePuo(distanceFromKNPToTarget, ak, knp_x, knp_y, null, null, op_x, op_y, on);
 
             if (analysisResult.getPs() < 490 && analysisResult.getDovTop() < 380 && analysisResult.getDovTop() > -380 && Math.abs(ak - on) < 750) {
 
@@ -138,7 +138,7 @@ public class Generate {
                 double ku, shu;
 
                 if (analysisResult.getDalTop() != 0) {
-                    ku = round(dk / analysisResult.getDalTop(), 1);
+                    ku = round(distanceFromKNPToTarget / analysisResult.getDalTop(), 1);
                     shu = Math.round(analysisResult.getPs() / analysisResult.getDalTop() * 100);
                 }
 
@@ -152,7 +152,7 @@ public class Generate {
                     ps_rad = converseToRad(analysisResult.getPs());
                     sin_pc = round(Math.sin(ps_rad), 2);
                     kc = round(Math.cos(ps_rad), 2);
-                    muD = dk / 1000 * sin_pc;
+                    muD = distanceFromKNPToTarget / 1000 * sin_pc;
                     shu100 = sin_pc * 100000 / analysisResult.getDalTop();
                     //echo 'kc = '.kc.' muD = '.muD.' shu100 = '.shu100;
                 }
@@ -217,15 +217,15 @@ public class Generate {
                 shot.get(3).put("type", gen_n.get(rand(3, 4)));
 
                 if (fcdu == 0) {
-                    shot.get(3).put("f", rand(Math.round(14 * 1000 / dk), Math.round(28 * 1000 / dk))); // rand(round(40*1000/dk),round(280*1000/dk));
-                    shot.get(4).put("f", rand(Math.round(14 * 1000 / dk), Math.round(28 * 1000 / dk)));
+                    shot.get(3).put("f", rand(Math.round(14 * 1000 / distanceFromKNPToTarget), Math.round(28 * 1000 / distanceFromKNPToTarget))); // rand(round(40*1000/distanceFromKNPToTarget),round(280*1000/distanceFromKNPToTarget));
+                    shot.get(4).put("f", rand(Math.round(14 * 1000 / distanceFromKNPToTarget), Math.round(28 * 1000 / distanceFromKNPToTarget)));
                 } else {
                     if (fcdu < 120) {
-                        shot.get(3).put("f", fcdu + rand(Math.round(90 * 1000 / dk), Math.round(120 * 1000 / dk)));
+                        shot.get(3).put("f", fcdu + rand(Math.round(90 * 1000 / distanceFromKNPToTarget), Math.round(120 * 1000 / distanceFromKNPToTarget)));
                     } else {
-                        shot.get(3).put("f", fcdu + rand(Math.round(140 * 1000 / dk), Math.round(190 * 1000 / dk)));
+                        shot.get(3).put("f", fcdu + rand(Math.round(140 * 1000 / distanceFromKNPToTarget), Math.round(190 * 1000 / distanceFromKNPToTarget)));
                     }
-                    shot.get(4).put("f", fcdu + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / dk), Math.round(28 * 1000 / dk)));
+                    shot.get(4).put("f", fcdu + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / distanceFromKNPToTarget), Math.round(28 * 1000 / distanceFromKNPToTarget)));
                 }
 
                 if (gc < 100) {
@@ -237,7 +237,7 @@ public class Generate {
 
                 // уровень
                 if (analysisResult.getDalTop() != 0) {
-                    int c_h = knp_h + ec_knp * dk / 1000;
+                    int c_h = knp_h + ec_knp * distanceFromKNPToTarget / 1000;
                     double ec_op = (c_h - op_h) / analysisResult.getDalTop() * 1000;
                     long urov = 3000 + Math.round(ec_op);
                 }
@@ -292,7 +292,7 @@ public class Generate {
 //
 //                taskDto.setTargetType(c_type);
 //                taskDto.setAC(ak);
-//                taskDto.setDK(dk);
+//                taskDto.setDK(distanceFromKNPToTarget);
 //                taskDto.setEpsC(ec_knp);
 //                taskDto.setFDu(fcdu);
 //                taskDto.setGC(gc);
@@ -327,7 +327,7 @@ public class Generate {
 //                }
 //
 //                // todo fixme
-//                int fcm = (int) ((fcdu * dk) / 1000);
+//                int fcm = (int) ((fcdu * distanceFromKNPToTarget) / 1000);
 //
 //
 //                if (gc > 200) gc = 200;

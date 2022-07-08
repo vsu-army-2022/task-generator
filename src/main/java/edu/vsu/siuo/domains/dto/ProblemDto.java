@@ -1,6 +1,7 @@
 package edu.vsu.siuo.domains.dto;
 
 import edu.vsu.siuo.domains.enums.Powers;
+import edu.vsu.siuo.domains.enums.Targets;
 import lombok.Data;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ProblemDto {
     private List<Integer> range;
     private List<Integer> direction;
 
-    private String targetType;
+    private Targets targetType;
     private int alphaC;
     private int dK;
     private int epsC;
