@@ -161,7 +161,7 @@ public class SIUOController implements Initializable {
             } catch (Exception e) {
 
             }
-            if (!(ch >= '0' && ch <= '9' && number <= settings.getMaxCountOfTasks())
+            if (!(ch >= '0' && ch <= '9')
             ) {
                 t.consume();
             }
