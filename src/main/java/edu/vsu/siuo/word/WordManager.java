@@ -49,13 +49,14 @@ public class WordManager {
                     "КНП: \tХ = %d; \tУ = %d; \th = %d м («Амур»)\n" +
                     "КНП адн: Х = test; У = test; \th = test м («Лена»)\n" +
                     "α он = 16-00\n" +
-                    "В батарее рассчитаны поправки для заряда «test» на %d, %d, %d км.\n" +
+                    "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
                     "В дальности: %d; %d; %d. В направлении: %d; %d; %d.\n" +
                     "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «радиолокационная станция полевой артиллерии». Дивизионный: αц = 8-66, Дк = 2201, εц = +0-09. Подавить! Я «Лена».\n" +
                     "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
                     "1) Л77, «-»; 2) П42, «+»; 3) П18, «+»; 4) П20, Все «+», Фр. 0-06; 5) П11, Преобладание «+», Фр. 0-12; 6) Цель подавлена. \n",
                     taskDto.getXOp(), taskDto.getYOp(), taskDto.getHOp(),
                     taskDto.getXKnp(), taskDto.getYKnp(), taskDto.getHKnp(),
+//                    taskDto.getLoad().getPower(),
                     taskDto.getDistance().get(0), taskDto.getDistance().get(1), taskDto.getDistance().get(2),
                     taskDto.getRange().get(0), taskDto.getRange().get(1), taskDto.getRange().get(2),
                     taskDto.getDistance().get(0), taskDto.getDistance().get(1), taskDto.getDistance().get(2)

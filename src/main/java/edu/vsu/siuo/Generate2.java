@@ -340,6 +340,8 @@ public class Generate2 {
                         grp.get(2).get("dd")
                 );
                 taskDto.setDirection(direction);
+                taskDto.setTaskTopic(7);
+                taskDto.setTaskNumber(taskNumber);
 
                 taskDto.setTargetType(c_type);
                 taskDto.setAlphaC(ak);

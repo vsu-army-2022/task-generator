@@ -71,10 +71,10 @@ public class SIUOController implements Initializable {
     protected void buttonCreateTasksOnClick() throws IOException {
         WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type)));
         wordManager.Write(Generate2.generate(Integer.parseInt(textFieldNumberOfTasks.getText())));
-        if (isOpenFiles){
-            Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s.docx",
-                    this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
-        }
+//        if (isOpenFiles){
+//            Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s.docx",
+//                    this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
+//        }
     }
 
     @FXML
