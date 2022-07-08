@@ -1,7 +1,8 @@
 package edu.vsu.siuo;
 
 import edu.vsu.siuo.word.WordManager;
-import javafx.event.ActionEvent;
+import edu.vsu.siuo.domains.Settings;
+import edu.vsu.siuo.domains.TaskDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -40,7 +41,7 @@ public class SIUOController implements Initializable {
         map.put(3, DalnomerBig);
     }
 
-    private int maxNumberOfTasks = 100;
+    private static Settings settings = new Settings();
     private File selectedDirectory = null;
     static int type = 0;
     private Pane selectedPane;
@@ -67,16 +68,15 @@ public class SIUOController implements Initializable {
     @FXML
     private Button buttonChoosePath;
     @FXML
-    private TextField textFieldNumberTasks;
+    private TextField textFieldMaxNumberTasks;
 
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
         System.out.println(selectedDirectory.getAbsolutePath());
-        WordManager wordManager = new WordManager(GenerateNameFile(map.get(this.type)));
-        wordManager.Write(Generate2.generate(10));
-//        if (isOpenFiles){
-//            Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
-//        }
+        List<TaskDto> taskDtos = Generate2.generate(Integer.parseInt(textFieldNumberOfTasks.getText()));
+        if (isOpenFiles){
+            Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
+        }
     }
 
     @FXML
@@ -109,15 +109,23 @@ public class SIUOController implements Initializable {
 
     @FXML
     protected void menuItemSettingsGeneralClick(){
+        labelSettingsPath.setText(settings.getDefaultPath());
+        textFieldMaxNumberTasks.setText(String.valueOf(settings.getMaxCountOfTasks()));
         selectPane(paneSettings);
     }
 
     @FXML
     protected void buttonChoosePathClick(){
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File("src"));
+        directoryChooser.setInitialDirectory(new File(settings.getDefaultPath()));
         this.selectedDirectory = directoryChooser.showDialog(SIUOApplication.getPrimaryStage());
         labelSettingsPath.setText(this.selectedDirectory.getAbsolutePath());
+    }
+
+    @FXML
+    public void buttonSaveSettingsClick() {
+        settings.setDefaultPath(this.selectedDirectory.getAbsolutePath());
+        settings.setMaxCountOfTasks(Integer.parseInt(textFieldMaxNumberTasks.getText()));
     }
 
     @FXML
@@ -138,8 +146,8 @@ public class SIUOController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        selectedDirectory = new File("D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo");
-        labelSettingsPath.setText("D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo");
+        selectedDirectory = new File(settings.getDefaultPath());
+        labelSettingsPath.setText(settings.getDefaultPath());
         selectedPane = paneMain;
         selectedPane.setVisible(true);
         paneSettings.setVisible(false);
@@ -154,13 +162,13 @@ public class SIUOController implements Initializable {
             } catch (Exception e) {
 
             }
-            if (!(ch >= '0' && ch <= '9' && number <= maxNumberOfTasks
+            if (!(ch >= '0' && ch <= '9' && number <= settings.getMaxCountOfTasks()
                     && (textFieldNumberOfTasks.getText() + ch).length() <= Integer.toString(number).length())
             ) {
                 t.consume();
             }
         });
-        textFieldNumberTasks.addEventFilter(KeyEvent.KEY_TYPED, t -> {
+        textFieldMaxNumberTasks.addEventFilter(KeyEvent.KEY_TYPED, t -> {
             char ar[] = t.getCharacter().toCharArray();
             char ch = ar[t.getCharacter().toCharArray().length - 1];
             int number = 0;
@@ -169,12 +177,12 @@ public class SIUOController implements Initializable {
             } catch (Exception e) {
 
             }
-            if (!(ch >= '0' && ch <= '9' && number <= maxNumberOfTasks)
+            if (!(ch >= '0' && ch <= '9')
             ) {
                 t.consume();
             }
         });
-        textFieldNumberTasks.setText(String.valueOf(maxNumberOfTasks));
+        textFieldMaxNumberTasks.setText(String.valueOf(settings.getMaxCountOfTasks()));
     }
 
     @FXML
@@ -201,5 +209,4 @@ public class SIUOController implements Initializable {
         x = event.getSceneX();
         y = event.getSceneY();
     }
-
 }

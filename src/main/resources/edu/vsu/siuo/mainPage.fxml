@@ -20,7 +20,7 @@
     <center>
         <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="294.0" prefWidth="600.0" BorderPane.alignment="BOTTOM_CENTER">
             <children>
-                <Pane fx:id="paneMain" layoutX="-1.0" layoutY="-55.0" prefHeight="329.0" prefWidth="600.0" visible="false">
+                <Pane fx:id="paneMain" layoutX="-1.0" layoutY="-55.0" prefHeight="350.0" prefWidth="600.0" visible="false">
                     <children>
                         <Label fx:id="labelType" alignment="CENTER" contentDisplay="CENTER" layoutX="143.0" layoutY="14.0" prefHeight="26.0" prefWidth="315.0" style="-fx-text-fill: white;" text="НЗР (ПС &lt; 5-00)" textAlignment="CENTER">
                             <font>
@@ -32,10 +32,10 @@
                         <TextField id="textFieldNumberOfTasks" fx:id="textFieldNumberOfTasks" alignment="CENTER" layoutX="245.0" layoutY="53.0" prefHeight="25.0" prefWidth="37.0" promptText="___" text="1" />
                     </children>
                 </Pane>
-                <Pane fx:id="paneSettings" layoutY="-55.0" prefHeight="330.0" prefWidth="600.0" visible="false">
+                <Pane fx:id="paneSettings" layoutY="-55.0" prefHeight="351.0" prefWidth="600.0">
                     <children>
                         <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="200.0" style="-fx-text-fill: white;" text="Место сохранения: " />
-                        <Label fx:id="labelSettingsPath" layoutX="128.0" layoutY="11.0" lineSpacing="3.0" prefHeight="23.0" prefWidth="351.0" style="-fx-text-fill: white;" text="C:/Desktop" underline="true">
+                        <Label fx:id="labelSettingsPath" layoutX="128.0" layoutY="11.0" lineSpacing="3.0" prefHeight="23.0" prefWidth="351.0" style="-fx-text-fill: white;" text="____" underline="true">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
@@ -50,10 +50,11 @@
                             </graphic>
                         </Button>
                         <Label layoutX="14.0" layoutY="42.0" prefWidth="400.0" style="-fx-text-fill: white;" text="Максимальное количество вариантов:" />
-                        <TextField fx:id="textFieldNumberTasks" layoutX="232.0" layoutY="38.0" prefHeight="25.0" prefWidth="71.0" />
+                        <TextField fx:id="textFieldMaxNumberTasks" layoutX="232.0" layoutY="38.0" prefHeight="25.0" prefWidth="71.0" />
+                  <Button fx:id="buttonSaveSettings" layoutX="479.0" layoutY="312.0" mnemonicParsing="false" onAction="#buttonSaveSettingsClick" prefHeight="25.0" prefWidth="108.0" text="Сохранить" />
                     </children>
                 </Pane>
-                <Pane fx:id="paneAboutUs" layoutY="-55.0" prefHeight="350.0" prefWidth="600.0">
+                <Pane fx:id="paneAboutUs" layoutY="-55.0" prefHeight="350.0" prefWidth="600.0" visible="false">
                     <children>
                         <TextArea editable="false" layoutX="15.0" layoutY="20.0" prefHeight="140.0" prefWidth="570.0" text="    Программа создана для военного учебного центра ВГУ, студентами &#10;факультета компьютерных наук (2022 выпуск), а именно:&#10;    Лисаев Денис &#10;    Шумбасов Всеволод&#10;    Первицкий Дмитрий&#10;    Колесов Антон&#10;&#10;">
                             <font>

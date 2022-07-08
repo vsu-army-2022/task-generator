@@ -2,7 +2,8 @@ package edu.vsu.siuo;
 
 import edu.vsu.siuo.domains.AnalysisResult;
 import edu.vsu.siuo.domains.TaskDto;
-import edu.vsu.siuo.enums.Powers;
+import edu.vsu.siuo.domains.enums.Powers;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,49 +17,54 @@ import static edu.vsu.siuo.utils.Utils.rand;
 import static edu.vsu.siuo.utils.Utils.round;
 
 public class Generate2 {
+    @Data
+    private static class Shot_dto{
+        int a;
+        String type;
+        int f;
+    }
 
-    Map<String, String> GUNS = Map.of(
-            "p", "П",
-            "u", "У",
-            "1", "1",
-            "2", "2",
-            "3", "3",
-            "4", "4");
-
-    Map<String, String> TYPES = Map.of(
-            "-11", "",
-            "xz", "«?»",
-            "one_p", "«+»",
-            "one_n", "«-»",
-            "all_p", "Все «+»",
-            "all_n", "Все «-»",
-            "pre_p", "Преобладание «+»",
-            "pre_n", "Преобладание «-»",
-            "rav_p", "Равенство «+» и «-» от-но ДГЦ",
-            "rav_n", "Равенство «+» и «-» от-но БГЦ"
-    );
-
-    Map<String, String> TARGETS_WORD = Map.of(
-            "po", "открыто расположенные ЖС и ОС",
-            "pu", "ЖС и ОС, расположенные в окопах (траншеях)",
-            "bat", "батарея",
-            "vzv", "взвод буксируемых орудий",
-            "rap", "радиолокационная станция полевой артиллерии",
-            "ptur", "птур в окопе"
-    );
-
-    Map<String, String> TARGETS = Map.of(
-            "po", "пехота",
-            "pu", "пехота укрытая",
-            "bat", "батарея",
-            "vzv", "взвод артиллерийский",
-            "rap", "РЛС",
-            "ptur", "птур в окопе"
-    );
-
-
-    public List<TaskDto> generate(int taskCount) {
+    public static List<TaskDto> generate(int taskCount) {
         // todo validation
+
+        Map<String, String> GUNS = Map.of(
+                "p", "П",
+                "u", "У",
+                "1", "1",
+                "2", "2",
+                "3", "3",
+                "4", "4");
+
+        Map<String, String> TYPES = Map.of(
+                "-11", "",
+                "xz", "«?»",
+                "one_p", "«+»",
+                "one_n", "«-»",
+                "all_p", "Все «+»",
+                "all_n", "Все «-»",
+                "pre_p", "Преобладание «+»",
+                "pre_n", "Преобладание «-»",
+                "rav_p", "Равенство «+» и «-» от-но ДГЦ",
+                "rav_n", "Равенство «+» и «-» от-но БГЦ"
+        );
+
+        Map<String, String> TARGETS_WORD = Map.of(
+                "po", "открыто расположенные ЖС и ОС",
+                "pu", "ЖС и ОС, расположенные в окопах (траншеях)",
+                "bat", "батарея",
+                "vzv", "взвод буксируемых орудий",
+                "rap", "радиолокационная станция полевой артиллерии",
+                "ptur", "птур в окопе"
+        );
+
+        Map<String, String> TARGETS = Map.of(
+                "po", "пехота",
+                "pu", "пехота укрытая",
+                "bat", "батарея",
+                "vzv", "взвод артиллерийский",
+                "rap", "РЛС",
+                "ptur", "птур в окопе"
+        );
 
         List<TaskDto> taskDtos = new ArrayList<>();
 
@@ -207,10 +213,6 @@ public class Generate2 {
                 double dal_isch = analysisResult.getDalTop() + ddi;
                 double dov_isch = analysisResult.getDovTop() + dai;
 
-
-                // генерируем заряд
-                List<String> gen_z = List.of("p", "u", "1", "2", "3", "4");
-
                 Powers zaryd = null;
                 if (dal_isch < 4800) {
                     zaryd = (rand(3, 4) == 3 ? Powers.Power3 : Powers.Power4);
@@ -224,57 +226,61 @@ public class Generate2 {
                 List<String> gen_n = List.of("xz", "one_p", "one_n", "all_p", "all_n", "pre_p", "pre_n", "rav_p", "rav_n");
                 // генерируем наблюдения
 
-                Map<Integer, Map<String, Object>> shot = new HashMap<>();
+                Map<Integer, Shot_dto> shot = new HashMap<>();
+
+                shot.put(0, new Shot_dto());
+                shot.put(1, new Shot_dto());
+                shot.put(2, new Shot_dto());
 
                 if (gc < 100) {
-                    shot.put(0, new HashMap<>());
-                    shot.get(0).put("a", (rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
-                    shot.get(0).put("type", gen_n.get(rand(1, 2)));
+                    shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
+                    shot.get(0).setType(gen_n.get(rand(1, 2)));
 
-                    shot.put(1, new HashMap<>());
-                    shot.get(1).put("a", (rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
-                    shot.get(1).put("type", shot.get(0).get("type") == "one_n" ? "one_p" : "one_n");
+                    shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
+                    shot.get(1).setType(shot.get(0).getType() == "one_n" ? "one_p" : "one_n");
 
-                    shot.put(2, new HashMap<>());
-                    shot.get(2).put("a", (rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
-                    shot.get(2).put("type", gen_n.get(rand(1, 2)));
+                    shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
+                    shot.get(2).setType(gen_n.get(rand(1, 2)));
                 } else {
-                    shot.get(0).put("a", (rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
-                    shot.get(0).put("type", gen_n.get(rand(0, 2)));
+                    shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
+                    shot.get(0).setType(gen_n.get(rand(0, 2)));
 
-                    shot.get(1).put("a", (rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
-                    shot.get(2).put("a", (rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
+                    shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
+                    shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
 
-                    if (shot.get(0).get("type") == "xz") {
-                        shot.get(1).put("type", gen_n.get(rand(1, 2)));
-                        shot.get(2).put("type", (shot.get(1).get("type") == "one_n" ? "one_p" : "one_n"));
+                    if (shot.get(0).getType() == "xz") {
+                        shot.get(1).setType(gen_n.get(rand(1, 2)));
+                        shot.get(2).setType((shot.get(1).getType() == "one_n" ? "one_p" : "one_n"));
                     } else {
-                        shot.get(1).put("type", shot.get(0).get("type") == "one_p" ? "one_p" : "one_n");
-                        shot.get(2).put("type", (shot.get(1).get("type") == "one_n" ? "one_p" : "one_n"));
+                        shot.get(1).setType(shot.get(0).getType() == "one_p" ? "one_p" : "one_n");
+                        shot.get(2).setType((shot.get(1).getType() == "one_n" ? "one_p" : "one_n"));
                     }
                 }
 
-                shot.get(3).put("a", (rand(0, 1) == 1 ? 1 : -1) * rand(5, 21));
-                shot.get(3).put("type", gen_n.get(rand(3, 4)));
+                shot.put(3, new Shot_dto());
+                shot.get(3).setA((rand(0, 1) == 1 ? 1 : -1) * rand(5, 21));
+                shot.get(3).setType(gen_n.get(rand(3, 4)));
+
+                shot.put(4, new Shot_dto());
 
                 if (fcdu == 0) {
-                    shot.get(3).put("f", rand(Math.round(14 * 1000 / dk), Math.round(28 * 1000 / dk))); // rand(round(40*1000/dk),round(280*1000/dk));
-                    shot.get(4).put("f", rand(Math.round(14 * 1000 / dk), Math.round(28 * 1000 / dk)));
+                    shot.get(3).setF(rand(Math.round(14 * 1000 / dk), Math.round(28 * 1000 / dk))); // rand(round(40*1000/dk),round(280*1000/dk));
+                    shot.get(4).setF(rand(Math.round(14 * 1000 / dk), Math.round(28 * 1000 / dk)));
                 } else {
                     if (fcdu < 120) {
-                        shot.get(3).put("f", fcdu + rand(Math.round(90 * 1000 / dk), Math.round(120 * 1000 / dk)));
+                        shot.get(3).setF(fcdu + rand(Math.round(90 * 1000 / dk), Math.round(120 * 1000 / dk)));
                     } else {
-                        shot.get(3).put("f", fcdu + rand(Math.round(140 * 1000 / dk), Math.round(190 * 1000 / dk)));
+                        shot.get(3).setF(fcdu + rand(Math.round(140 * 1000 / dk), Math.round(190 * 1000 / dk)));
                     }
-                    shot.get(4).put("f", fcdu + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / dk), Math.round(28 * 1000 / dk)));
+                    shot.get(4).setF(fcdu + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / dk), Math.round(28 * 1000 / dk)));
                 }
 
                 if (gc < 100) {
-                    shot.get(4).put("type", gen_n.get(rand(5, 6)));
+                    shot.get(4).setType(gen_n.get(rand(5, 6)));
                 } else {
-                    shot.get(4).put("type", gen_n.get(rand(7, 8)));
+                    shot.get(4).setType(gen_n.get(rand(7, 8)));
                 }
-                shot.get(4).put("a", (rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
+                shot.get(4).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
 
                 // уровень
                 long urov = 0;
@@ -435,10 +441,8 @@ public class Generate2 {
                 firstCommand.setPR((int) pric);
                 firstCommand.setYR((int) urov);
                 firstCommand.setDe("ОН\t" + angDash(dov_isch));
-                firstCommand.setObservation(formatNabl((Integer) shot.get(0).get("a"), (String) shot.get(0).get("type"), (Integer) shot.get(0).get("f"), TYPES));
+                firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getF(), TYPES));
                 commands.add(firstCommand);
-
-                taskDtos.add(taskDto);
 
                 int flag_k = 1; // для 1 команды батарее
                 int vilka = 200 /*8*vd*/;
@@ -446,7 +450,8 @@ public class Generate2 {
                 int kol_nabl = 0;
 
                 for (int i = 0; i < 7; i++) {
-                    if (shot.get(i).get("type") != null && (int) shot.get(i).get("type") != -11) {
+                    if (shot.get(i) == null) shot.put(i, new Shot_dto());
+                    if (shot.get(i).getType() != null  && (shot.get(i).getType() != "-11")) {
                         kol_nabl = kol_nabl + 1;
                     }
                 }
@@ -456,10 +461,10 @@ public class Generate2 {
                     int j = i + 2; // счетчик выстрелов
 
                     // считываем наблюдения
-                    int alfa = (int) shot.get(i).get("a");
-                    String har = (String) shot.get(i).get("type");
-                    String har_next = (String) shot.get(i + 1).get("type");
-                    int fr = (int) shot.get(i).get("f");
+                    int alfa = shot.get(i).getA();
+                    String har = shot.get(i).getType();
+                    String har_next = shot.get(i + 1).getType();
+                    int fr = shot.get(i).getF();
 
                     String komand = "Огонь!";
 
@@ -519,7 +524,7 @@ public class Generate2 {
 
 
                     // 1 команда на поражение батарее
-                    if (!har_next.equals("one_n") && !har_next.equals("one_p") && !har_next.equals("net") && !har_next.equals("xz")) {
+                    if (har_next != null && !har_next.equals("one_n") && !har_next.equals("one_p") && !har_next.equals("net") && !har_next.equals("xz")) {
                         if (flag_k == 1) {
                             komand = "Батарее! Веер " + bat_veer_v + ',' + uu_v + skachok + " по 2 снаряда беглый. Огонь!";
                             flag_k = 0;
@@ -560,7 +565,7 @@ public class Generate2 {
 
 
                     // формируем наблюдение
-                    String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl((Integer) shot.get(i + 1).get("a"), (String) shot.get(i + 1).get("type"), (Integer) shot.get(i + 1).get("f"), TYPES));
+                    String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType(), shot.get(i + 1).getF(), TYPES));
 
                     TaskCommand command = new TaskCommand();
                     command.setDescription(komand);
@@ -577,8 +582,8 @@ public class Generate2 {
                 taskDto.setCommands(commands);
                 taskDtos.add(taskDto);
             }
-        }
 
+        }
         return taskDtos;
     }
 }
