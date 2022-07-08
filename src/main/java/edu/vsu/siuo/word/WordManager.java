@@ -19,9 +19,12 @@ public class WordManager {
     private String fileName;
     private Document document;
 
-    public WordManager(String fileName) {
+    private String path;
+
+    public WordManager(String path, String fileName) {
         this.document = new Document();
         this.fileName = fileName;
+        this.path = path;
         new File(fileName);
     }
 
@@ -44,13 +47,20 @@ public class WordManager {
             tr = paragraph.appendText(String.format("Батарея 122мм гаубицы Д-30 занимает боевой порядок:\n" +
                     "ОП:  \tХ = %d; \tУ = %d; \th = %d м («Дон»)\n" +
                     "КНП: \tХ = %d; \tУ = %d; \th = %d м («Амур»)\n" +
-                    "КНП адн: Х = %d; У = %d; \th = %d м («Лена»)\n" +
+                    "КНП адн: Х = test; У = test; \th = test м («Лена»)\n" +
                     "α он = 16-00\n" +
-                    "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
-                    "В дальности: +133; +288; +406. В направлении: -0-09; -0-13; -0-16.\n" +
+                    "В батарее рассчитаны поправки для заряда «test» на %d, %d, %d км.\n" +
+                    "В дальности: %d; %d; %d. В направлении: %d; %d; %d.\n" +
                     "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «радиолокационная станция полевой артиллерии». Дивизионный: αц = 8-66, Дк = 2201, εц = +0-09. Подавить! Я «Лена».\n" +
                     "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
-                    "1) Л77, «-»; 2) П42, «+»; 3) П18, «+»; 4) П20, Все «+», Фр. 0-06; 5) П11, Преобладание «+», Фр. 0-12; 6) Цель подавлена. \n"));
+                    "1) Л77, «-»; 2) П42, «+»; 3) П18, «+»; 4) П20, Все «+», Фр. 0-06; 5) П11, Преобладание «+», Фр. 0-12; 6) Цель подавлена. \n",
+                    taskDto.getXOp(), taskDto.getYOp(), taskDto.getHOp(),
+                    taskDto.getXKnp(), taskDto.getYKnp(), taskDto.getHKnp(),
+                    taskDto.getDistance().get(0), taskDto.getDistance().get(1), taskDto.getDistance().get(2),
+                    taskDto.getRange().get(0), taskDto.getRange().get(1), taskDto.getRange().get(2),
+                    taskDto.getDistance().get(0), taskDto.getDistance().get(1), taskDto.getDistance().get(2)
+
+            ));
             tr.getCharacterFormat().setFontSize(12);
             paragraph.getFormat().setLineSpacing(5);
 
@@ -78,10 +88,10 @@ public class WordManager {
 
             for (int i = 0; i < taskDto.getCommands().size(); i++) {
                 data.add(new String[]{
-                        String.format("$d", i + 1),
+                        String.format("%d", i + 1),
                         taskDto.getCommands().get(i).getDescription(),
-                        String.format("$d", taskDto.getCommands().get(i).getPR()),
-                        String.format("$d", taskDto.getCommands().get(i).getYR()),
+                        String.format("%d", taskDto.getCommands().get(i).getPR()),
+                        String.format("%d", taskDto.getCommands().get(i).getYR()),
                         taskDto.getCommands().get(i).getDe(),
                         taskDto.getCommands().get(i).getObservation()
                 });
@@ -118,7 +128,7 @@ public class WordManager {
             }
         }
         //save
-        this.document.saveToFile(fileName, FileFormat.Docm_2010);
+        this.document.saveToFile(path+'/'+fileName, FileFormat.Docm_2010);
     }
 
     public static String GenerateNameFile(String taskTopic) {

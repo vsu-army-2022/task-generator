@@ -214,7 +214,7 @@ public class Functions {
         ts.put(Powers.Power2, new ArrayList<>());
         ts.put(Powers.Power3, new ArrayList<>());
         ts.put(Powers.Power4, new ArrayList<>());
-        try (FileReader fr = new FileReader("src\\main\\resources\\edu\\vsu\\siuo\\ts.txt")) {
+        try (FileReader fr = new FileReader("src/main/resources/edu/vsu/siuo/ts.txt")) {
             BufferedReader reader = new BufferedReader(fr);
             String line = reader.readLine();
             while (line != null) {

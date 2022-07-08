@@ -18,10 +18,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static edu.vsu.siuo.word.WordManager.GenerateNameFile;
 
@@ -72,10 +69,11 @@ public class SIUOController implements Initializable {
 
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
-        System.out.println(selectedDirectory.getAbsolutePath());
-        List<TaskDto> taskDtos = Generate2.generate(Integer.parseInt(textFieldNumberOfTasks.getText()));
+        WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type)));
+        wordManager.Write(Generate2.generate(Integer.parseInt(textFieldNumberOfTasks.getText())));
         if (isOpenFiles){
-            Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler D:\\ArmyProgram\\src\\main\\resources\\edu\\vsu\\siuo\\test.docx");
+            Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s.docx",
+                    this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
         }
     }
 
