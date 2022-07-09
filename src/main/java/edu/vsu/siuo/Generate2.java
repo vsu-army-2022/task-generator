@@ -23,36 +23,6 @@ import static edu.vsu.siuo.utils.Utils.round;
 
 public class Generate2 {
 
-    private static Map<String, String> GUNS = Map.of(
-            "p", "П",
-            "u", "У",
-            "1", "1",
-            "2", "2",
-            "3", "3",
-            "4", "4");
-
-    private static Map<String, String> TYPES = Map.of(
-            "-11", "",
-            "xz", "«?»",
-            "one_p", "«+»",
-            "one_n", "«-»",
-            "all_p", "Все «+»",
-            "all_n", "Все «-»",
-            "pre_p", "Преобладание «+»",
-            "pre_n", "Преобладание «-»",
-            "rav_p", "Равенство «+» и «-» от-но ДГЦ",
-            "rav_n", "Равенство «+» и «-» от-но БГЦ"
-    );
-
-    private static Map<String, String> TARGETS_WORD = Map.of(
-            "po", "открыто расположенные ЖС и ОС",
-            "pu", "ЖС и ОС, расположенные в окопах (траншеях)",
-            "bat", "батарея",
-            "vzv", "взвод буксируемых орудий",
-            "rap", "радиолокационная станция полевой артиллерии",
-            "ptur", "птур в окопе"
-    );
-
     @Data
     private static class Shot_dto {
         int a;
