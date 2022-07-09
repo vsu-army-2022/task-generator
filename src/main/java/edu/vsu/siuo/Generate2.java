@@ -120,8 +120,9 @@ public class Generate2 {
         AnalysisResult analysisResult = analyzePuo(target, knp, null, null, op);
 
         // fixme try generate again
-        if (!(analysisResult.getPs() < 490) || !(analysisResult.getDovTop() < 380) || !(analysisResult.getDovTop() > -380) || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
-            return new ConditionsDto();
+        if (analysisResult.getPs() >= 490 || analysisResult.getDovTop() >= 380
+                || analysisResult.getDovTop() <= -380 || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
+            return generateConditionsForTask();
         }
 
         // генерируем ГРП
