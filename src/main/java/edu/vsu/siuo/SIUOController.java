@@ -34,6 +34,7 @@ public class SIUOController implements Initializable {
     public static final String DalnomerBig = "Дальномер (Большое смещение)";
 
     private static final Map<Integer, String> map;
+
     static {
         map = new HashMap<>();
         map.put(0, HZRSmall);
@@ -76,55 +77,54 @@ public class SIUOController implements Initializable {
     protected void buttonCreateTasksOnClick() throws IOException {
         WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type)));
         wordManager.Write(Generate2.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
-//        if (isOpenFiles){
-//            Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s.docx",
-//                    this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
-//        }
+
+        Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s.docx",
+                this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
     }
 
     @FXML
-    protected void menuItemNzrLess5Click(){
+    protected void menuItemNzrLess5Click() {
         selectPane(paneMain);
         type = 0;
         labelType.setText(HZRSmall);
     }
 
     @FXML
-    protected void  menuItemNzrBigMoveClick(){
+    protected void menuItemNzrBigMoveClick() {
         selectPane(paneMain);
         type = 1;
         labelType.setText(HZRBig);
     }
 
     @FXML
-    protected void  menuItemDalnomerLess5Click(){
+    protected void menuItemDalnomerLess5Click() {
         selectPane(paneMain);
         type = 2;
         labelType.setText(DalnomerSmall);
     }
 
     @FXML
-    protected void  menuItemDalnomerBigMoveClick(){
+    protected void menuItemDalnomerBigMoveClick() {
         selectPane(paneMain);
         type = 3;
         labelType.setText(DalnomerBig);
     }
 
     @FXML
-    protected void menuItemSettingsGeneralClick(){
+    protected void menuItemSettingsGeneralClick() {
         labelSettingsPath.setText(settings.getDefaultPath());
         textFieldMaxNumberTasks.setText(String.valueOf(settings.getMaxCountOfTasks()));
         selectPane(paneSettings);
     }
 
     @FXML
-    protected void buttonChoosePathClick(){
+    protected void buttonChoosePathClick() {
         try {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setInitialDirectory(new File(settings.getDefaultPath()));
             this.selectedDirectory = directoryChooser.showDialog(SIUOApplication.getPrimaryStage());
             labelSettingsPath.setText(this.selectedDirectory.getAbsolutePath());
-        } catch (Exception e){
+        } catch (Exception e) {
             labelSettingsPath.setText(settings.getDefaultPath());
         }
     }
@@ -140,16 +140,16 @@ public class SIUOController implements Initializable {
     }
 
     @FXML
-    protected void menuItemAboutUsClick(){
+    protected void menuItemAboutUsClick() {
         selectPane(paneAboutUs);
     }
 
     @FXML
-    protected void menuItemDocumentsClick(){
+    protected void menuItemDocumentsClick() {
         selectPane(paneDocuments);
     }
 
-    private void selectPane(Pane pane){
+    private void selectPane(Pane pane) {
         this.selectedPane.setVisible(false);
         pane.setVisible(true);
         selectedPane = pane;
@@ -157,11 +157,9 @@ public class SIUOController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("settings.dat")))
-        {
-            settings=(Settings)ois.readObject();
-        }
-        catch(Exception ex){
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("settings.dat"))) {
+            settings = (Settings) ois.readObject();
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         if (settings == null) {

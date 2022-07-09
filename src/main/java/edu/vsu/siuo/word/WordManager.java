@@ -140,7 +140,7 @@ public class WordManager {
             }
         }
         //save
-        this.document.saveToFile(path+'/'+fileName, FileFormat.Docm_2010);
+        this.document.saveToFile(path+'\\'+fileName, FileFormat.Docx);
     }
 
     public static String GenerateNameFile(String taskTopic) {
