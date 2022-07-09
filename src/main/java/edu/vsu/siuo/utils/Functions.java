@@ -6,6 +6,7 @@ import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
+import edu.vsu.siuo.domains.enums.Types;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -170,7 +171,7 @@ public class Functions {
         return "";
     }
 
-    public static String formatNabl(Integer a, String h, Integer f, Map<String, String> TYPES) {
+    public static String formatNabl(Integer a, String h, Integer f) {
         String as = String.valueOf(a);
         if (a != null) {
             as = (a < 0 ? "Л" : "П") + Math.abs(a) + ", ";
@@ -181,7 +182,7 @@ public class Functions {
         } else {
             fs = "";
         }
-        return as + TYPES.get(h) + fs;
+        return as + h + fs;
     }
 
     public static String formatNablDalnomer(String a, String h, double d, double ak, double dk) {

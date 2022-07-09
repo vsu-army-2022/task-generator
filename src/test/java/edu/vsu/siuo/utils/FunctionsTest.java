@@ -223,14 +223,14 @@ class FunctionsTest {
 
     @Test
     public void format_nabl_1() {
-        String result = Functions.formatNabl(16, "all_p", 6, TYPES);
+        String result = Functions.formatNabl(16, "all_p", 6);
 
         assertEquals("П16, Все «+», Фр. 0-06", result);
     }
 
     @Test
     public void format_nabl_2() {
-        String result = Functions.formatNabl(88, "one_n", null, TYPES);
+        String result = Functions.formatNabl(88, "one_n", null);
 
         assertEquals("П88, «-»", result);
     }
