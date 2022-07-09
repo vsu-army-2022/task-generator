@@ -29,6 +29,7 @@ public class Generate2 {
         for (int i = 0; i < count; i++) {
             taskDtos.add(generateTask());
             taskDtos.get(i).setTaskNumber(i+1);
+            taskDtos.get(i).setTaskTopic(7);
         }
         return taskDtos;
     }

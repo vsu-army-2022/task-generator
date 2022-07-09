@@ -99,7 +99,7 @@ public class WordManager {
                                         String.format("%d",taskDto.getSolutionDto().getCommands().get(i).getPR())
                                 : "",
                         taskDto.getSolutionDto().getCommands().get(i).getYR() != 0 ?
-                                String.format("%d-%d",
+                                String.format("%s-%s",
                                         String.format("%s", taskDto.getSolutionDto().getCommands().get(i).getYR()).substring(0,2),
                                         String.format("%s", taskDto.getSolutionDto().getCommands().get(i).getYR()).substring(2,4)
                                 ) : "",
