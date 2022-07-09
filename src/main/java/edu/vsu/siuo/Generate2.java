@@ -3,6 +3,7 @@ package edu.vsu.siuo;
 import edu.vsu.siuo.domains.AnalysisResult;
 import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
+import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.dto.ProblemDto;
 import edu.vsu.siuo.domains.dto.SolutionDto;
 import edu.vsu.siuo.domains.dto.TaskDto;
@@ -70,65 +71,84 @@ public class Generate2 {
 
     public static TaskDto generateTask() {
         TaskDto taskDto = new TaskDto();
-        ProblemDto problemDto = generateProblem();
+        ProblemDto problemDto = generateConditionsForTask();
 
         taskDto.setProblemDto(problemDto);
         taskDto.setSolutionDto(generateSolution(problemDto));
         return taskDto;
     }
 
+    private static OP generateOP (){
+        OP op = new OP();
 
-    public static ProblemDto generateProblem() {
+        op.setMainDirection(rand(1, 60) * 100);
+        op.setX(rand(20000, 97000));
+        op.setY(rand(20000, 97000));
+        op.setH(rand(40, 180));
+
+        return op;
+    }
+
+    private static ObjectPosition generateKNPfromOP(OP op){
+        int distanceFromOPtoKNP = rand(2500, 5200); // расстояние между ОП и КНП
+        int angleFromONtoKNP = Math.abs(op.getMainDirection() + (rand(0,1) == 1 ? -1: 1) * rand(50, 1450));
+        if (angleFromONtoKNP > 6000) angleFromONtoKNP = angleFromONtoKNP - 6000;
+
+        return generateKnp(op.getX(), op.getY(), distanceFromOPtoKNP, angleFromONtoKNP);
+    }
+    
+    private static Target generateTarget(OP op){
+        int angularMagnitude_target = (rand(0, 1) == 1 ? 1 : -1) * rand(1, 20); //угловая величина от низа цели, до ее верха (при наблюдении с кнп)
+
+        // генерируем характер цели;
+        Targets targetType = Targets.values()[rand(0, Targets.values().length)];
+
+        int angleFromKNPtoTarget = Math.abs(op.getMainDirection() + (rand(0,1) == 1 ? -1: 1) * rand(50, 1450));
+        if (angleFromKNPtoTarget > 6000) angleFromKNPtoTarget = angleFromKNPtoTarget - 6000;
+
+        int targetsDepth = 0; //глубина цели
+        int targetsFrontDu = 0; //фронт цели
+        int distanceFromKNPtoTarget = rand(2100, 4200); // от кнп до цели
+        if (targetType.equals(Targets.PO) || targetType.equals(Targets.PU)) {
+            targetsDepth = rand(30, 200);
+            targetsFrontDu = rand(Math.round(150 * 1000 / distanceFromKNPtoTarget), Math.round(300 * 1000 / distanceFromKNPtoTarget)); // 150 - 300 м ширина
+        }
+        if (targetType.equals(Targets.BATR)) {
+            targetsDepth = rand(40, 120);
+            targetsFrontDu = rand(Math.round(180 * 1000 / distanceFromKNPtoTarget), Math.round(240 * 1000 / distanceFromKNPtoTarget));  // 180 - 240 м ширина
+        }
+        if (targetType.equals(Targets.VZV)) {
+            targetsDepth = rand(40, 90);
+            targetsFrontDu = rand(Math.round(90 * 1000 / distanceFromKNPtoTarget), Math.round(120 * 1000 / distanceFromKNPtoTarget));  // 90 - 120 м ширина
+        }
+        
+        Target target = new Target();
+        target.setTargetsDepth(targetsDepth);
+        target.setType(targetType);
+        target.setTargetsFrontDu(targetsFrontDu);
+        target.setAngleFromKNPtoTarget(angleFromKNPtoTarget);
+        target.setDistanceFromKNPtoTarget(distanceFromKNPtoTarget);
+        
+        return target;
+    }
+
+
+    public static ProblemDto generateConditionsForTask() {
         // todo validation
 
         List<TaskDto> taskDtos = new ArrayList<>();
 
         int rashod = 0;
 
-        OP op = new OP();
-        op.setMainDirection(rand(1, 60) * 100);
-        op.setX(rand(20000, 97000));
-        op.setY(rand(20000, 97000));
-        op.setH(rand(40, 180));
-
-        int distanceFromOPtoKNP = rand(2500, 5200); // расстояние между ОП и КНП
-        int distanceFromKNPtoGoal = rand(2100, 4200); // от кнп до цели
-
-        int angleFromONtoKNP = Math.abs(op.getMainDirection() + (rand(0,1) == 1 ? -1: 1) * rand(50, 1450));
-        if (angleFromONtoKNP > 6000) angleFromONtoKNP = angleFromONtoKNP - 6000;
-        int angleFromKNPtoTarget = 0;
-
-        ObjectPosition knp = generateKnp(op.getX(), op.getY(), distanceFromOPtoKNP, angleFromONtoKNP);
-
-        int angularMagnitude_knp = (rand(0, 1) == 1 ? 1 : -1) * rand(1, 20); //угловая величина от низа цели, до ее верха (при наблюдении с кнп)
-
-        // генерируем характер цели;
-        Targets targetType = Targets.values()[rand(0, Targets.values().length)];
-
-        int targetsDepth = 0; //глубина цели
-        int targetsFrontDu = 0; //фронт цели
-        if (targetType.equals(Targets.PO) || targetType.equals(Targets.PU)) {
-            targetsDepth = rand(30, 200);
-            targetsFrontDu = rand(Math.round(150 * 1000 / distanceFromKNPtoGoal), Math.round(300 * 1000 / distanceFromKNPtoGoal)); // 150 - 300 м ширина
-        }
-        if (targetType.equals(Targets.BATR)) {
-            targetsDepth = rand(40, 120);
-            targetsFrontDu = rand(Math.round(180 * 1000 / distanceFromKNPtoGoal), Math.round(240 * 1000 / distanceFromKNPtoGoal));  // 180 - 240 м ширина
-        }
-        if (targetType.equals(Targets.VZV)) {
-            targetsDepth = rand(40, 90);
-            targetsFrontDu = rand(Math.round(90 * 1000 / distanceFromKNPtoGoal), Math.round(120 * 1000 / distanceFromKNPtoGoal));  // 90 - 120 м ширина
-        }
-        if (targetType.equals(Targets.RAP) || targetType.equals(Targets.PTUR)) {
-            targetsDepth = 0;
-            targetsFrontDu = 0;
-        }
-
+        OP op = generateOP();
+        ObjectPosition knp = generateKNPfromOP(op);
+        Target target = generateTarget(op);
+        
         // fixme np_x, np_y = null?
-        AnalysisResult analysisResult = analyzePuo(distanceFromKNPtoGoal, angleFromKNPtoTarget, knp.getX(), knp.getY(), null, null, op.getX(), op.getY(), op.getMainDirection());
+        AnalysisResult analysisResult = analyzePuo(target, knp, null, null, op);
 
         // fixme try generate again
-        if (!(analysisResult.getPs() < 490) || !(analysisResult.getDovTop() < 380) || !(analysisResult.getDovTop() > -380) || Math.abs(angleFromKNPtoTarget - op.getMainDirection()) >= 750) {
+        if (!(analysisResult.getPs() < 490) || !(analysisResult.getDovTop() < 380) || !(analysisResult.getDovTop() > -380) || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
             return new ProblemDto();
         }
 
@@ -173,7 +193,7 @@ public class Generate2 {
         double ku = 0, shu = 0;
 
         if (analysisResult.getDalTop() != 0) {
-            ku = round(distanceFromKNPtoGoal / analysisResult.getDalTop(), 1);
+            ku = round(distanceFromKNPtoTarget / analysisResult.getDalTop(), 1);
             shu = Math.round(analysisResult.getPs() / analysisResult.getDalTop() * 100);
         }
 
@@ -187,7 +207,7 @@ public class Generate2 {
             ps_rad = converseToRad(analysisResult.getPs());
             sin_pc = round(Math.sin(ps_rad), 2);
             kc = round(Math.cos(ps_rad), 2);
-            muD = distanceFromKNPtoGoal / 1000 * sin_pc;
+            muD = distanceFromKNPtoTarget / 1000 * sin_pc;
             shu100 = sin_pc * 100000 / analysisResult.getDalTop();
             //echo 'kc = '.kc.' muD = '.muD.' shu100 = '.shu100;
         }
@@ -252,15 +272,15 @@ public class Generate2 {
         shot.put(4, new Shot_dto());
 
         if (targetsFrontDu == 0) {
-            shot.get(3).setF(rand(Math.round(14 * 1000 / distanceFromKNPtoGoal), Math.round(28 * 1000 / distanceFromKNPtoGoal))); // rand(round(40*1000/distanceFromKNPtoGoal),round(280*1000/distanceFromKNPtoGoal));
-            shot.get(4).setF(rand(Math.round(14 * 1000 / distanceFromKNPtoGoal), Math.round(28 * 1000 / distanceFromKNPtoGoal)));
+            shot.get(3).setF(rand(Math.round(14 * 1000 / distanceFromKNPtoTarget), Math.round(28 * 1000 / distanceFromKNPtoTarget))); // rand(round(40*1000/distanceFromKNPtoTarget),round(280*1000/distanceFromKNPtoTarget));
+            shot.get(4).setF(rand(Math.round(14 * 1000 / distanceFromKNPtoTarget), Math.round(28 * 1000 / distanceFromKNPtoTarget)));
         } else {
             if (targetsFrontDu < 120) {
-                shot.get(3).setF(targetsFrontDu + rand(Math.round(90 * 1000 / distanceFromKNPtoGoal), Math.round(120 * 1000 / distanceFromKNPtoGoal)));
+                shot.get(3).setF(targetsFrontDu + rand(Math.round(90 * 1000 / distanceFromKNPtoTarget), Math.round(120 * 1000 / distanceFromKNPtoTarget)));
             } else {
-                shot.get(3).setF(targetsFrontDu + rand(Math.round(140 * 1000 / distanceFromKNPtoGoal), Math.round(190 * 1000 / distanceFromKNPtoGoal)));
+                shot.get(3).setF(targetsFrontDu + rand(Math.round(140 * 1000 / distanceFromKNPtoTarget), Math.round(190 * 1000 / distanceFromKNPtoTarget)));
             }
-            shot.get(4).setF(targetsFrontDu + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / distanceFromKNPtoGoal), Math.round(28 * 1000 / distanceFromKNPtoGoal)));
+            shot.get(4).setF(targetsFrontDu + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / distanceFromKNPtoTarget), Math.round(28 * 1000 / distanceFromKNPtoTarget)));
         }
 
         if (targetsDepth < 100) {
@@ -273,7 +293,7 @@ public class Generate2 {
         // уровень
         long urov = 0;
         if (analysisResult.getDalTop() != 0) {
-            int target_h = knp.getH() + distanceFromKNPtoGoal * angularMagnitude_knp/ 1000; //высота цели
+            int target_h = knp.getH() + distanceFromKNPtoTarget * angularMagnitude_target/ 1000; //высота цели
             double angularMagnitude_op = (target_h - op.getH()) / analysisResult.getDalTop() * 1000;
 
             urov = 3000 + Math.round(angularMagnitude_op);
@@ -310,8 +330,8 @@ public class Generate2 {
 
         problemDto.setTargetType(targetType);
         problemDto.setAlphaC(angleFromKNPtoTarget);
-        problemDto.setDK(distanceFromKNPtoGoal);
-        problemDto.setEpsC(angularMagnitude_knp);
+        problemDto.setDK(distanceFromKNPtoTarget);
+        problemDto.setEpsC(angularMagnitude_target);
         problemDto.setFDu(targetsFrontDu);
         problemDto.setGC(targetsDepth);
 
@@ -347,7 +367,7 @@ public class Generate2 {
         }
 
         // todo fixme
-        int fcm = (targetsFrontDu * distanceFromKNPtoGoal) / 1000;
+        int fcm = (targetsFrontDu * distanceFromKNPtoTarget) / 1000;
 
 
         if (targetsDepth > 200) targetsDepth = 200;
@@ -401,12 +421,12 @@ public class Generate2 {
 
         Targets targetType = problemDto.getTargetType();
         int alphac = problemDto.getAlphaC();
-        int distanceFromKNPtoGoal = problemDto.getDK();
+        int distanceFromKNPtoTarget = problemDto.getDK();
         int epsc = problemDto.getEpsC();
         int fdu = problemDto.getFDu();
         long targetsDepth = problemDto.getGC();
 
-        AnalysisResult analysisResult = analyzePuo(distanceFromKNPtoGoal, alphac, knp_x, knp_y, null, null, op_x, op_y, mainDirection);
+        AnalysisResult analysisResult = analyzePuo(distanceFromKNPtoTarget, alphac, knp_x, knp_y, null, null, op_x, op_y, mainDirection);
 
         solutionDto.setDCt((int) analysisResult.getDalTop());
 //        solutionDto.setDeltaDCt((int) ddi);

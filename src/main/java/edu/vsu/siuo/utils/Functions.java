@@ -1,6 +1,9 @@
 package edu.vsu.siuo.utils;
 
 import edu.vsu.siuo.domains.AnalysisResult;
+import edu.vsu.siuo.domains.OP;
+import edu.vsu.siuo.domains.ObjectPosition;
+import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.enums.Powers;
 
 import java.io.BufferedReader;
@@ -81,36 +84,36 @@ public class Functions {
         return new double[]{dal, a_du}; //дальность топографическая между двумя точками, a_du угол (в делениях угломера) между основным направлением и целью
     }
 
-    public static AnalysisResult analyzePuo(double distanceFromKNPToTarget, double angleFromKNPtoTarget, double knp_x, double knp_y, Double np_x, Double np_y, double op_x, double op_y, double on) {
+    public static AnalysisResult analyzePuo(Target target, ObjectPosition knp, Double np_x, Double np_y, OP op) {
 
         AnalysisResult analysisResult = new AnalysisResult();
 
         // перевод из дел.угломера в радианы
-        double angleFromKNPtoTargetRadians = converseToRad(angleFromKNPtoTarget);
+        double angleFromKNPtoTargetRadians = converseToRad(target.getAngleFromKNPtoTarget());
 
         // катеты КНП - Цель
-        double kat_knp_x = distanceFromKNPToTarget * Math.cos(angleFromKNPtoTargetRadians); // расстояние по X между КНП и целью
-        double kat_knp_y = distanceFromKNPToTarget * Math.sin(angleFromKNPtoTargetRadians);// расстояние по Y между КНП и целью
+        double kat_knp_x = target.getDistanceFromKNPtoTarget() * Math.cos(angleFromKNPtoTargetRadians); // расстояние по X между КНП и целью
+        double kat_knp_y = target.getDistanceFromKNPtoTarget() * Math.sin(angleFromKNPtoTargetRadians);// расстояние по Y между КНП и целью
 
         // координаты X и Y цели
-        double cel_x = knp_x + kat_knp_x;
-        double cel_y = knp_y + kat_knp_y;
+        double cel_x = knp.getX() + kat_knp_x;
+        double cel_y = knp.getY() + kat_knp_y;
         analysisResult.setCelX(cel_x);
         analysisResult.setCelY(cel_y);
 
-        double[] daln_ugol = findDalnUgol(cel_x, cel_y, op_x, op_y); //расстояние и угол (в делениях угломера) между ОП и целью
+        double[] daln_ugol = findDalnUgol(cel_x, cel_y, op.getX(), op.getY()); //расстояние и угол (в делениях угломера) между ОП и целью
         double distanceFromOPtoTarget = daln_ugol[0];
         double angleFromOPtoTarget = daln_ugol[1];
         analysisResult.setDalTop(distanceFromOPtoTarget);
 
-        double ps = Math.abs(angleFromOPtoTarget - angleFromKNPtoTarget);
+        double ps = Math.abs(angleFromOPtoTarget - target.getAngleFromKNPtoTarget());
         analysisResult.setPs(ps);
 
-        double dov_top = angleFromOPtoTarget - on;
+        double dov_top = angleFromOPtoTarget - op.getMainDirection();
         analysisResult.setDovTop(dov_top);
 
         // ОП Слева или Справа ?
-        String op_dir = angleFromOPtoTarget > angleFromKNPtoTarget ? "l" : "r";
+        String op_dir = angleFromOPtoTarget > target.getAngleFromKNPtoTarget() ? "l" : "r";
         analysisResult.setOpDir(op_dir);
 
 
@@ -123,25 +126,25 @@ public class Functions {
             double alfa_np = Math.abs(a_np_op_du - angleFromOPtoTarget);
             analysisResult.setAlfaNp(alfa_np);
 
-            double gamma = Math.abs(a_np_op_du - angleFromKNPtoTarget);
+            double gamma = Math.abs(a_np_op_du - target.getAngleFromKNPtoTarget());
             analysisResult.setGamma(gamma);
 
 
-            if (angleFromKNPtoTarget > a_np_op_du) {
-                analysisResult.setDpL(distanceFromKNPToTarget);
+            if (target.getAngleFromKNPtoTarget() > a_np_op_du) {
+                analysisResult.setDpL(target.getDistanceFromKNPtoTarget());
                 analysisResult.setApL(ps);
                 analysisResult.setDpR(dal_np);
                 analysisResult.setApR(alfa_np);
             } else {
                 analysisResult.setDpL(dal_np);
                 analysisResult.setApL(alfa_np);
-                analysisResult.setDpR(distanceFromKNPToTarget);
+                analysisResult.setDpR(target.getDistanceFromKNPtoTarget());
                 analysisResult.setApR(ps);
             }
 
 
             // Позиция ОП при сопряженке
-            if ((angleFromKNPtoTarget < angleFromOPtoTarget && angleFromOPtoTarget < a_np_op_du) || (angleFromKNPtoTarget > angleFromOPtoTarget && angleFromOPtoTarget > a_np_op_du)) {
+            if ((target.getAngleFromKNPtoTarget() < angleFromOPtoTarget && angleFromOPtoTarget < a_np_op_du) || (target.getAngleFromKNPtoTarget() > angleFromOPtoTarget && angleFromOPtoTarget > a_np_op_du)) {
                 analysisResult.setOpDirSopryzh("Посередине");
             } else {
                 analysisResult.setOpDirSopryzh(op_dir.equals("l") ? "Слева" : "Справа");
