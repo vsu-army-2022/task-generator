@@ -28,6 +28,11 @@ public class Functions {
         return (int) (Math.round(rad * 30 / Math.PI * 100) % 6000);
     }
 
+    /**
+     * Перевод угла в делениях дальномера в строку вида +00-15
+     *
+     * @param a угол в делениях угломера
+     */
     public static String angDash(double a) {
         int c = ((int) Math.abs(a)) / 100;
         int d = (int) Math.abs(a) % 100;
@@ -35,6 +40,7 @@ public class Functions {
 
         String result = (a < 0 ? "-" : "+") + c + "-" + dd;
 
+        // fixme?
         if (result.equals("+0-00")) {
             result = "";
         }
@@ -169,7 +175,7 @@ public class Functions {
         if (a != null) {
             as = (a < 0 ? "Л" : "П") + Math.abs(a) + ", ";
         }
-        String fs = String.valueOf(f);
+        String fs;
         if (f != null) {
             fs = ", Фр. " + modAngDash(f);
         } else {
