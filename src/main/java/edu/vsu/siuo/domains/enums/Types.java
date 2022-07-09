@@ -1,5 +1,9 @@
 package edu.vsu.siuo.domains.enums;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum Types {
     EMPTY(""),
     XZ("«?»"),
@@ -20,5 +24,11 @@ public enum Types {
 
     public String getDescription() {
         return description;
+    }
+
+    public static List<Types> getNoEmptyTypes() {
+        return Arrays.stream(values())
+                .filter(types -> !types.equals(EMPTY))
+                .collect(Collectors.toList());
     }
 }

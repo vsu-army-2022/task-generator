@@ -4,11 +4,12 @@ import edu.vsu.siuo.domains.AnalysisResult;
 import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
-import edu.vsu.siuo.domains.dto.ProblemDto;
+import edu.vsu.siuo.domains.dto.ConditionsDto;
 import edu.vsu.siuo.domains.dto.SolutionDto;
 import edu.vsu.siuo.domains.dto.TaskDto;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Targets;
+import edu.vsu.siuo.domains.enums.Types;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Generate2 {
     @Data
     private static class Shot_dto {
         int a;
-        String type;
+        Types type;
         int f;
     }
 
@@ -42,15 +43,14 @@ public class Generate2 {
 
     public static TaskDto generateTask() {
         TaskDto taskDto = new TaskDto();
-        taskDto.setTaskTopic(7);
-        ProblemDto problemDto = generateConditionsForTask();
+        ConditionsDto conditionsDto = generateConditionsForTask();
 
-        taskDto.setProblemDto(problemDto);
-        taskDto.setSolutionDto(generateSolution(problemDto));
+        taskDto.setProblemDto(conditionsDto);
+        taskDto.setSolutionDto(generateSolution(conditionsDto));
         return taskDto;
     }
 
-    private static OP generateOP (){
+    private static OP generateOP() {
         OP op = new OP();
 
         op.setMainDirection(rand(1, 60) * 100);
@@ -61,21 +61,21 @@ public class Generate2 {
         return op;
     }
 
-    private static ObjectPosition generateKNPfromOP(OP op){
+    private static ObjectPosition generateKNPfromOP(OP op) {
         int distanceFromOPtoKNP = rand(2500, 5200); // расстояние между ОП и КНП
-        int angleFromONtoKNP = Math.abs(op.getMainDirection() + (rand(0,1) == 1 ? -1: 1) * rand(50, 1450));
+        int angleFromONtoKNP = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
         if (angleFromONtoKNP > 6000) angleFromONtoKNP = angleFromONtoKNP - 6000;
 
         return generateKnp(op.getX(), op.getY(), distanceFromOPtoKNP, angleFromONtoKNP);
     }
 
-    private static Target generateTarget(OP op){
+    private static Target generateTarget(OP op) {
         int angularMagnitude_target = (rand(0, 1) == 1 ? 1 : -1) * rand(1, 20); //угловая величина от низа цели, до ее верха (при наблюдении с кнп)
 
         // генерируем характер цели;
         Targets targetType = Targets.values()[rand(0, Targets.values().length)];
 
-        int angleFromKNPtoTarget = Math.abs(op.getMainDirection() + (rand(0,1) == 1 ? -1: 1) * rand(50, 1450));
+        int angleFromKNPtoTarget = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
         if (angleFromKNPtoTarget > 6000) angleFromKNPtoTarget = angleFromKNPtoTarget - 6000;
 
         int targetsDepth = 0; //глубина цели
@@ -100,12 +100,12 @@ public class Generate2 {
         target.setTargetsFrontDu(targetsFrontDu);
         target.setAngleFromKNPtoTarget(angleFromKNPtoTarget);
         target.setDistanceFromKNPtoTarget(distanceFromKNPtoTarget);
-
+target.setAngularMagnitude_target(angularMagnitude_target);
         return target;
     }
 
 
-    public static ProblemDto generateConditionsForTask() {
+    public static ConditionsDto generateConditionsForTask() {
         // todo validation
 
         List<TaskDto> taskDtos = new ArrayList<>();
@@ -121,7 +121,7 @@ public class Generate2 {
 
         // fixme try generate again
         if (!(analysisResult.getPs() < 490) || !(analysisResult.getDovTop() < 380) || !(analysisResult.getDovTop() > -380) || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
-            return new ProblemDto();
+            return new ConditionsDto();
         }
 
         // генерируем ГРП
@@ -165,7 +165,7 @@ public class Generate2 {
         double ku = 0, shu = 0;
 
         if (analysisResult.getDalTop() != 0) {
-            ku = round(distanceFromKNPtoTarget / analysisResult.getDalTop(), 1);
+            ku = round(target.getDistanceFromKNPtoTarget() / analysisResult.getDalTop(), 1);
             shu = Math.round(analysisResult.getPs() / analysisResult.getDalTop() * 100);
         }
 
@@ -179,7 +179,7 @@ public class Generate2 {
             ps_rad = converseToRad(analysisResult.getPs());
             sin_pc = round(Math.sin(ps_rad), 2);
             kc = round(Math.cos(ps_rad), 2);
-            muD = distanceFromKNPtoTarget / 1000 * sin_pc;
+            muD = target.getDistanceFromKNPtoTarget() / 1000 * sin_pc;
             shu100 = sin_pc * 100000 / analysisResult.getDalTop();
             //echo 'kc = '.kc.' muD = '.muD.' shu100 = '.shu100;
         }
@@ -203,21 +203,21 @@ public class Generate2 {
         }
 
 
-        List<String> gen_n = List.of("xz", "one_p", "one_n", "all_p", "all_n", "pre_p", "pre_n", "rav_p", "rav_n");
-        // генерируем наблюдения
+        List<Types> gen_n = Types.getNoEmptyTypes();
 
+        // генерируем наблюдения
         Map<Integer, Shot_dto> shot = new HashMap<>();
 
         shot.put(0, new Shot_dto());
         shot.put(1, new Shot_dto());
         shot.put(2, new Shot_dto());
 
-        if (targetsDepth < 100) {
+        if (target.getTargetsDepth() < 100) {
             shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
             shot.get(0).setType(gen_n.get(rand(1, 2)));
 
             shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
-            shot.get(1).setType(shot.get(0).getType() == "one_n" ? "one_p" : "one_n");
+            shot.get(1).setType(shot.get(0).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N);
 
             shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
             shot.get(2).setType(gen_n.get(rand(1, 2)));
@@ -228,12 +228,12 @@ public class Generate2 {
             shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
             shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
 
-            if (shot.get(0).getType() == "xz") {
+            if (shot.get(0).getType() == Types.XZ) {
                 shot.get(1).setType(gen_n.get(rand(1, 2)));
-                shot.get(2).setType((shot.get(1).getType() == "one_n" ? "one_p" : "one_n"));
+                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
             } else {
-                shot.get(1).setType(shot.get(0).getType() == "one_p" ? "one_p" : "one_n");
-                shot.get(2).setType((shot.get(1).getType() == "one_n" ? "one_p" : "one_n"));
+                shot.get(1).setType(shot.get(0).getType() == Types.ONE_P ? Types.ONE_P : Types.ONE_N);
+                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
             }
         }
 
@@ -243,19 +243,19 @@ public class Generate2 {
 
         shot.put(4, new Shot_dto());
 
-        if (targetsFrontDu == 0) {
-            shot.get(3).setF(rand(Math.round(14 * 1000 / distanceFromKNPtoTarget), Math.round(28 * 1000 / distanceFromKNPtoTarget))); // rand(round(40*1000/distanceFromKNPtoTarget),round(280*1000/distanceFromKNPtoTarget));
-            shot.get(4).setF(rand(Math.round(14 * 1000 / distanceFromKNPtoTarget), Math.round(28 * 1000 / distanceFromKNPtoTarget)));
+        if (target.getTargetsFrontDu() == 0) {
+            shot.get(3).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget()))); // rand(round(40*1000/distanceFromKNPtoTarget),round(280*1000/distanceFromKNPtoTarget));
+            shot.get(4).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
         } else {
-            if (targetsFrontDu < 120) {
-                shot.get(3).setF(targetsFrontDu + rand(Math.round(90 * 1000 / distanceFromKNPtoTarget), Math.round(120 * 1000 / distanceFromKNPtoTarget)));
+            if (target.getTargetsFrontDu() < 120) {
+                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(90 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(120 * 1000 / target.getDistanceFromKNPtoTarget())));
             } else {
-                shot.get(3).setF(targetsFrontDu + rand(Math.round(140 * 1000 / distanceFromKNPtoTarget), Math.round(190 * 1000 / distanceFromKNPtoTarget)));
+                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(140 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(190 * 1000 / target.getDistanceFromKNPtoTarget())));
             }
-            shot.get(4).setF(targetsFrontDu + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / distanceFromKNPtoTarget), Math.round(28 * 1000 / distanceFromKNPtoTarget)));
+            shot.get(4).setF(target.getTargetsFrontDu() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
         }
 
-        if (targetsDepth < 100) {
+        if (target.getTargetsDepth() < 100) {
             shot.get(4).setType(gen_n.get(rand(5, 6)));
         } else {
             shot.get(4).setType(gen_n.get(rand(7, 8)));
@@ -265,7 +265,7 @@ public class Generate2 {
         // уровень
         long urov = 0;
         if (analysisResult.getDalTop() != 0) {
-            int target_h = knp.getH() + distanceFromKNPtoTarget * angularMagnitude_target/ 1000; //высота цели
+            int target_h = knp.getH() + target.getDistanceFromKNPtoTarget() * target.getAngleFromKNPtoTarget() / 1000; //высота цели
             double angularMagnitude_op = (target_h - op.getH()) / analysisResult.getDalTop() * 1000;
 
             urov = 3000 + Math.round(angularMagnitude_op);
@@ -278,78 +278,72 @@ public class Generate2 {
         pric = Math.round(pric);
 
         String vzr = null;
-        if (targetType.equals("po") || targetType.equals("rap") || targetType.equals("ptur")) {
-
+        if (target.getType().equals(Targets.PO) || target.getType().equals(Targets.RAP) || target.getType().equals(Targets.PTUR)) {
             vzr = "О";
         }
-        if (targetType.equals("pu") || targetType.equals("bat") || targetType.equals("vzv")) {
+        if (target.getType().equals(Targets.PU) || target.getType().equals(Targets.BATR) || target.getType().equals(Targets.VZV)) {
             vzr = "О и Ф";
         }
 
         // result
-        ProblemDto problemDto = new ProblemDto(op, knp);
+        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target);
 
-        problemDto.setLoad(zaryd);
+        conditionsDto.setPower(zaryd);
 
         List<Integer> distance = List.of(grp.get(0).get("D") / 1000, grp.get(1).get("D") / 1000, grp.get(2).get("D") / 1000);
-        problemDto.setDistance(distance);
+        conditionsDto.setDistance(distance);
 
         List<Integer> range = List.of(grp.get(0).get("dD"), grp.get(1).get("dD"), grp.get(2).get("dD"));
-        problemDto.setRange(range);
+        conditionsDto.setRange(range);
 
         List<Integer> direction = List.of(grp.get(0).get("dd"), grp.get(1).get("dd"), grp.get(2).get("dd"));
-        problemDto.setDirection(direction);
+        conditionsDto.setDirection(direction);
 
-        problemDto.setTargetType(targetType);
-        problemDto.setAlphaC(angleFromKNPtoTarget);
-        problemDto.setDK(distanceFromKNPtoTarget);
-        problemDto.setEpsC(angularMagnitude_target);
-        problemDto.setFDu(targetsFrontDu);
-        problemDto.setGC(targetsDepth);
+        conditionsDto.setTarget(target);
 
         long gc_op = 0;
         long fcdu_op = 0;
         if (analysisResult.getPs() > 500) {
-            double pr1 = Math.abs(targetsFrontDu * muD);
-            double pr2 = Math.abs(targetsDepth * kc);
+            double pr1 = Math.abs(target.getTargetsFrontDu() * muD);
+            double pr2 = Math.abs(target.getTargetsDepth() * kc);
 
-            double ugl1 = Math.abs(targetsFrontDu * ku * kc);
-            double ugl2 = Math.abs(targetsDepth / 100 * shu100);
+            double ugl1 = Math.abs(target.getTargetsFrontDu() * ku * kc);
+            double ugl2 = Math.abs(target.getTargetsDepth() / 100 * shu100);
 
             gc_op = Math.round(pr1 + pr2);
             fcdu_op = Math.round(ugl1 + ugl2);
 
             // todo check it
-            targetsDepth = (int) gc_op;
-            targetsFrontDu = (int) fcdu_op;
+            target.setTargetsDepth((int) gc_op);
+            target.setTargetsFrontDu((int) fcdu_op);
         }
 
         double bat_veer;
         String bat_veer_v;
-        if (targetsFrontDu == 0) {
+        if (target.getTargetsFrontDu() == 0) {
             bat_veer_v = "сосредоточенный";
         } else {
             if (analysisResult.getPs() < 500) {
 
-                bat_veer = targetsFrontDu / 6 * ku;
+                bat_veer = target.getTargetsFrontDu() / 6 * ku;
             } else {
-                bat_veer = targetsFrontDu / 6;
+                bat_veer = target.getTargetsFrontDu() / 6;
             }
             bat_veer_v = modAngDash(bat_veer);
         }
 
         // todo fixme
-        int fcm = (targetsFrontDu * distanceFromKNPtoTarget) / 1000;
+        int fcm = (target.getTargetsFrontDu() * target.getDistanceFromKNPtoTarget()) / 1000;
 
 
-        if (targetsDepth > 200) targetsDepth = 200;
+        if (target.getTargetsDepth() > 200) target.setTargetsDepth(200);
 
         if (dxt == 0) dxt = 0.0001;
 
 
         int uu = 0;
         // скачок, УУ, УП
-        if (fcm > 300 && targetType.equals("po") || fcm > 150 && targetType.equals("pu")) {
+        if (fcm > 300 && target.getType().equals(Targets.PO) || fcm > 150 && target.getType().equals(Targets.PU)) {
             uu = 2;
         } else {
             uu = 1;
@@ -363,42 +357,28 @@ public class Generate2 {
 
         String skachok = "";
         int up = 0;
-        if (targetsDepth >= 100) {
+        if (target.getTargetsDepth() >= 100) {
             up = 3;
-            skachok = " скачок " + Math.round(targetsDepth / 3 / dxt) + ',';
+            skachok = " скачок " + Math.round(target.getTargetsDepth() / 3 / dxt) + ',';
         } else {
             up = 1;
             skachok = "";
         }
 
-        return problemDto;
+        return conditionsDto;
     }
 
-    public static SolutionDto generateSolution(ProblemDto problemDto) {
+    public static SolutionDto generateSolution(ConditionsDto conditionsDto) {
         SolutionDto solutionDto = new SolutionDto();
-
-        int mainDirection = problemDto.getOp().getMainDirection();
-        int op_x = problemDto.getOp().getX();
-        int op_y = problemDto.getOp().getY();
-        int hop = problemDto.getOp().getH();
-        int knp_x = problemDto.getKnp().getX();
-        int knp_y = problemDto.getKnp().getY();
-        int hknp = problemDto.getKnp().getH();
+        OP op = conditionsDto.getOp();
 
         // todo change to enum
-        Powers load = problemDto.getLoad();
-        List<Integer> distance = problemDto.getDistance();
-        List<Integer> range = problemDto.getRange();
-        List<Integer> direction = problemDto.getRange();
+        Powers load = conditionsDto.getPower();
+        List<Integer> distance = conditionsDto.getDistance();
+        List<Integer> range = conditionsDto.getRange();
+        List<Integer> direction = conditionsDto.getRange();
 
-        Targets targetType = problemDto.getTargetType();
-        int alphac = problemDto.getAlphaC();
-        int distanceFromKNPtoTarget = problemDto.getDK();
-        int epsc = problemDto.getEpsC();
-        int fdu = problemDto.getFDu();
-        long targetsDepth = problemDto.getGC();
-
-        AnalysisResult analysisResult = analyzePuo(distanceFromKNPtoTarget, alphac, knp_x, knp_y, null, null, op_x, op_y, mainDirection);
+        AnalysisResult analysisResult = analyzePuo(conditionsDto.getTarget(), conditionsDto.getKnp(), null, null, conditionsDto.getOp());
 
         solutionDto.setDCt((int) analysisResult.getDalTop());
 //        solutionDto.setDeltaDCt((int) ddi);
@@ -414,7 +394,7 @@ public class Generate2 {
 
         solutionDto.setPs((int) analysisResult.getPs());
 
-        solutionDto.setOp(analysisResult.getOpDir());
+        solutionDto.setOp(analysisResult.getOpDirection());
 //        solutionDto.setVD((int) vd);
 
         if (analysisResult.getPs() > 500) {
@@ -564,7 +544,7 @@ public class Generate2 {
 //        solutionDto.setCommands(commands);
 //
 //        TaskDto taskDto = new TaskDto();
-//        taskDto.setProblemDto(problemDto);
+//        taskDto.setProblemDto(conditionsDto);
 //        taskDto.setSolutionDto(solutionDto);
 //
 //        taskDtos.add(taskDto);
