@@ -18,7 +18,9 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.*;
 
@@ -40,7 +42,7 @@ public class SIUOController implements Initializable {
         map.put(3, DalnomerBig);
     }
 
-    private static Settings settings = new Settings();
+    private Settings settings = null;
     private File selectedDirectory = null;
     static int type = 0;
     private Pane selectedPane;
@@ -132,6 +134,7 @@ public class SIUOController implements Initializable {
         settings.setDefaultPath(this.selectedDirectory.getAbsolutePath());
         settings.setMaxCountOfTasks(Integer.parseInt(textFieldMaxNumberTasks.getText()));
         settings.setOpenFile(checkBoxOpenFile.isSelected());
+        settings.save();
 
         menuItemNzrLess5Click();
     }
@@ -154,6 +157,16 @@ public class SIUOController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("settings.dat")))
+        {
+            settings=(Settings)ois.readObject();
+        }
+        catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        if (settings == null) {
+            settings = new Settings();
+        }
         selectedDirectory = new File(settings.getDefaultPath());
         labelSettingsPath.setText(settings.getDefaultPath());
         selectedPane = paneMain;
@@ -162,7 +175,7 @@ public class SIUOController implements Initializable {
         paneAboutUs.setVisible(false);
         paneDocuments.setVisible(false);
         textFieldNumberOfTasks.addEventFilter(KeyEvent.KEY_TYPED, t -> {
-            char ar[] = t.getCharacter().toCharArray();
+            char[] ar = t.getCharacter().toCharArray();
             char ch = ar[t.getCharacter().toCharArray().length - 1];
             int number = 0;
             try {
@@ -177,7 +190,7 @@ public class SIUOController implements Initializable {
             }
         });
         textFieldMaxNumberTasks.addEventFilter(KeyEvent.KEY_TYPED, t -> {
-            char ar[] = t.getCharacter().toCharArray();
+            char[] ar = t.getCharacter().toCharArray();
             char ch = ar[t.getCharacter().toCharArray().length - 1];
             int number = 0;
             try {

@@ -6,9 +6,6 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * Решение задачи
- */
 @Data
 public class SolutionDto {
     private int dCt;
@@ -19,11 +16,24 @@ public class SolutionDto {
     private int deltaDeCt;
     private int deCi;
 
+    /**
+     * Коэффициент удаления, dK / dCt
+     */
     private int kY;
+
+    /**
+     * Шаг угломера
+     */
     private int shY;
+
+
     private int deltaX;
 
+    /**
+     * Поправка на смещение - угол между линией наблюдения и линией цели
+     */
     private int ps;
+
     private Direction op;
     private int vD;
 

@@ -7,10 +7,14 @@ import lombok.Data;
 @Data
 public class AnalysisResult {
     double ps;
-    double alfaNp;
     double dovTop;
     double dalTop;
     Direction opDirection;
+    double celX;
+    double celY;
+
+    // переменные для сопряженки
+    double alfaNp;
     double dpL;
     double dpR;
     double apL;
@@ -18,6 +22,4 @@ public class AnalysisResult {
     double gamma;
     // todo change to enum
     Direction opDirSopryzh;
-    double celX;
-    double celY;
 }

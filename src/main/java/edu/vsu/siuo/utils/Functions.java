@@ -6,6 +6,7 @@ import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
+import edu.vsu.siuo.domains.enums.Types;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -28,6 +29,11 @@ public class Functions {
         return (int) (Math.round(rad * 30 / Math.PI * 100) % 6000);
     }
 
+    /**
+     * Перевод угла в делениях дальномера в строку вида +00-15
+     *
+     * @param a угол в делениях угломера
+     */
     public static String angDash(double a) {
         int c = ((int) Math.abs(a)) / 100;
         int d = (int) Math.abs(a) % 100;
@@ -35,6 +41,7 @@ public class Functions {
 
         String result = (a < 0 ? "-" : "+") + c + "-" + dd;
 
+        // fixme?
         if (result.equals("+0-00")) {
             result = "";
         }
@@ -164,18 +171,18 @@ public class Functions {
         return "";
     }
 
-    public static String formatNabl(Integer a, String h, Integer f, Map<String, String> TYPES) {
+    public static String formatNabl(Integer a, String h, Integer f) {
         String as = String.valueOf(a);
         if (a != null) {
             as = (a < 0 ? "Л" : "П") + Math.abs(a) + ", ";
         }
-        String fs = String.valueOf(f);
+        String fs;
         if (f != null) {
             fs = ", Фр. " + modAngDash(f);
         } else {
             fs = "";
         }
-        return as + TYPES.get(h) + fs;
+        return as + h + fs;
     }
 
     public static String formatNablDalnomer(String a, String h, double d, double ak, double dk) {
@@ -192,25 +199,51 @@ public class Functions {
         return al + ", " + ap;
     }
 
-    public static List<Double> grpCount(Map<Integer, Map<String, Integer>> d, double strD) {
-        d.forEach((key, value) -> d.get(key).replace("D", d.get(key).get("D") - d.get(key).get("dD")));
+    /**
+     * Расчет графика расчета поправок (ГРП)
+     *
+     * @param grp  Опорные топографические дальности метеорологических поправок (D - дальность, dD - поправка, dd - доворот)
+     * @param strD Дальность до цели
+     * @return Список, содержащий дальность [0] и доворот [1] исчисленные
+     */
+    public static List<Double> grpCount(Map<Integer, Map<String, Integer>> grp, double strD) {
+        //Вычисление исчисленных опорных дальностей
+
+
+        // create deep copy of map
+        Map<Integer, Map<String, Integer>> grpCopy = new HashMap<>();
+
+        for (int key : grp.keySet()) {
+            grpCopy.put(key, new HashMap<>());
+            for (String key2 : grp.get(key).keySet()) {
+                int value2 = grp.get(key).get(key2);
+                grpCopy.get(key).put(key2, value2);
+            }
+        }
+
+
+        grpCopy.forEach((key, value) -> grpCopy.get(key).replace("D", grpCopy.get(key).get("D") - grpCopy.get(key).get("dD")));
+
 
         Map<String, Integer> left = new HashMap<>();
         Map<String, Integer> right = new HashMap<>();
 
-        if (strD < d.get(1).get("D")) {
-            left.putAll(d.get(0));
-            right.putAll(d.get(1));
+        // Вычисление промежутка, в котором находится цель, между двумя опорными дальностями
+        if (strD < grpCopy.get(1).get("D")) {
+            left.putAll(grpCopy.get(0));
+            right.putAll(grpCopy.get(1));
         } else {
-            left.putAll(d.get(1));
-            right.putAll(d.get(2));
+            left.putAll(grpCopy.get(1));
+            right.putAll(grpCopy.get(2));
         }
 
+        // Расчет исчисленных дальности и доворота до цели
         List<Double> ret = Stream
                 .of("dD", "dd")
-                .map(grp -> left.get(grp) + (right.get(grp) - left.get(grp)) * (strD - left.get("D")) / (right.get("D") - left.get("D")))
+                .map(_grp -> left.get(_grp) + (right.get(_grp) - left.get(_grp)) * (strD - left.get("D")) / (right.get("D") - left.get("D")))
                 .collect(Collectors.toList());
 
+        // Округление значений
         IntStream.range(0, ret.size() - 1).forEach(i -> ret.set(i, (double) Math.round(ret.get(i))));
 
         return ret;

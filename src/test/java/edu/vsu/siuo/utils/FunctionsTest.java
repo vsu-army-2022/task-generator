@@ -1,5 +1,9 @@
 package edu.vsu.siuo.utils;
 
+import edu.vsu.siuo.domains.AnalysisResult;
+import edu.vsu.siuo.domains.OP;
+import edu.vsu.siuo.domains.ObjectPosition;
+import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.enums.Powers;
 import org.junit.jupiter.api.Test;
 
@@ -64,6 +68,15 @@ class FunctionsTest {
     }
 
     @Test
+    public void angDash_3() {
+        double a = 0;
+
+        String result = Functions.angDash(a);
+
+        assertEquals("", result);
+    }
+
+    @Test
     public void KmodAngDash_1() {
         double a = -978;
 
@@ -95,30 +108,28 @@ class FunctionsTest {
     }
 
     @Test
-    public void findDalnUgol_12() {
-        double x1 = 10;
-        double y1 = 10;
-        double x2 = 30;
-        double y2 = 20;
+    public void analyzePuo_1() {
+        Target target = new Target();
+        target.setDistanceFromKNPtoTarget(2819);
+        target.setTargetsFrontDu(5526);
 
-        double[] result = Functions.findDalnUgol(x1, y1, x2, y2);
+        ObjectPosition knp = new ObjectPosition();
+        knp.setX(98755);
+        knp.setY(40333);
 
-        assertEquals(6017, result[0], DELTA);
-        assertEquals(1333, result[1], DELTA);
+        OP op = new OP();
+        op.setMainDirection(5900);
+        op.setX(95741);
+        op.setY(42768);
+
+        AnalysisResult analysisResult = Functions.analyzePuo(target, knp, null, null, op);
+
+        assertEquals(101, analysisResult.getPs());
+        assertEquals(-475, analysisResult.getDovTop());
+        assertEquals(6666, analysisResult.getDalTop());
+        assertEquals(101233.79267843, analysisResult.getCelX());
+        assertEquals(38990.48450386, analysisResult.getCelY());
     }
-
-//    @Test
-//    public void findDalnUgol_11() {
-//        double x1 = 78697.330659282;
-//        double y1 = 46254.916336925;
-//        double x2 = 83633;
-//        double y2 = 45448;
-//
-//        double[] result = Functions.findDalnUgol(x1, y1, x2, y2);
-//
-//        assertEquals(5001, result[0], DELTA);
-//        assertEquals(2845, result[1], DELTA);
-//    }
 
     @Test
     public void findDalnUgol_2() {
@@ -199,14 +210,14 @@ class FunctionsTest {
 
     @Test
     public void format_nabl_1() {
-        String result = Functions.formatNabl(16, "all_p", 6, TYPES);
+        String result = Functions.formatNabl(16, "all_p", 6);
 
         assertEquals("П16, Все «+», Фр. 0-06", result);
     }
 
     @Test
     public void format_nabl_2() {
-        String result = Functions.formatNabl(88, "one_n", null, TYPES);
+        String result = Functions.formatNabl(88, "one_n", null);
 
         assertEquals("П88, «-»", result);
     }
