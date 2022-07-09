@@ -192,12 +192,21 @@ public class Functions {
         return al + ", " + ap;
     }
 
+    /**
+     * Расчет графика расчета поправок (ГРП)
+     *
+     * @param d    Опорные топографические дальности метеорологических поправок (D - дальность, dD - поправка, dd - доворот)
+     * @param strD Дальность до цели
+     * @return Список, содержащий дальность [0] и доворот [1] исчисленные
+     */
     public static List<Double> grpCount(Map<Integer, Map<String, Integer>> d, double strD) {
+        //Вычисление исчисленных опорных дальностей
         d.forEach((key, value) -> d.get(key).replace("D", d.get(key).get("D") - d.get(key).get("dD")));
 
         Map<String, Integer> left = new HashMap<>();
         Map<String, Integer> right = new HashMap<>();
 
+        // Вычисление промежутка, в котором находится цель, между двумя опорными дальностями
         if (strD < d.get(1).get("D")) {
             left.putAll(d.get(0));
             right.putAll(d.get(1));
@@ -206,11 +215,13 @@ public class Functions {
             right.putAll(d.get(2));
         }
 
+        // Расчет исчисленных дальности и доворота до цели
         List<Double> ret = Stream
                 .of("dD", "dd")
                 .map(grp -> left.get(grp) + (right.get(grp) - left.get(grp)) * (strD - left.get("D")) / (right.get("D") - left.get("D")))
                 .collect(Collectors.toList());
 
+        // Округление значений
         IntStream.range(0, ret.size() - 1).forEach(i -> ret.set(i, (double) Math.round(ret.get(i))));
 
         return ret;
