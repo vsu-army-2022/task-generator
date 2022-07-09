@@ -7,6 +7,6 @@ public class TaskDto {
     private int taskNumber;
     private int taskTopic;
 
-    ProblemDto problemDto;
+    ConditionsDto problemDto;
     SolutionDto solutionDto;
 }
