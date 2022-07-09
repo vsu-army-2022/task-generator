@@ -202,30 +202,45 @@ public class Functions {
     /**
      * Расчет графика расчета поправок (ГРП)
      *
-     * @param d    Опорные топографические дальности метеорологических поправок (D - дальность, dD - поправка, dd - доворот)
+     * @param grp  Опорные топографические дальности метеорологических поправок (D - дальность, dD - поправка, dd - доворот)
      * @param strD Дальность до цели
      * @return Список, содержащий дальность [0] и доворот [1] исчисленные
      */
-    public static List<Double> grpCount(Map<Integer, Map<String, Integer>> d, double strD) {
+    public static List<Double> grpCount(Map<Integer, Map<String, Integer>> grp, double strD) {
         //Вычисление исчисленных опорных дальностей
-        d.forEach((key, value) -> d.get(key).replace("D", d.get(key).get("D") - d.get(key).get("dD")));
+
+
+        // create deep copy of map
+        Map<Integer, Map<String, Integer>> grpCopy = new HashMap<>();
+
+        for (int key : grp.keySet()) {
+            grpCopy.put(key, new HashMap<>());
+            for (String key2 : grp.get(key).keySet()) {
+                int value2 = grp.get(key).get(key2);
+                grpCopy.get(key).put(key2, value2);
+            }
+        }
+
+
+        grpCopy.forEach((key, value) -> grpCopy.get(key).replace("D", grpCopy.get(key).get("D") - grpCopy.get(key).get("dD")));
+
 
         Map<String, Integer> left = new HashMap<>();
         Map<String, Integer> right = new HashMap<>();
 
         // Вычисление промежутка, в котором находится цель, между двумя опорными дальностями
-        if (strD < d.get(1).get("D")) {
-            left.putAll(d.get(0));
-            right.putAll(d.get(1));
+        if (strD < grpCopy.get(1).get("D")) {
+            left.putAll(grpCopy.get(0));
+            right.putAll(grpCopy.get(1));
         } else {
-            left.putAll(d.get(1));
-            right.putAll(d.get(2));
+            left.putAll(grpCopy.get(1));
+            right.putAll(grpCopy.get(2));
         }
 
         // Расчет исчисленных дальности и доворота до цели
         List<Double> ret = Stream
                 .of("dD", "dd")
-                .map(grp -> left.get(grp) + (right.get(grp) - left.get(grp)) * (strD - left.get("D")) / (right.get("D") - left.get("D")))
+                .map(_grp -> left.get(_grp) + (right.get(_grp) - left.get(_grp)) * (strD - left.get("D")) / (right.get("D") - left.get("D")))
                 .collect(Collectors.toList());
 
         // Округление значений
