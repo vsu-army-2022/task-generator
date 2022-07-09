@@ -70,12 +70,14 @@ public class Generate2 {
 
         for (int i = 0; i < count; i++) {
             taskDtos.add(generateTask());
+            taskDtos.get(i).setTaskNumber(i+1);
         }
         return taskDtos;
     }
 
     public static TaskDto generateTask() {
         TaskDto taskDto = new TaskDto();
+        taskDto.setTaskTopic(7);
         ProblemDto problemDto = generateProblem();
 
         taskDto.setProblemDto(problemDto);
@@ -346,8 +348,6 @@ public class Generate2 {
 
         List<Integer> direction = List.of(grp.get(0).get("dd"), grp.get(1).get("dd"), grp.get(2).get("dd"));
         problemDto.setDirection(direction);
-                taskDto.setTaskTopic(7);
-                taskDto.setTaskNumber(taskNumber);
 
         problemDto.setTargetType(c_type);
         problemDto.setAlphaC(ak);

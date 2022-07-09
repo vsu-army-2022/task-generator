@@ -7,7 +7,7 @@ import com.spire.doc.documents.Paragraph;
 import com.spire.doc.documents.TableRowHeightType;
 import com.spire.doc.documents.VerticalAlignment;
 import com.spire.doc.fields.TextRange;
-import edu.vsu.siuo.domains.TaskDto;
+import edu.vsu.siuo.domains.dto.TaskDto;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -54,12 +54,12 @@ public class WordManager {
                     "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «радиолокационная станция полевой артиллерии». Дивизионный: αц = 8-66, Дк = 2201, εц = +0-09. Подавить! Я «Лена».\n" +
                     "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
                     "1) Л77, «-»; 2) П42, «+»; 3) П18, «+»; 4) П20, Все «+», Фр. 0-06; 5) П11, Преобладание «+», Фр. 0-12; 6) Цель подавлена. \n",
-                    taskDto.getXOp(), taskDto.getYOp(), taskDto.getHOp(),
-                    taskDto.getXKnp(), taskDto.getYKnp(), taskDto.getHKnp(),
-//                    taskDto.getLoad().getPower(),
-                    taskDto.getDistance().get(0), taskDto.getDistance().get(1), taskDto.getDistance().get(2),
-                    taskDto.getRange().get(0), taskDto.getRange().get(1), taskDto.getRange().get(2),
-                    taskDto.getDistance().get(0), taskDto.getDistance().get(1), taskDto.getDistance().get(2)
+                    taskDto.getProblemDto().getXOp(), taskDto.getProblemDto().getYOp(), taskDto.getProblemDto().getHOp(),
+                    taskDto.getProblemDto().getXKnp(), taskDto.getProblemDto().getYKnp(), taskDto.getProblemDto().getHKnp(),
+                    taskDto.getProblemDto().getLoad(),
+                    taskDto.getProblemDto().getDistance().get(0), taskDto.getProblemDto().getDistance().get(1), taskDto.getProblemDto().getDistance().get(2),
+                    taskDto.getProblemDto().getRange().get(0), taskDto.getProblemDto().getRange().get(1), taskDto.getProblemDto().getRange().get(2),
+                    taskDto.getProblemDto().getDistance().get(0), taskDto.getProblemDto().getDistance().get(1), taskDto.getProblemDto().getDistance().get(2)
 
             ));
             tr.getCharacterFormat().setFontSize(12);
@@ -87,14 +87,23 @@ public class WordManager {
 
             List<String[]> data = new ArrayList<>();
 
-            for (int i = 0; i < taskDto.getCommands().size(); i++) {
+            for (int i = 0; i < taskDto.getSolutionDto().getCommands().size(); i++) {
                 data.add(new String[]{
                         String.format("%d", i + 1),
-                        taskDto.getCommands().get(i).getDescription(),
-                        String.format("%d", taskDto.getCommands().get(i).getPR()),
-                        String.format("%d", taskDto.getCommands().get(i).getYR()),
-                        taskDto.getCommands().get(i).getDe(),
-                        taskDto.getCommands().get(i).getObservation()
+                        taskDto.getSolutionDto().getCommands().get(i).getDescription(),
+                        taskDto.getSolutionDto().getCommands().get(i).getPR() != 0 ?
+                                taskDto.getSolutionDto().getCommands().get(i).getPR() > 0 ?
+                                        String.format("+%d",taskDto.getSolutionDto().getCommands().get(i).getPR()):
+                                        String.format("%d",taskDto.getSolutionDto().getCommands().get(i).getPR())
+                                : "",
+                        taskDto.getSolutionDto().getCommands().get(i).getYR() != 0 ?
+                                String.format("%d-%d",
+                                        String.format("%s", taskDto.getSolutionDto().getCommands().get(i).getYR()).substring(0,2),
+                                        String.format("%s", taskDto.getSolutionDto().getCommands().get(i).getYR()).substring(2,4)
+                                ) : "",
+                        taskDto.getSolutionDto().getCommands().get(i).getDe() != "" ? taskDto.getSolutionDto().getCommands().get(i).getDe() :"",
+                        taskDto.getSolutionDto().getCommands().get(i).getObservation() != "" ?
+                                taskDto.getSolutionDto().getCommands().get(i).getObservation() : ""
                 });
             }
 
