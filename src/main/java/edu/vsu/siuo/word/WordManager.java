@@ -39,7 +39,6 @@ public class WordManager {
             );
             tr.getCharacterFormat().setFontSize(12);
             tr.getCharacterFormat().setBold(true);
-            paragraph.getFormat().setAfterSpacing(10f);
 
             paragraph = sec.addParagraph();
 
@@ -65,7 +64,6 @@ public class WordManager {
 
             ));
             tr.getCharacterFormat().setFontSize(12);
-            paragraph.getFormat().setLineSpacing(5);
 
             paragraph = sec.addParagraph();
             tr = paragraph.appendText(
@@ -73,16 +71,11 @@ public class WordManager {
             );
             tr.getCharacterFormat().setFontSize(12);
             tr.getCharacterFormat().setBold(true);
-            paragraph.getFormat().setAfterSpacing(10f);
-
             paragraph = sec.addParagraph();
             tr = paragraph.appendText("Дцт = 5831\t∆Д = +295\tДци = 6126\t∂цт = +0-48\t∆∂ = -0-13\t∂ци = +0-35\n" +
                     "ПС = 7-82\tОП (кнп) - Слева\t∆Xтыс = 15\tВд = 14");
             tr.getCharacterFormat().setFontSize(12);
-            paragraph.getFormat().setLineSpacing(5);
 
-
-            Section section = document.addSection();
 
             //Define the data for table
             String[] header = {"№", "Команда на ОП.", "Пр.", "Ур.", "Дов.", "Наблюдения."};
@@ -110,7 +103,7 @@ public class WordManager {
             }
 
             //Add a table
-            Table table = section.addTable(true);
+            Table table = sec.addTable(true);
             table.resetCells(data.size() + 1, header.length);
 
             //Set the first row as table header
