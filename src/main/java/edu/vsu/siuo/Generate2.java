@@ -62,8 +62,26 @@ public class Generate2 {
 
     private static ObjectPosition generateKNPfromOP(OP op) {
         int distanceFromOPtoKNP = rand(2500, 5200); // расстояние между ОП и КНП
-        int angleFromONtoKNP = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
-        if (angleFromONtoKNP > 6000) angleFromONtoKNP = angleFromONtoKNP - 6000;
+//        int angleFromONtoKNP = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
+//        if (angleFromONtoKNP > 6000) angleFromONtoKNP = angleFromONtoKNP - 6000;
+
+        int angleFromONtoKNP = 0;
+
+        if ( op.getMainDirection() > 5250 && op.getMainDirection() <= 6000 ) {
+            angleFromONtoKNP = rand(5300,5950);
+        }
+        if ( op.getMainDirection() > 0 && op.getMainDirection() <= 750  ) {
+            angleFromONtoKNP = rand(100,700);
+        }
+        if (op.getMainDirection() > 750 && op.getMainDirection() <= 2250 ) {
+            angleFromONtoKNP = rand(800,2200);
+        }
+        if (op.getMainDirection() > 2250 && op.getMainDirection() <= 3750 ) {
+            angleFromONtoKNP = rand(2300,3700);
+        }
+        if (op.getMainDirection() > 3750 && op.getMainDirection() <= 5250 ) {
+            angleFromONtoKNP = rand(3800,5200);
+        }
 
         return generateKnp(op.getX(), op.getY(), distanceFromOPtoKNP, angleFromONtoKNP);
     }
@@ -74,8 +92,26 @@ public class Generate2 {
         // генерируем характер цели;
         Targets targetType = Targets.values()[rand(0, Targets.values().length)];
 
-        int angleFromKNPtoTarget = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
-        if (angleFromKNPtoTarget > 6000) angleFromKNPtoTarget = angleFromKNPtoTarget - 6000;
+        int angleFromKNPtoTarget = 0;
+
+        if ( op.getMainDirection() > 5250 && op.getMainDirection() <= 6000 ) {
+            angleFromKNPtoTarget = rand(5300,5950);
+        }
+        if ( op.getMainDirection() > 0 && op.getMainDirection() <= 750  ) {
+            angleFromKNPtoTarget = rand(100,700);
+        }
+        if (op.getMainDirection() > 750 && op.getMainDirection() <= 2250 ) {
+            angleFromKNPtoTarget = rand(800,2200);
+        }
+        if (op.getMainDirection() > 2250 && op.getMainDirection() <= 3750 ) {
+            angleFromKNPtoTarget = rand(2300,3700);
+        }
+        if (op.getMainDirection() > 3750 && op.getMainDirection() <= 5250 ) {
+            angleFromKNPtoTarget = rand(3800,5200);
+        }
+
+//        int angleFromKNPtoTarget = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
+//        if (angleFromKNPtoTarget > 6000) angleFromKNPtoTarget = angleFromKNPtoTarget - 6000;
 
         int targetsDepth = 0; //глубина цели
         int targetsFrontDu = 0; //фронт цели
@@ -120,8 +156,12 @@ public class Generate2 {
         AnalysisResult analysisResult = analyzePuo(target, knp, null, null, op);
 
         // fixme try generate again
-        if (analysisResult.getPs() >= 490 || analysisResult.getDovTop() >= 380
-                || analysisResult.getDovTop() <= -380 || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
+//        if (analysisResult.getPs() <=580 || analysisResult.getDovTop() >= 380
+//                || analysisResult.getDovTop() <= -380
+//                || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
+//            return generateConditionsForTask();
+//        }
+        if (analysisResult.getPs() <=580 || analysisResult.getDovTop() >= 380 || analysisResult.getDovTop() <= -380 || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
             return generateConditionsForTask();
         }
 
