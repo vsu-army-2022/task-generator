@@ -1,7 +1,6 @@
 package edu.vsu.siuo;
 
 import edu.vsu.siuo.domains.OP;
-import edu.vsu.siuo.domains.dto.ProblemDto;
 import edu.vsu.siuo.domains.dto.SolutionDto;
 import edu.vsu.siuo.domains.enums.Powers;
 import org.junit.jupiter.api.Test;

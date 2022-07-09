@@ -9,6 +9,7 @@ import edu.vsu.siuo.domains.dto.SolutionDto;
 import edu.vsu.siuo.domains.dto.TaskDto;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Targets;
+import edu.vsu.siuo.domains.enums.Types;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Generate2 {
     @Data
     private static class Shot_dto {
         int a;
-        String type;
+        Types type;
         int f;
     }
 
@@ -48,7 +49,7 @@ public class Generate2 {
         return taskDto;
     }
 
-    private static OP generateOP (){
+    private static OP generateOP() {
         OP op = new OP();
 
         op.setMainDirection(rand(1, 60) * 100);
@@ -59,21 +60,21 @@ public class Generate2 {
         return op;
     }
 
-    private static ObjectPosition generateKNPfromOP(OP op){
+    private static ObjectPosition generateKNPfromOP(OP op) {
         int distanceFromOPtoKNP = rand(2500, 5200); // расстояние между ОП и КНП
-        int angleFromONtoKNP = Math.abs(op.getMainDirection() + (rand(0,1) == 1 ? -1: 1) * rand(50, 1450));
+        int angleFromONtoKNP = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
         if (angleFromONtoKNP > 6000) angleFromONtoKNP = angleFromONtoKNP - 6000;
 
         return generateKnp(op.getX(), op.getY(), distanceFromOPtoKNP, angleFromONtoKNP);
     }
-    
-    private static Target generateTarget(OP op){
+
+    private static Target generateTarget(OP op) {
         int angularMagnitude_target = (rand(0, 1) == 1 ? 1 : -1) * rand(1, 20); //угловая величина от низа цели, до ее верха (при наблюдении с кнп)
 
         // генерируем характер цели;
         Targets targetType = Targets.values()[rand(0, Targets.values().length)];
 
-        int angleFromKNPtoTarget = Math.abs(op.getMainDirection() + (rand(0,1) == 1 ? -1: 1) * rand(50, 1450));
+        int angleFromKNPtoTarget = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
         if (angleFromKNPtoTarget > 6000) angleFromKNPtoTarget = angleFromKNPtoTarget - 6000;
 
         int targetsDepth = 0; //глубина цели
@@ -202,9 +203,9 @@ public class Generate2 {
         }
 
 
-        List<String> gen_n = List.of("xz", "one_p", "one_n", "all_p", "all_n", "pre_p", "pre_n", "rav_p", "rav_n");
-        // генерируем наблюдения
+        List<Types> gen_n = Types.getNoEmptyTypes();
 
+        // генерируем наблюдения
         Map<Integer, Shot_dto> shot = new HashMap<>();
 
         shot.put(0, new Shot_dto());
@@ -216,7 +217,7 @@ public class Generate2 {
             shot.get(0).setType(gen_n.get(rand(1, 2)));
 
             shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
-            shot.get(1).setType(shot.get(0).getType() == "one_n" ? "one_p" : "one_n");
+            shot.get(1).setType(shot.get(0).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N);
 
             shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
             shot.get(2).setType(gen_n.get(rand(1, 2)));
@@ -227,12 +228,12 @@ public class Generate2 {
             shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
             shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
 
-            if (shot.get(0).getType() == "xz") {
+            if (shot.get(0).getType() == Types.XZ) {
                 shot.get(1).setType(gen_n.get(rand(1, 2)));
-                shot.get(2).setType((shot.get(1).getType() == "one_n" ? "one_p" : "one_n"));
+                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
             } else {
-                shot.get(1).setType(shot.get(0).getType() == "one_p" ? "one_p" : "one_n");
-                shot.get(2).setType((shot.get(1).getType() == "one_n" ? "one_p" : "one_n"));
+                shot.get(1).setType(shot.get(0).getType() == Types.ONE_P ? Types.ONE_P : Types.ONE_N);
+                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
             }
         }
 
@@ -264,7 +265,7 @@ public class Generate2 {
         // уровень
         long urov = 0;
         if (analysisResult.getDalTop() != 0) {
-            int target_h = knp.getH() + target.getDistanceFromKNPtoTarget() * target.getAngleFromKNPtoTarget()/ 1000; //высота цели
+            int target_h = knp.getH() + target.getDistanceFromKNPtoTarget() * target.getAngleFromKNPtoTarget() / 1000; //высота цели
             double angularMagnitude_op = (target_h - op.getH()) / analysisResult.getDalTop() * 1000;
 
             urov = 3000 + Math.round(angularMagnitude_op);
