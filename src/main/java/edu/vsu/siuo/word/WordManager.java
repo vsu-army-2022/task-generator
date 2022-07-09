@@ -47,16 +47,18 @@ public class WordManager {
             tr = paragraph.appendText(String.format("Батарея 122мм гаубицы Д-30 занимает боевой порядок:\n" +
                     "ОП:  \tХ = %d; \tУ = %d; \th = %d м («Дон»)\n" +
                     "КНП: \tХ = %d; \tУ = %d; \th = %d м («Амур»)\n" +
-                    "КНП адн: Х = test; У = test; \th = test м («Лена»)\n" +
-                    "α он = 16-00\n" +
+                    "КНП адн: Х = %d; У = %d; \th = %d м («Лена»)\n" +
+                    "α он = %d-00\n" +
                     "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
                     "В дальности: %d; %d; %d. В направлении: %d; %d; %d.\n" +
                     "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «радиолокационная станция полевой артиллерии». Дивизионный: αц = 8-66, Дк = 2201, εц = +0-09. Подавить! Я «Лена».\n" +
                     "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
                     "1) Л77, «-»; 2) П42, «+»; 3) П18, «+»; 4) П20, Все «+», Фр. 0-06; 5) П11, Преобладание «+», Фр. 0-12; 6) Цель подавлена. \n",
-                    taskDto.getProblemDto().getXOp(), taskDto.getProblemDto().getYOp(), taskDto.getProblemDto().getHOp(),
-                    taskDto.getProblemDto().getXKnp(), taskDto.getProblemDto().getYKnp(), taskDto.getProblemDto().getHKnp(),
-                    taskDto.getProblemDto().getLoad(),
+                    taskDto.getProblemDto().getOp().getX(), taskDto.getProblemDto().getOp().getY(), taskDto.getProblemDto().getOp().getH(),
+                    taskDto.getProblemDto().getKnp().getX(), taskDto.getProblemDto().getKnp().getY(), taskDto.getProblemDto().getKnp().getH(),
+                    taskDto.getProblemDto().getKnp().getX(), taskDto.getProblemDto().getKnp().getY(), taskDto.getProblemDto().getKnp().getH(),
+                    taskDto.getProblemDto().getOp().getMainDirection(),
+                    taskDto.getProblemDto().getPower().getDescription(),
                     taskDto.getProblemDto().getDistance().get(0), taskDto.getProblemDto().getDistance().get(1), taskDto.getProblemDto().getDistance().get(2),
                     taskDto.getProblemDto().getRange().get(0), taskDto.getProblemDto().getRange().get(1), taskDto.getProblemDto().getRange().get(2),
                     taskDto.getProblemDto().getDistance().get(0), taskDto.getProblemDto().getDistance().get(1), taskDto.getProblemDto().getDistance().get(2)
