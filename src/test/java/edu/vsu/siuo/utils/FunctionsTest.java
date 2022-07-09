@@ -108,19 +108,6 @@ class FunctionsTest {
     }
 
     @Test
-    public void findDalnUgol_12() {
-        double x1 = 10;
-        double y1 = 10;
-        double x2 = 30;
-        double y2 = 20;
-
-        double[] result = Functions.findDalnUgol(x1, y1, x2, y2);
-
-        assertEquals(6017, result[0], DELTA);
-        assertEquals(1333, result[1], DELTA);
-    }
-
-    @Test
     public void analyzePuo_1() {
         Target target = new Target();
         target.setDistanceFromKNPtoTarget(2819);
