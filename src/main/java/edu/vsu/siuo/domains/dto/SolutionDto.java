@@ -1,6 +1,7 @@
 package edu.vsu.siuo.domains.dto;
 
 
+import edu.vsu.siuo.domains.enums.Direction;
 import lombok.Data;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class SolutionDto {
     private int deltaX;
 
     private int ps;
-    private String op;
+    private Direction op;
     private int vD;
 
     private int fDuOp;

@@ -412,7 +412,7 @@ public class Generate2 {
 
         solutionDto.setPs((int) analysisResult.getPs());
 
-        solutionDto.setOp(analysisResult.getOpDir());
+        solutionDto.setOp(analysisResult.getOpDirection());
 //        solutionDto.setVD((int) vd);
 
         if (analysisResult.getPs() > 500) {

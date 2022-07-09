@@ -4,6 +4,7 @@ import edu.vsu.siuo.domains.AnalysisResult;
 import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
+import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 
 import java.io.BufferedReader;
@@ -62,7 +63,7 @@ public class Functions {
 //        double angleFromONtoTarget = Math.atan(Math.abs(kat_y / kat_x));
         double angleFromONtoTarget; // угол между ОП с основным направлением стрельбы и целью
         if (kat_x == 0) {
-            angleFromONtoTarget = Math.toRadians(Math.PI/2);
+            angleFromONtoTarget = Math.toRadians(Math.PI / 2);
         } else {
             angleFromONtoTarget = Math.atan(Math.abs(kat_y / kat_x));
         }
@@ -113,8 +114,8 @@ public class Functions {
         analysisResult.setDovTop(dov_top);
 
         // ОП Слева или Справа ?
-        String op_dir = angleFromOPtoTarget > target.getAngleFromKNPtoTarget() ? "l" : "r";
-        analysisResult.setOpDir(op_dir);
+        Direction opDirection = angleFromOPtoTarget > target.getAngleFromKNPtoTarget() ? Direction.LEFT : Direction.RIGHT;
+        analysisResult.setOpDirection(opDirection);
 
 
         // сопряженка
@@ -145,9 +146,9 @@ public class Functions {
 
             // Позиция ОП при сопряженке
             if ((target.getAngleFromKNPtoTarget() < angleFromOPtoTarget && angleFromOPtoTarget < a_np_op_du) || (target.getAngleFromKNPtoTarget() > angleFromOPtoTarget && angleFromOPtoTarget > a_np_op_du)) {
-                analysisResult.setOpDirSopryzh("Посередине");
+                analysisResult.setOpDirSopryzh(Direction.MIDDLE);
             } else {
-                analysisResult.setOpDirSopryzh(op_dir.equals("l") ? "Слева" : "Справа");
+                analysisResult.setOpDirSopryzh(opDirection);
             }
         }
 
