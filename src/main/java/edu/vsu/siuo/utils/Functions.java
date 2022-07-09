@@ -1,6 +1,9 @@
 package edu.vsu.siuo.utils;
 
 import edu.vsu.siuo.domains.AnalysisResult;
+import edu.vsu.siuo.domains.OP;
+import edu.vsu.siuo.domains.ObjectPosition;
+import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.enums.Powers;
 
 import java.io.BufferedReader;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Functions {
 
@@ -53,57 +57,63 @@ public class Functions {
         double dt = Math.sqrt(kat_x * kat_x + kat_y * kat_y);
         int dal = (int) dt;
 
-        // доворот, пс
-        if (kat_x == 0) kat_x = 0.0000000001; // скрываем ошибку (на ноль делить нельзя)
-        double rumb = Math.atan(Math.abs(kat_y / kat_x));
+//        // доворот, пс
+//        if (kat_x == 0) kat_x = 0.0000000001; // скрываем ошибку (на ноль делить нельзя)
+//        double angleFromONtoTarget = Math.atan(Math.abs(kat_y / kat_x));
+        double angleFromONtoTarget; // угол между ОП с основным направлением стрельбы и целью
+        if (kat_x == 0) {
+            angleFromONtoTarget = Math.toRadians(Math.PI/2);
+        } else {
+            angleFromONtoTarget = Math.atan(Math.abs(kat_y / kat_x));
+        }
 
         double a;
 
         if (kat_x > 0 && kat_y > 0) {
-            a = rumb;
+            a = angleFromONtoTarget;
         } else if (kat_x < 0 && kat_y > 0) {
-            a = Math.PI - rumb;
+            a = Math.PI - angleFromONtoTarget;
         } else if (kat_x < 0 && kat_y < 0) {
-            a = Math.PI + rumb;
+            a = Math.PI + angleFromONtoTarget;
         } else {
-            a = 2 * Math.PI - rumb;
+            a = 2 * Math.PI - angleFromONtoTarget;
         }
 
         double a_du = converseToDelAngle(a);
 
-        return new double[]{dal, a_du};
+        return new double[]{dal, a_du}; //дальность топографическая между двумя точками, a_du угол (в делениях угломера) между основным направлением и целью
     }
 
-    public static AnalysisResult analyzePuo(double dk, double ak, double knp_x, double knp_y, Double np_x, Double np_y, double op_x, double op_y, double on) {
+    public static AnalysisResult analyzePuo(Target target, ObjectPosition knp, Double np_x, Double np_y, OP op) {
 
         AnalysisResult analysisResult = new AnalysisResult();
 
         // перевод из дел.угломера в радианы
-        double ugol_rad = converseToRad(ak);
+        double angleFromKNPtoTargetRadians = converseToRad(target.getAngleFromKNPtoTarget());
 
         // катеты КНП - Цель
-        double kat_knp_x = dk * Math.cos(ugol_rad);
-        double kat_knp_y = dk * Math.sin(ugol_rad);
+        double kat_knp_x = target.getDistanceFromKNPtoTarget() * Math.cos(angleFromKNPtoTargetRadians); // расстояние по X между КНП и целью
+        double kat_knp_y = target.getDistanceFromKNPtoTarget() * Math.sin(angleFromKNPtoTargetRadians);// расстояние по Y между КНП и целью
 
         // координаты X и Y цели
-        double cel_x = knp_x + kat_knp_x;
+        double cel_x = knp.getX() + kat_knp_x;
+        double cel_y = knp.getY() + kat_knp_y;
         analysisResult.setCelX(cel_x);
-        double cel_y = knp_y + kat_knp_y;
         analysisResult.setCelY(cel_y);
 
-        double[] daln_ugol = findDalnUgol(cel_x, cel_y, op_x, op_y);
-        double dal_top = daln_ugol[0];
-        analysisResult.setDalTop(dal_top);
-        double a_knp_op_du = daln_ugol[1];
+        double[] daln_ugol = findDalnUgol(cel_x, cel_y, op.getX(), op.getY()); //расстояние и угол (в делениях угломера) между ОП и целью
+        double distanceFromOPtoTarget = daln_ugol[0];
+        double angleFromOPtoTarget = daln_ugol[1];
+        analysisResult.setDalTop(distanceFromOPtoTarget);
 
-        double ps = Math.abs(a_knp_op_du - ak);
+        double ps = Math.abs(angleFromOPtoTarget - target.getAngleFromKNPtoTarget());
         analysisResult.setPs(ps);
 
-        double dov_top = a_knp_op_du - on;
+        double dov_top = angleFromOPtoTarget - op.getMainDirection();
         analysisResult.setDovTop(dov_top);
 
         // ОП Слева или Справа ?
-        String op_dir = a_knp_op_du > ak ? "l" : "r";
+        String op_dir = angleFromOPtoTarget > target.getAngleFromKNPtoTarget() ? "l" : "r";
         analysisResult.setOpDir(op_dir);
 
 
@@ -113,28 +123,28 @@ public class Functions {
             double dal_np = daln_ugol[0];
             double a_np_op_du = daln_ugol[1];
 
-            double alfa_np = Math.abs(a_np_op_du - a_knp_op_du);
+            double alfa_np = Math.abs(a_np_op_du - angleFromOPtoTarget);
             analysisResult.setAlfaNp(alfa_np);
 
-            double gamma = Math.abs(a_np_op_du - ak);
+            double gamma = Math.abs(a_np_op_du - target.getAngleFromKNPtoTarget());
             analysisResult.setGamma(gamma);
 
 
-            if (ak > a_np_op_du) {
-                analysisResult.setDpL(dk);
+            if (target.getAngleFromKNPtoTarget() > a_np_op_du) {
+                analysisResult.setDpL(target.getDistanceFromKNPtoTarget());
                 analysisResult.setApL(ps);
                 analysisResult.setDpR(dal_np);
                 analysisResult.setApR(alfa_np);
             } else {
                 analysisResult.setDpL(dal_np);
                 analysisResult.setApL(alfa_np);
-                analysisResult.setDpR(dk);
+                analysisResult.setDpR(target.getDistanceFromKNPtoTarget());
                 analysisResult.setApR(ps);
             }
 
 
             // Позиция ОП при сопряженке
-            if ((ak < a_knp_op_du && a_knp_op_du < a_np_op_du) || (ak > a_knp_op_du && a_knp_op_du > a_np_op_du)) {
+            if ((target.getAngleFromKNPtoTarget() < angleFromOPtoTarget && angleFromOPtoTarget < a_np_op_du) || (target.getAngleFromKNPtoTarget() > angleFromOPtoTarget && angleFromOPtoTarget > a_np_op_du)) {
                 analysisResult.setOpDirSopryzh("Посередине");
             } else {
                 analysisResult.setOpDirSopryzh(op_dir.equals("l") ? "Слева" : "Справа");
@@ -195,10 +205,10 @@ public class Functions {
             right.putAll(d.get(2));
         }
 
-        List<Double> ret = left.keySet().stream().filter(grp -> !grp.equals("D")).mapToDouble(grp -> left.get(grp) +
-                (right.get(grp) - left.get(grp)) *
-                        (strD - left.get("D")) /
-                        (right.get("D") - left.get("D"))).boxed().collect(Collectors.toList());
+        List<Double> ret = Stream
+                .of("dD", "dd")
+                .map(grp -> left.get(grp) + (right.get(grp) - left.get(grp)) * (strD - left.get("D")) / (right.get("D") - left.get("D")))
+                .collect(Collectors.toList());
 
         IntStream.range(0, ret.size() - 1).forEach(i -> ret.set(i, (double) Math.round(ret.get(i))));
 
