@@ -145,7 +145,7 @@ public class Generate2 {
 
         // fixme try generate again
 
-        if (analysisResult.getPs() <=580 || analysisResult.getDovTop() >= 380 || analysisResult.getDovTop() <= -380 || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
+        if (analysisResult.getDalTop() < 3000 || analysisResult.getPs() <=580 || analysisResult.getDovTop() >= 380 || analysisResult.getDovTop() <= -380 || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
             return generateConditionsForTask();
         }
 
