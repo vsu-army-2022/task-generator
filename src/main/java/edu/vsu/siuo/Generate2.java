@@ -81,7 +81,7 @@ public class Generate2 {
         int angularMagnitude_target = (rand(0, 1) == 1 ? 1 : -1) * rand(1, 20); //угловая величина от низа цели, до ее верха (при наблюдении с кнп)
 
         // генерируем характер цели;
-        Targets targetType = Targets.values()[rand(0, Targets.values().length)];
+        Targets targetType = Targets.values()[rand(0, Targets.values().length-1)];
 
         int angleFromKNPtoTarget = 0;
 
