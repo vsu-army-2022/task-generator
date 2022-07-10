@@ -9,6 +9,8 @@ import com.spire.doc.documents.VerticalAlignment;
 import com.spire.doc.fields.TextRange;
 import edu.vsu.siuo.domains.dto.TaskDto;
 
+import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,9 +30,8 @@ public class WordManager {
         new File(fileName);
     }
 
-    public void Write(List<TaskDto> taskDtos){
+    public void Write(List<TaskDto> taskDtos) {
         for (TaskDto taskDto : taskDtos) {
-
             Section sec = this.document.addSection();
             //add a paragraph
             Paragraph paragraph = sec.addParagraph();
@@ -44,15 +45,15 @@ public class WordManager {
 
             //формат для плюсов и минусов доделать
             tr = paragraph.appendText(String.format("Батарея 122мм гаубицы Д-30 занимает боевой порядок:\n" +
-                    "ОП:  \tХ = %d; \tУ = %d; \th = %d м («Дон»)\n" +
-                    "КНП: \tХ = %d; \tУ = %d; \th = %d м («Амур»)\n" +
-                    "КНП адн: Х = %d; У = %d; \th = %d м («Лена»)\n" +
-                    "α он = %d-00\n" +
-                    "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
-                    "В дальности: %d; %d; %d. В направлении: %d; %d; %d.\n" +
-                    "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «радиолокационная станция полевой артиллерии». Дивизионный: αц = 8-66, Дк = 2201, εц = +0-09. Подавить! Я «Лена».\n" +
-                    "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
-                    "1) Л77, «-»; 2) П42, «+»; 3) П18, «+»; 4) П20, Все «+», Фр. 0-06; 5) П11, Преобладание «+», Фр. 0-12; 6) Цель подавлена. \n",
+                            "ОП:  \tХ = %d; \tУ = %d; \th = %d м («Дон»)\n" +
+                            "КНП: \tХ = %d; \tУ = %d; \th = %d м («Амур»)\n" +
+                            "КНП адн: Х = %d; У = %d; \th = %d м («Лена»)\n" +
+                            "α он = %d-00\n" +
+                            "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
+                            "В дальности: %d; %d; %d. В направлении: %d; %d; %d.\n" +
+                            "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «радиолокационная станция полевой артиллерии». Дивизионный: αц = 8-66, Дк = 2201, εц = +0-09. Подавить! Я «Лена».\n" +
+                            "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
+                            "1) Л77, «-»; 2) П42, «+»; 3) П18, «+»; 4) П20, Все «+», Фр. 0-06; 5) П11, Преобладание «+», Фр. 0-12; 6) Цель подавлена. \n",
                     taskDto.getProblemDto().getOp().getX(), taskDto.getProblemDto().getOp().getY(), taskDto.getProblemDto().getOp().getH(),
                     taskDto.getProblemDto().getKnp().getX(), taskDto.getProblemDto().getKnp().getY(), taskDto.getProblemDto().getKnp().getH(),
                     taskDto.getProblemDto().getKnp().getX(), taskDto.getProblemDto().getKnp().getY(), taskDto.getProblemDto().getKnp().getH(),
@@ -88,15 +89,15 @@ public class WordManager {
                         taskDto.getSolutionDto().getCommands().get(i).getDescription(),
                         taskDto.getSolutionDto().getCommands().get(i).getPR() != 0 ?
                                 taskDto.getSolutionDto().getCommands().get(i).getPR() > 0 ?
-                                        String.format("+%d",taskDto.getSolutionDto().getCommands().get(i).getPR()):
-                                        String.format("%d",taskDto.getSolutionDto().getCommands().get(i).getPR())
+                                        String.format("+%d", taskDto.getSolutionDto().getCommands().get(i).getPR()) :
+                                        String.format("%d", taskDto.getSolutionDto().getCommands().get(i).getPR())
                                 : "",
                         taskDto.getSolutionDto().getCommands().get(i).getYR() != 0 ?
                                 String.format("%s-%s",
-                                        String.format("%s", taskDto.getSolutionDto().getCommands().get(i).getYR()).substring(0,2),
-                                        String.format("%s", taskDto.getSolutionDto().getCommands().get(i).getYR()).substring(2,4)
+                                        String.format("%s", taskDto.getSolutionDto().getCommands().get(i).getYR()).substring(0, 2),
+                                        String.format("%s", taskDto.getSolutionDto().getCommands().get(i).getYR()).substring(2, 4)
                                 ) : "",
-                        taskDto.getSolutionDto().getCommands().get(i).getDe() != "" ? taskDto.getSolutionDto().getCommands().get(i).getDe() :"",
+                        taskDto.getSolutionDto().getCommands().get(i).getDe() != "" ? taskDto.getSolutionDto().getCommands().get(i).getDe() : "",
                         taskDto.getSolutionDto().getCommands().get(i).getObservation() != "" ?
                                 taskDto.getSolutionDto().getCommands().get(i).getObservation() : ""
                 });
@@ -109,9 +110,7 @@ public class WordManager {
             //Set the first row as table header
             TableRow row = table.getRows().get(0);
             row.isHeader(true);
-//            row.setHeight(20);
             row.setHeightType(TableRowHeightType.Auto);
-//        row.getRowFormat().setBackColor(Color.gray);
             for (int i = 0; i < header.length; i++) {
                 row.getCells().get(i).getCellFormat().setVerticalAlignment(VerticalAlignment.Middle);
                 Paragraph p = row.getCells().get(i).addParagraph();
@@ -119,42 +118,38 @@ public class WordManager {
                 TextRange txtRange = p.appendText(header[i]);
                 txtRange.getCharacterFormat().setBold(true);
             }
-            table.get(0,0).setWidth(0.5f);
-            table.get(0,1).setWidth(8f);
 
+            table.setPreferredWidth(new PreferredWidth(WidthType.Percentage, (short) 100));
             //Add data to the rest of rows
             for (int r = 0; r < data.size(); r++) {
-                table.get(r+1,0).setWidth(0.5f);
-                table.get(r+1,1).setWidth(8f);
+                table.get(r+1, 0).setCellWidth(0.03f, CellWidthType.Percentage);
+                table.get(r+1, 1).setCellWidth(0.45f, CellWidthType.Percentage);
+                table.get(r+1, 2).setCellWidth(0.06f, CellWidthType.Percentage);
+                table.get(r+1, 3).setCellWidth(0.09f, CellWidthType.Percentage);
+                table.get(r+1, 4).setCellWidth(0.15f, CellWidthType.Percentage);
+                table.get(r+1, 5).setCellWidth(0.25f, CellWidthType.Percentage);
                 TableRow dataRow = table.getRows().get(r + 1);
-//                dataRow.setHeight(25);
                 dataRow.setHeightType(TableRowHeightType.Auto);
-//            dataRow.getRowFormat().setBackColor(Color.GRAY);
                 for (int c = 0; c < data.get(r).length; c++) {
                     dataRow.getCells().get(c).getCellFormat().setVerticalAlignment(VerticalAlignment.Middle);
                     dataRow.getCells().get(c).addParagraph().appendText(data.get(r)[c]);
 
                 }
-                table.get(r+1,0).setWidth(0.5f);
-                table.get(r+1,1).setWidth(8f);
-
-
             }
         }
         //save
-        this.document.saveToFile(path+'\\'+fileName, FileFormat.Docx);
+        this.document.saveToFile(path + '\\' + fileName, FileFormat.Docx);
     }
 
     public static String GenerateNameFile(String taskTopic) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy hh-mm");
-        String text = dtf.format( LocalDateTime.now() );
-        String fileName = String.format("%s %s.docx", taskTopic, text);
-        return fileName;
+        String text = dtf.format(LocalDateTime.now());
+        return String.format("%s %s.docx", taskTopic, text);
     }
 
-    public String getFormatTimeNow(){
+    public String getFormatTimeNow() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy hh-mm");
-        return dtf.format( LocalDateTime.now() );
+        return dtf.format(LocalDateTime.now());
     }
 
 }
