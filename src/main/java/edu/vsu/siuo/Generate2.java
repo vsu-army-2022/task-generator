@@ -228,67 +228,9 @@ public class Generate2 {
             zaryd = (rand(0, 1) == 1 ? Powers.Reduced : Powers.Full);
         }
 
+        Map<Integer, ShotDto> shot = generateShot(target);
 
-        List<Types> gen_n = Types.getNoEmptyTypes();
 
-        // генерируем наблюдения
-        Map<Integer, ShotDto> shot = new HashMap<>();
-
-        shot.put(0, new ShotDto());
-        shot.put(1, new ShotDto());
-        shot.put(2, new ShotDto());
-
-        if (target.getTargetsDepth() < 100) {
-            shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
-            shot.get(0).setType(gen_n.get(rand(1, 2)));
-
-            shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
-            shot.get(1).setType(shot.get(0).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N);
-
-            shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
-            shot.get(2).setType(gen_n.get(rand(1, 2)));
-        } else {
-            shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
-            shot.get(0).setType(gen_n.get(rand(0, 2)));
-
-            shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
-            shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
-
-            if (shot.get(0).getType() == Types.XZ) {
-                shot.get(1).setType(gen_n.get(rand(1, 2)));
-                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
-            } else {
-                shot.get(1).setType(shot.get(0).getType() == Types.ONE_P ? Types.ONE_P : Types.ONE_N);
-                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
-            }
-        }
-
-        shot.put(3, new ShotDto());
-        shot.get(3).setA((rand(0, 1) == 1 ? 1 : -1) * rand(5, 21));
-        shot.get(3).setType(gen_n.get(rand(3, 4)));
-
-        shot.put(4, new ShotDto());
-
-        if (target.getTargetsFrontDu() == 0) {
-            shot.get(3).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget()))); // rand(round(40*1000/distanceFromKNPtoTarget),round(280*1000/distanceFromKNPtoTarget));
-            shot.get(4).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
-        } else {
-            if (target.getTargetsFrontDu() < 120) {
-                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(90 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(120 * 1000 / target.getDistanceFromKNPtoTarget())));
-            } else {
-                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(140 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(190 * 1000 / target.getDistanceFromKNPtoTarget())));
-            }
-            shot.get(4).setF(target.getTargetsFrontDu() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
-        }
-
-        if (target.getTargetsDepth() < 100) {
-            shot.get(4).setType(gen_n.get(rand(5, 6)));
-        } else {
-            shot.get(4).setType(gen_n.get(rand(7, 8)));
-        }
-        shot.get(4).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
-
-        // result
         ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, shot, kc, muD, shu100);
 
         conditionsDto.setPower(zaryd);
