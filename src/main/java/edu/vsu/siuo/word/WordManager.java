@@ -119,9 +119,13 @@ public class WordManager {
                 TextRange txtRange = p.appendText(header[i]);
                 txtRange.getCharacterFormat().setBold(true);
             }
+            table.get(0,0).setWidth(0.5f);
+            table.get(0,1).setWidth(8f);
 
             //Add data to the rest of rows
             for (int r = 0; r < data.size(); r++) {
+                table.get(r+1,0).setWidth(0.5f);
+                table.get(r+1,1).setWidth(8f);
                 TableRow dataRow = table.getRows().get(r + 1);
 //                dataRow.setHeight(25);
                 dataRow.setHeightType(TableRowHeightType.Auto);
@@ -131,6 +135,10 @@ public class WordManager {
                     dataRow.getCells().get(c).addParagraph().appendText(data.get(r)[c]);
 
                 }
+                table.get(r+1,0).setWidth(0.5f);
+                table.get(r+1,1).setWidth(8f);
+
+
             }
         }
         //save

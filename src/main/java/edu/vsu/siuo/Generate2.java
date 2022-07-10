@@ -465,7 +465,7 @@ target.setAngularMagnitude_target(angularMagnitude_target);
         List<SolutionDto.TaskCommand> commands = new ArrayList<>();
 
         SolutionDto.TaskCommand firstCommand = new SolutionDto.TaskCommand();
-        firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load + ". Шкала тысячных, основному 1 сн. Огонь!");
+        firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType().getDescription() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load.getDescription() + ". Шкала тысячных, основному 1 сн. Огонь!");
         firstCommand.setPR((int) pric);
         firstCommand.setYR((int) urov);
         firstCommand.setDe("ОН\t" + angDash(dov_isch));
@@ -605,7 +605,7 @@ target.setAngularMagnitude_target(angularMagnitude_target);
         }
 
         SolutionDto.TaskCommand lastCommand = new SolutionDto.TaskCommand();
-        lastCommand.setDescription("Стой, записать! Цель 21, «" + target.getType() + "». «Лена»! «Амур» стрельбу по цели 21 закончил. Расход " + rashod + ". Я «Амур».");
+        lastCommand.setDescription("Стой, записать! Цель 21, «" + target.getType().getDescription() + "». «Лена»! «Амур» стрельбу по цели 21 закончил. Расход " + rashod + ". Я «Амур».");
         commands.add(lastCommand);
 
         solutionDto.setCommands(commands);
