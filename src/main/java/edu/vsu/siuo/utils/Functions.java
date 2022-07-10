@@ -1,9 +1,6 @@
 package edu.vsu.siuo.utils;
 
-import edu.vsu.siuo.domains.AnalysisResult;
-import edu.vsu.siuo.domains.OP;
-import edu.vsu.siuo.domains.ObjectPosition;
-import edu.vsu.siuo.domains.Target;
+import edu.vsu.siuo.domains.*;
 import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Types;
@@ -206,36 +203,56 @@ public class Functions {
      * @param strD Дальность до цели
      * @return Список, содержащий дальность [0] и доворот [1] исчисленные
      */
-    public static List<Double> grpCount(Map<Integer, Map<String, Integer>> grp, double strD) {
+    public static List<Double> grpCount(GRP grp, double strD) {
         //Вычисление исчисленных опорных дальностей
 
 
-        // create deep copy of map
-        Map<Integer, Map<String, Integer>> grpCopy = new HashMap<>();
+//        // create deep copy of map
+//        Map<Integer, Map<String, Integer>> grpCopy = new HashMap<>();
+//
+//        for (int key : grp.keySet()) {
+//            grpCopy.put(key, new HashMap<>());
+//            for (String key2 : grp.get(key).keySet()) {
+//                int value2 = grp.get(key).get(key2);
+//                grpCopy.get(key).put(key2, value2);
+//            }
+//        }
+        grp.setDistance_1(grp.getDistance_1() - grp.getDifDistance_1());
+        grp.setDistance_2(grp.getDistance_2() - grp.getDifDistance_2());
+        grp.setDistance_3(grp.getDistance_3() - grp.getDifDistance_3());
 
-        for (int key : grp.keySet()) {
-            grpCopy.put(key, new HashMap<>());
-            for (String key2 : grp.get(key).keySet()) {
-                int value2 = grp.get(key).get(key2);
-                grpCopy.get(key).put(key2, value2);
-            }
-        }
-
-
-        grpCopy.forEach((key, value) -> grpCopy.get(key).replace("D", grpCopy.get(key).get("D") - grpCopy.get(key).get("dD")));
+//
+//        grpCopy.forEach((key, value) -> grpCopy.get(key).replace("D", grpCopy.get(key).get("D") - grpCopy.get(key).get("dD")));
 
 
         Map<String, Integer> left = new HashMap<>();
         Map<String, Integer> right = new HashMap<>();
 
         // Вычисление промежутка, в котором находится цель, между двумя опорными дальностями
-        if (strD < grpCopy.get(1).get("D")) {
-            left.putAll(grpCopy.get(0));
-            right.putAll(grpCopy.get(1));
+
+        if (strD < grp.getDifDistance_2()) {
+            left.put("D", grp.getDistance_1());
+            left.put("dD", grp.getDifDistance_1());
+            left.put("dd", grp.getTurn_1());
+            right.put("D", grp.getDistance_2());
+            right.put("dD", grp.getDifDistance_2());
+            right.put("dd", grp.getTurn_2());
         } else {
-            left.putAll(grpCopy.get(1));
-            right.putAll(grpCopy.get(2));
+            left.put("D", grp.getDistance_2());
+            left.put("dD", grp.getDifDistance_2());
+            left.put("dd", grp.getTurn_2());
+            right.put("D", grp.getDistance_3());
+            right.put("dD", grp.getDifDistance_3());
+            right.put("dd", grp.getTurn_3());
         }
+
+//        if (strD < grpCopy.get(1).get("D")) {
+//            left.putAll(grpCopy.get(0));
+//            right.putAll(grpCopy.get(1));
+//        } else {
+//            left.putAll(grpCopy.get(1));
+//            right.putAll(grpCopy.get(2));
+//        }
 
         // Расчет исчисленных дальности и доворота до цели
         List<Double> ret = Stream

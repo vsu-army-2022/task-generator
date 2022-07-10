@@ -1,9 +1,6 @@
 package edu.vsu.siuo;
 
-import edu.vsu.siuo.domains.AnalysisResult;
-import edu.vsu.siuo.domains.OP;
-import edu.vsu.siuo.domains.ObjectPosition;
-import edu.vsu.siuo.domains.Target;
+import edu.vsu.siuo.domains.*;
 import edu.vsu.siuo.domains.dto.ConditionsDto;
 import edu.vsu.siuo.domains.dto.ShotDto;
 import edu.vsu.siuo.domains.dto.SolutionDto;
@@ -129,7 +126,7 @@ public class Generate2 {
         target.setTargetsFrontDu(targetsFrontDu);
         target.setAngleFromKNPtoTarget(angleFromKNPtoTarget);
         target.setDistanceFromKNPtoTarget(distanceFromKNPtoTarget);
-target.setAngularMagnitude_target(angularMagnitude_target);
+        target.setAngularMagnitude_target(angularMagnitude_target);
         return target;
     }
 
@@ -147,52 +144,50 @@ target.setAngularMagnitude_target(angularMagnitude_target);
         AnalysisResult analysisResult = analyzePuo(target, knp, null, null, op);
 
         // fixme try generate again
-//        if (analysisResult.getPs() <=580 || analysisResult.getDovTop() >= 380
-//                || analysisResult.getDovTop() <= -380
-//                || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
-//            return generateConditionsForTask();
-//        }
+
         if (analysisResult.getPs() <=580 || analysisResult.getDovTop() >= 380 || analysisResult.getDovTop() <= -380 || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
             return generateConditionsForTask();
         }
 
-        // генерируем ГРП
-        Map<Integer, Map<String, Integer>> grp = new HashMap<>();
-        grp.put(0, new HashMap<>());
-        grp.put(1, new HashMap<>());
-        grp.put(2, new HashMap<>());
+//        // генерируем ГРП
+//        Map<Integer, Map<String, Integer>> grp = new HashMap<>();
+//        grp.put(0, new HashMap<>());
+//        grp.put(1, new HashMap<>());
+//        grp.put(2, new HashMap<>());
+//
+//        // дальность
+//        //todo check it
+//        // берем первый разряд dal_top и прибавляем rand(0, 1)
+//        grp.get(1).put("D", ((int) analysisResult.getDalTop()) / 1000 + rand(0, 1));
+//        grp.get(0).put("D", grp.get(1).get("D") - 2);
+//        grp.get(2).put("D", grp.get(1).get("D") + 2);
+//
+//        for (int i = 0; i < 3; i++) {
+//            // todo check it
+//            grp.get(i).put("D", grp.get(i).get("D") * 1000);
+//        }
+//
+//        if (rand(0, 1) == 1) { // поправка на дальность
+//            grp.get(0).put("dD", rand(43, 260));
+//            grp.get(1).put("dD", grp.get(0).get("dD") + rand(90, 180));
+//            grp.get(2).put("dD", grp.get(1).get("dD") + rand(90, 180));
+//        } else {
+//            grp.get(0).put("dD", rand(-43, -260));
+//            grp.get(1).put("dD", grp.get(0).get("dD") + rand(-60, -150));
+//            grp.get(2).put("dD", grp.get(1).get("dD") + rand(-60, -150));
+//        }
+//
+//        if (rand(0, 1) == 1) {  // доворот
+//            grp.get(0).put("dd", rand(3, 15));
+//            grp.get(1).put("dd", grp.get(0).get("dd") + rand(2, 8));
+//            grp.get(2).put("dd", grp.get(1).get("dd") + rand(2, 8));
+//        } else {
+//            grp.get(0).put("dd", rand(-3, -15));
+//            grp.get(1).put("dd", grp.get(0).get("dd") + rand(-2, -8));
+//            grp.get(2).put("dd", grp.get(1).get("dd") + rand(-2, -8));
+//        }
 
-        // дальность
-        //todo check it
-        // берем первый разряд dal_top и прибавляем rand(0, 1)
-        grp.get(1).put("D", ((int) analysisResult.getDalTop()) / 1000 + rand(0, 1));
-        grp.get(0).put("D", grp.get(1).get("D") - 2);
-        grp.get(2).put("D", grp.get(1).get("D") + 2);
-
-        for (int i = 0; i < 3; i++) {
-            // todo check it
-            grp.get(i).put("D", grp.get(i).get("D") * 1000);
-        }
-
-        if (rand(0, 1) == 1) { // поправка на дальность
-            grp.get(0).put("dD", rand(43, 260));
-            grp.get(1).put("dD", grp.get(0).get("dD") + rand(90, 180));
-            grp.get(2).put("dD", grp.get(1).get("dD") + rand(90, 180));
-        } else {
-            grp.get(0).put("dD", rand(-43, -260));
-            grp.get(1).put("dD", grp.get(0).get("dD") + rand(-60, -150));
-            grp.get(2).put("dD", grp.get(1).get("dD") + rand(-60, -150));
-        }
-
-        if (rand(0, 1) == 1) {  // доворот
-            grp.get(0).put("dd", rand(3, 15));
-            grp.get(1).put("dd", grp.get(0).get("dd") + rand(2, 8));
-            grp.get(2).put("dd", grp.get(1).get("dd") + rand(2, 8));
-        } else {
-            grp.get(0).put("dd", rand(-3, -15));
-            grp.get(1).put("dd", grp.get(0).get("dd") + rand(-2, -8));
-            grp.get(2).put("dd", grp.get(1).get("dd") + rand(-2, -8));
-        }
+        GRP grp = new GRP((int) analysisResult.getDalTop());
 
         double ku = 0, shu = 0;
 
@@ -299,13 +294,13 @@ target.setAngularMagnitude_target(angularMagnitude_target);
 
         conditionsDto.setPower(zaryd);
 
-        List<Integer> distance = List.of(grp.get(0).get("D") / 1000, grp.get(1).get("D") / 1000, grp.get(2).get("D") / 1000);
+        List<Integer> distance = List.of(grp.getDistance_1() / 1000, grp.getDistance_2() / 1000, grp.getDistance_3() / 1000);
         conditionsDto.setDistance(distance);
 
-        List<Integer> range = List.of(grp.get(0).get("dD"), grp.get(1).get("dD"), grp.get(2).get("dD"));
+        List<Integer> range = List.of(grp.getDifDistance_1(), grp.getDifDistance_2(), grp.getDifDistance_3());
         conditionsDto.setRange(range);
 
-        List<Integer> direction = List.of(grp.get(0).get("dd"), grp.get(1).get("dd"), grp.get(2).get("dd"));
+        List<Integer> direction = List.of(grp.getTurn_1(), grp.getTurn_2(), grp.getTurn_3());
         conditionsDto.setDirection(direction);
 
         conditionsDto.setTarget(target);
