@@ -60,7 +60,7 @@ public class WordManager {
                     taskDto.getProblemDto().getPower().getDescription(),
                     taskDto.getProblemDto().getDistance().get(0), taskDto.getProblemDto().getDistance().get(1), taskDto.getProblemDto().getDistance().get(2),
                     taskDto.getProblemDto().getRange().get(0), taskDto.getProblemDto().getRange().get(1), taskDto.getProblemDto().getRange().get(2),
-                    taskDto.getProblemDto().getDistance().get(0), taskDto.getProblemDto().getDistance().get(1), taskDto.getProblemDto().getDistance().get(2)
+                    taskDto.getProblemDto().getDirection().get(0), taskDto.getProblemDto().getDirection().get(1), taskDto.getProblemDto().getDirection().get(2)
 
             ));
             tr.getCharacterFormat().setFontSize(12);
@@ -109,8 +109,8 @@ public class WordManager {
             //Set the first row as table header
             TableRow row = table.getRows().get(0);
             row.isHeader(true);
-            row.setHeight(20);
-            row.setHeightType(TableRowHeightType.Exactly);
+//            row.setHeight(20);
+            row.setHeightType(TableRowHeightType.Auto);
 //        row.getRowFormat().setBackColor(Color.gray);
             for (int i = 0; i < header.length; i++) {
                 row.getCells().get(i).getCellFormat().setVerticalAlignment(VerticalAlignment.Middle);
@@ -123,12 +123,13 @@ public class WordManager {
             //Add data to the rest of rows
             for (int r = 0; r < data.size(); r++) {
                 TableRow dataRow = table.getRows().get(r + 1);
-                dataRow.setHeight(25);
-                dataRow.setHeightType(TableRowHeightType.Exactly);
+//                dataRow.setHeight(25);
+                dataRow.setHeightType(TableRowHeightType.Auto);
 //            dataRow.getRowFormat().setBackColor(Color.GRAY);
                 for (int c = 0; c < data.get(r).length; c++) {
                     dataRow.getCells().get(c).getCellFormat().setVerticalAlignment(VerticalAlignment.Middle);
                     dataRow.getCells().get(c).addParagraph().appendText(data.get(r)[c]);
+
                 }
             }
         }

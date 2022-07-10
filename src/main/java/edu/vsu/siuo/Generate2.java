@@ -165,7 +165,7 @@ target.setAngularMagnitude_target(angularMagnitude_target);
         // дальность
         //todo check it
         // берем первый разряд dal_top и прибавляем rand(0, 1)
-        grp.get(1).put("D", ((int) analysisResult.getDovTop()) / 1000 + rand(0, 1));
+        grp.get(1).put("D", ((int) analysisResult.getDalTop()) / 1000 + rand(0, 1));
         grp.get(0).put("D", grp.get(1).get("D") - 2);
         grp.get(2).put("D", grp.get(1).get("D") + 2);
 
