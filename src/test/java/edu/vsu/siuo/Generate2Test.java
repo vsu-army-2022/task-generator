@@ -5,6 +5,7 @@ import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.dto.ConditionsDto;
 import edu.vsu.siuo.domains.dto.SolutionDto;
+import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Targets;
 import org.junit.jupiter.api.Disabled;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Generate2Test {
 
@@ -55,5 +58,20 @@ class Generate2Test {
 
 
         SolutionDto solutionDto = Generate2.generateSolution(conditionsDto);
+
+        assertEquals(5529, solutionDto.getDCt());
+        // deltaD?
+        assertEquals(5843, solutionDto.getDeCi());
+        assertEquals(350, solutionDto.getDeCt());
+        // ?
+        assertEquals(362, solutionDto.getDeCi());
+        assertEquals(38, solutionDto.getFDuOp());
+        assertEquals(186, solutionDto.getGCOp());
+        assertEquals(621, solutionDto.getPs());
+        assertEquals(Direction.LEFT, solutionDto.getOp());
+        assertEquals(21, solutionDto.getDeltaX());
+        assertEquals(14, solutionDto.getVD());
+
+
     }
 }
