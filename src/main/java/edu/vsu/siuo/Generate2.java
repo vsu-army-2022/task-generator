@@ -268,23 +268,20 @@ public class Generate2 {
 
     public static SolutionDto generateSolution(ConditionsDto conditionsDto) {
         SolutionDto solutionDto = new SolutionDto();
-        OP op = conditionsDto.getOp();
 
-        // todo change to enum
+        OP op = conditionsDto.getOp();
         Powers load = conditionsDto.getPower();
         Target target = conditionsDto.getTarget();
-
-        long fcdu_op = target.getTargetsDepth();
-        long gc_op = target.getTargetsFrontDu();
         ObjectPosition knp = conditionsDto.getKnp();
-
         Map<Integer, ShotDto> shot = conditionsDto.getShot();
-
-        int targetsFrontDu = target.getTargetsFrontDu();
-
         List<Integer> distance = conditionsDto.getDistance();
         List<Integer> range = conditionsDto.getRange();
         List<Integer> direction = conditionsDto.getDirection();
+
+        long fcdu_op = target.getTargetsDepth();
+        long gc_op = target.getTargetsFrontDu();
+        int targetsFrontDu = target.getTargetsFrontDu();
+
 
         // Добавляем ГРП
         GRP grp = new GRP();
@@ -493,10 +490,8 @@ public class Generate2 {
 
                 if (fr != null && koef_fr >= 1.5 && analysisResult.getPs() <= 500) { // если есть фронт разрыва
                     int veer_raz = (int) ((targetsFrontDu - fr) / 6 * ku);
-                    if (veer_raz < -0.99)
-                        komand = "Соединить к основному в " + modAngDash(veer_raz) + ". Огонь!";
-                    else if (veer_raz > 0.99)
-                        komand = "Разделить от основного в " + modAngDash(veer_raz) + ". Огонь!";
+                    if (veer_raz < -0.99) komand = "Соединить к основному в " + modAngDash(veer_raz) + ". Огонь!";
+                    else if (veer_raz > 0.99) komand = "Разделить от основного в " + modAngDash(veer_raz) + ". Огонь!";
                 }
 
                 rashod += 6 * uu * up * 2;
@@ -570,10 +565,6 @@ public class Generate2 {
         commands.add(lastCommand);
 
         solutionDto.setCommands(commands);
-
-        TaskDto taskDto = new TaskDto();
-        taskDto.setProblemDto(conditionsDto);
-        taskDto.setSolutionDto(solutionDto);
 
         return solutionDto;
     }
