@@ -24,26 +24,15 @@ public class ConditionsDto {
 
     private Map<Integer, ShotDto> shot;
 
-    double kc;
-    double muD;
-    double shu100;
-
-    private long gc_op;
-    private long fcdu_op;
-
-    // todo change to enum
     private Powers power;
     private List<Integer> distance;
     private List<Integer> range;
     private List<Integer> direction;
 
-    public ConditionsDto(OP op, ObjectPosition knp, Target target, Map<Integer, ShotDto> shot, double kc, double muD, double shu100) {
+    public ConditionsDto(OP op, ObjectPosition knp, Target target, Map<Integer, ShotDto> shot) {
         this.op = op;
         this.knp = knp;
         this.target = target;
         this.shot = shot;
-        this.kc = kc;
-        this.muD = muD;
-        this.shu100 = shu100;
     }
 }

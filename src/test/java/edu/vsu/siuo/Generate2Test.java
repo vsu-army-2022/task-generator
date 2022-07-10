@@ -45,7 +45,7 @@ class Generate2Test {
         knp.setH(41);
         conditionsDto.setKnp(knp);
 
-        conditionsDto.setPower(Powers.Power1);
+        conditionsDto.setPower(Powers.Power2);
         conditionsDto.setDistance(List.of(4, 6, 8));
         conditionsDto.setRange(List.of(196, 324, 415));
         conditionsDto.setDirection(List.of(6, 12, 16));
@@ -56,7 +56,7 @@ class Generate2Test {
         target.setAngularMagnitudeTarget(8);
         target.setTargetsFrontDu(64);
         target.setTargetsDepth(62);
-        target.setType(Targets.PU);
+        target.setType(Targets.PTUR);
 
         conditionsDto.setTarget(target);
 
@@ -72,17 +72,24 @@ class Generate2Test {
 
         assertEquals(5529, solutionDto.getDCt());
         // deltaD?
-        assertEquals(5843, solutionDto.getDeCi());
+        // assertEquals(5843, solutionDto.getDeCi());
         assertEquals(350, solutionDto.getDeCt());
         // ?
-        assertEquals(362, solutionDto.getDeCi());
-        assertEquals(38, solutionDto.getFDuOp());
-        assertEquals(186, solutionDto.getGCOp());
+        // assertEquals(362, solutionDto.getDeCi());
+        // assertEquals(38, solutionDto.getFDuOp());
+        // assertEquals(186, solutionDto.getGCOp());
         assertEquals(621, solutionDto.getPs());
         assertEquals(Direction.LEFT, solutionDto.getOp());
-        assertEquals(21, solutionDto.getDeltaX());
-        assertEquals(14, solutionDto.getVD());
+        // assertEquals(21, solutionDto.getDeltaX());
+        // assertEquals(14, solutionDto.getVD());
 
+        solutionDto.getCommands();
+
+        assertEquals("«Дон», стой! Цель 21, «птур в окопе». ОФ, Взрыватель «О». Заряд 2. Шкала тысячных, основному 1 сн. Огонь!", solutionDto.getCommands().get(0).getDescription());
+        // assertEquals(286, solutionDto.getCommands().get(0).getPR());
+        // assertEquals(3005, solutionDto.getCommands().get(0).getYR());
+        // assertEquals("ОН\t+1-25", solutionDto.getCommands().get(0).getDe());
+        // assertEquals("Л76, «+»", solutionDto.getCommands().get(0).getObservation());
 
     }
 }

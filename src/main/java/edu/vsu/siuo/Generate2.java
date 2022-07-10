@@ -231,7 +231,7 @@ public class Generate2 {
         Map<Integer, ShotDto> shot = generateShot(target);
 
 
-        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, shot, kc, muD, shu100);
+        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, shot);
 
         conditionsDto.setPower(zaryd);
 
@@ -263,9 +263,6 @@ public class Generate2 {
             target.setTargetsFrontDu((int) fcdu_op);
         }
 
-        conditionsDto.setGc_op(gc_op);
-        conditionsDto.setFcdu_op(fcdu_op);
-
         return conditionsDto;
     }
 
@@ -284,9 +281,6 @@ public class Generate2 {
         Map<Integer, ShotDto> shot = conditionsDto.getShot();
 
         int targetsFrontDu = target.getTargetsFrontDu();
-        double kc = conditionsDto.getKc();
-        double muD = conditionsDto.getMuD();
-        double shu100 = conditionsDto.getShu100();
 
         List<Integer> distance = conditionsDto.getDistance();
         List<Integer> range = conditionsDto.getRange();
@@ -392,6 +386,20 @@ public class Generate2 {
         }
 
         int rashod = 0;
+
+
+        double kc = 0;
+        double muD = 0;
+        double shu100 = 0;
+
+        if (analysisResult.getPs() > 500) {
+            double ps_rad = converseToRad(analysisResult.getPs());
+            double sin_pc = round(Math.sin(ps_rad), 2);
+            kc = round(Math.cos(ps_rad), 2);
+            muD = target.getDistanceFromKNPtoTarget() / 1000 * sin_pc;
+            shu100 = sin_pc * 100000 / analysisResult.getDalTop();
+        }
+
 
         solutionDto.setDCt((int) dalTop);
         solutionDto.setDeltaDCt((int) ddi);
