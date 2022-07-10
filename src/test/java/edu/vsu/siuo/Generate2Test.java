@@ -4,15 +4,19 @@ import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.dto.ConditionsDto;
+import edu.vsu.siuo.domains.dto.ShotDto;
 import edu.vsu.siuo.domains.dto.SolutionDto;
 import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Targets;
+import edu.vsu.siuo.domains.enums.Types;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,6 +60,13 @@ class Generate2Test {
 
         conditionsDto.setTarget(target);
 
+        Map<Integer, ShotDto> shot = new HashMap<>();
+        shot.put(0, new ShotDto(Types.ONE_P, +83));
+        shot.put(1, new ShotDto(Types.ONE_N, -32));
+        shot.put(2, new ShotDto(Types.ONE_N, -20));
+        shot.put(3, new ShotDto(Types.ALL_P, +5, 96));
+        shot.put(4, new ShotDto(Types.PRE_N, -7, 61));
+        conditionsDto.setShot(shot);
 
         SolutionDto solutionDto = Generate2.generateSolution(conditionsDto);
 

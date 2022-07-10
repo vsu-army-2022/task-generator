@@ -3,7 +3,6 @@ package edu.vsu.siuo.utils;
 import edu.vsu.siuo.domains.*;
 import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
-import edu.vsu.siuo.domains.enums.Types;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
