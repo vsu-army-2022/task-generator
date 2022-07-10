@@ -9,6 +9,7 @@ public final class Utils {
             min = max;
             max = tmp;
         }
+        max+=1;
         Random random = new Random();
         if (min < 0) {
             return random.nextInt(max + Math.abs(min)) - Math.abs(min);
