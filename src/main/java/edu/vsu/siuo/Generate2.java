@@ -12,7 +12,6 @@ import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Targets;
 import edu.vsu.siuo.domains.enums.Types;
-import lombok.Data;
 
 import java.util.*;
 
@@ -28,7 +27,7 @@ public class Generate2 {
 
         for (int i = 0; i < count; i++) {
             taskDtos.add(generateTask());
-            taskDtos.get(i).setTaskNumber(i+1);
+            taskDtos.get(i).setTaskNumber(i + 1);
             taskDtos.get(i).setTaskTopic(7);
         }
         return taskDtos;
@@ -61,20 +60,20 @@ public class Generate2 {
 
         int angleFromONtoKNP = 0;
 
-        if ( op.getMainDirection() > 5250 && op.getMainDirection() <= 6000 ) {
-            angleFromONtoKNP = rand(5300,5950);
+        if (op.getMainDirection() > 5250 && op.getMainDirection() <= 6000) {
+            angleFromONtoKNP = rand(5300, 5950);
         }
-        if ( op.getMainDirection() > 0 && op.getMainDirection() <= 750  ) {
-            angleFromONtoKNP = rand(100,700);
+        if (op.getMainDirection() > 0 && op.getMainDirection() <= 750) {
+            angleFromONtoKNP = rand(100, 700);
         }
-        if (op.getMainDirection() > 750 && op.getMainDirection() <= 2250 ) {
-            angleFromONtoKNP = rand(800,2200);
+        if (op.getMainDirection() > 750 && op.getMainDirection() <= 2250) {
+            angleFromONtoKNP = rand(800, 2200);
         }
-        if (op.getMainDirection() > 2250 && op.getMainDirection() <= 3750 ) {
-            angleFromONtoKNP = rand(2300,3700);
+        if (op.getMainDirection() > 2250 && op.getMainDirection() <= 3750) {
+            angleFromONtoKNP = rand(2300, 3700);
         }
-        if (op.getMainDirection() > 3750 && op.getMainDirection() <= 5250 ) {
-            angleFromONtoKNP = rand(3800,5200);
+        if (op.getMainDirection() > 3750 && op.getMainDirection() <= 5250) {
+            angleFromONtoKNP = rand(3800, 5200);
         }
 
         return generateKnp(op.getX(), op.getY(), distanceFromOPtoKNP, angleFromONtoKNP);
@@ -88,20 +87,20 @@ public class Generate2 {
 
         int angleFromKNPtoTarget = 0;
 
-        if ( op.getMainDirection() > 5250 && op.getMainDirection() <= 6000 ) {
-            angleFromKNPtoTarget = rand(5300,5950);
+        if (op.getMainDirection() > 5250 && op.getMainDirection() <= 6000) {
+            angleFromKNPtoTarget = rand(5300, 5950);
         }
-        if ( op.getMainDirection() > 0 && op.getMainDirection() <= 750  ) {
-            angleFromKNPtoTarget = rand(100,700);
+        if (op.getMainDirection() > 0 && op.getMainDirection() <= 750) {
+            angleFromKNPtoTarget = rand(100, 700);
         }
-        if (op.getMainDirection() > 750 && op.getMainDirection() <= 2250 ) {
-            angleFromKNPtoTarget = rand(800,2200);
+        if (op.getMainDirection() > 750 && op.getMainDirection() <= 2250) {
+            angleFromKNPtoTarget = rand(800, 2200);
         }
-        if (op.getMainDirection() > 2250 && op.getMainDirection() <= 3750 ) {
-            angleFromKNPtoTarget = rand(2300,3700);
+        if (op.getMainDirection() > 2250 && op.getMainDirection() <= 3750) {
+            angleFromKNPtoTarget = rand(2300, 3700);
         }
-        if (op.getMainDirection() > 3750 && op.getMainDirection() <= 5250 ) {
-            angleFromKNPtoTarget = rand(3800,5200);
+        if (op.getMainDirection() > 3750 && op.getMainDirection() <= 5250) {
+            angleFromKNPtoTarget = rand(3800, 5200);
         }
 
 //        int angleFromKNPtoTarget = Math.abs(op.getMainDirection() + (rand(0, 1) == 1 ? -1 : 1) * rand(50, 1450));
@@ -129,7 +128,7 @@ public class Generate2 {
         target.setTargetsFrontDu(targetsFrontDu);
         target.setAngleFromKNPtoTarget(angleFromKNPtoTarget);
         target.setDistanceFromKNPtoTarget(distanceFromKNPtoTarget);
-target.setAngularMagnitude_target(angularMagnitude_target);
+        target.setAngularMagnitudeTarget(angularMagnitude_target);
         return target;
     }
 
@@ -152,7 +151,7 @@ target.setAngularMagnitude_target(angularMagnitude_target);
 //                || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
 //            return generateConditionsForTask();
 //        }
-        if (analysisResult.getPs() <=580 || analysisResult.getDovTop() >= 380 || analysisResult.getDovTop() <= -380 || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
+        if (analysisResult.getPs() <= 580 || analysisResult.getDovTop() >= 380 || analysisResult.getDovTop() <= -380 || Math.abs(target.getAngleFromKNPtoTarget() - op.getMainDirection()) >= 750) {
             return generateConditionsForTask();
         }
 
@@ -295,7 +294,7 @@ target.setAngularMagnitude_target(angularMagnitude_target);
         shot.get(4).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
 
         // result
-        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, grp_count, shot, kc, muD, shu100);
+        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, kc, muD, shu100);
 
         conditionsDto.setPower(zaryd);
 
@@ -340,22 +339,102 @@ target.setAngularMagnitude_target(angularMagnitude_target);
         // todo change to enum
         Powers load = conditionsDto.getPower();
         Target target = conditionsDto.getTarget();
-        double ddi = conditionsDto.getGrp().get(0);
-        double dai = conditionsDto.getGrp().get(1);
+
         long fcdu_op = target.getTargetsDepth();
         long gc_op = target.getTargetsFrontDu();
         ObjectPosition knp = conditionsDto.getKnp();
-        Map<Integer, ShotDto> shot = conditionsDto.getShot();
+
+
+        List<Types> gen_n = Types.getNoEmptyTypes();
+
+        // генерируем наблюдения
+        Map<Integer, ShotDto> shot = new HashMap<>();
+
+        shot.put(0, new ShotDto());
+        shot.put(1, new ShotDto());
+        shot.put(2, new ShotDto());
+
+        if (target.getTargetsDepth() < 100) {
+            shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
+            shot.get(0).setType(gen_n.get(rand(1, 2)));
+
+            shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
+            shot.get(1).setType(shot.get(0).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N);
+
+            shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
+            shot.get(2).setType(gen_n.get(rand(1, 2)));
+        } else {
+            shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
+            shot.get(0).setType(gen_n.get(rand(0, 2)));
+
+            shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
+            shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
+
+            if (shot.get(0).getType() == Types.XZ) {
+                shot.get(1).setType(gen_n.get(rand(1, 2)));
+                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
+            } else {
+                shot.get(1).setType(shot.get(0).getType() == Types.ONE_P ? Types.ONE_P : Types.ONE_N);
+                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
+            }
+        }
+
+        shot.put(3, new ShotDto());
+        shot.get(3).setA((rand(0, 1) == 1 ? 1 : -1) * rand(5, 21));
+        shot.get(3).setType(gen_n.get(rand(3, 4)));
+
+        shot.put(4, new ShotDto());
+
+        if (target.getTargetsFrontDu() == 0) {
+            shot.get(3).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget()))); // rand(round(40*1000/distanceFromKNPtoTarget),round(280*1000/distanceFromKNPtoTarget));
+            shot.get(4).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+        } else {
+            if (target.getTargetsFrontDu() < 120) {
+                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(90 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(120 * 1000 / target.getDistanceFromKNPtoTarget())));
+            } else {
+                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(140 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(190 * 1000 / target.getDistanceFromKNPtoTarget())));
+            }
+            shot.get(4).setF(target.getTargetsFrontDu() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+        }
+
+        if (target.getTargetsDepth() < 100) {
+            shot.get(4).setType(gen_n.get(rand(5, 6)));
+        } else {
+            shot.get(4).setType(gen_n.get(rand(7, 8)));
+        }
+        shot.get(4).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
+
+
+
         int targetsFrontDu = target.getTargetsFrontDu();
         double kc = conditionsDto.getKc();
         double muD = conditionsDto.getMuD();
         double shu100 = conditionsDto.getShu100();
 
-//        List<Integer> distance = conditionsDto.getDistance();
-//        List<Integer> range = conditionsDto.getRange();
-//        List<Integer> direction = conditionsDto.getRange();
+        List<Integer> distance = conditionsDto.getDistance();
+        List<Integer> range = conditionsDto.getRange();
+        List<Integer> direction = conditionsDto.getDirection();
+
+        Map<Integer, Map<String, Integer>> grp = new HashMap<>();
+        grp.put(0, new HashMap<>());
+        grp.put(1, new HashMap<>());
+        grp.put(2, new HashMap<>());
+
+        grp.get(0).put("D", distance.get(0) * 1000);
+        grp.get(1).put("D", distance.get(1) * 1000);
+        grp.get(2).put("D", distance.get(2) * 1000);
+        grp.get(0).put("dD", range.get(0));
+        grp.get(1).put("dD", range.get(1));
+        grp.get(2).put("dD", range.get(2));
+        grp.get(0).put("dd", direction.get(0));
+        grp.get(1).put("dd", direction.get(1));
+        grp.get(2).put("dd", direction.get(2));
 
         AnalysisResult analysisResult = analyzePuo(target, knp, null, null, op);
+
+        List<Double> grp_count = grpCount(grp, analysisResult.getDalTop());
+        double ddi = grp_count.get(0);
+        double dai = grp_count.get(1);
 
         Direction opDirection = analysisResult.getOpDirection();
 

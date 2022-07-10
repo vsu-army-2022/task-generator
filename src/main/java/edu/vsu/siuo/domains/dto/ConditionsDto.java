@@ -21,9 +21,6 @@ public class ConditionsDto {
     private OP op;
     private ObjectPosition knp;
     private Target target;
-    private List<Double> grp;
-
-    private Map<Integer, ShotDto> shot;
 
     double kc;
     double muD;
@@ -38,12 +35,10 @@ public class ConditionsDto {
     private List<Integer> range;
     private List<Integer> direction;
 
-    public ConditionsDto(OP op, ObjectPosition knp, Target target, List<Double> grp, Map<Integer, ShotDto> shot, double kc, double muD, double shu100) {
+    public ConditionsDto(OP op, ObjectPosition knp, Target target, double kc, double muD, double shu100) {
         this.op = op;
         this.knp = knp;
         this.target = target;
-        this.grp = grp;
-        this.shot = shot;
         this.kc = kc;
         this.muD = muD;
         this.shu100 = shu100;

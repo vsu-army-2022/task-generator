@@ -9,7 +9,7 @@ public class Target extends ObjectPosition{
     private int targetsFrontDu;
     private int distanceFromKNPtoTarget;
     private int angleFromKNPtoTarget;
-    private int angularMagnitude_target;
+    private int angularMagnitudeTarget;
     private Targets type;
 }
 
