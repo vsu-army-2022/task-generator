@@ -426,7 +426,7 @@ public class Generate2 {
         firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType().getDescription() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load.getDescription() + ". Шкала тысячных, основному 1 сн. Огонь!");
         firstCommand.setPR((int) pric);
         firstCommand.setYR((int) urov);
-        firstCommand.setDe("ОН\t" + angDash(dov_isch));
+        firstCommand.setDe("ОН " + angDash(dov_isch));
         firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
         commands.add(firstCommand);
 
