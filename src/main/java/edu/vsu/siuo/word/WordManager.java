@@ -42,18 +42,15 @@ public class WordManager {
             tr.getCharacterFormat().setBold(true);
 
             paragraph = sec.addParagraph();
-
-            //формат для плюсов и минусов доделать
-            tr = paragraph.appendText(String.format("Батарея 122мм гаубицы Д-30 занимает боевой порядок:\n" +
+            StringBuilder builder = new StringBuilder();
+            builder.append(String.format("Батарея 122мм гаубицы Д-30 занимает боевой порядок:\n" +
                             "ОП:  \tХ = %d; \tУ = %d; \th = %d м («Дон»)\n" +
                             "КНП: \tХ = %d; \tУ = %d; \th = %d м («Амур»)\n" +
                             "КНП адн: Х = %d; У = %d; \th = %d м («Лена»)\n" +
                             "α он = %s\n" +
                             "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
                             "В дальности: %s; %s; %s. В направлении: %s; %s; %s.\n" +
-                            "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «%s». Дивизионный: αц = %s, Дк = %d, εц = %s. Подавить! Я «Лена».\n" +
-                            "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
-                            "1) Л77, «-»; 2) П42, «+»; 3) П18, «+»; 4) П20, Все «+», Фр. 0-06; 5) П11, Преобладание «+», Фр. 0-12; 6) Цель подавлена. \n",
+                            "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «%s». Дивизионный: αц = %s, Дк = %d, εц = %s",
                     //ОП
                     taskDto.getProblemDto().getOp().getX(), taskDto.getProblemDto().getOp().getY(), taskDto.getProblemDto().getOp().getH(),
                     //КНП
@@ -89,8 +86,20 @@ public class WordManager {
                     //Дк
                     taskDto.getProblemDto().getTarget().getDistanceFromKNPtoTarget(),
                     //εц
-                    formatTextDivision(taskDto.getProblemDto().getTarget().getAngularMagnitude_target())
+                    formatTextDivision(taskDto.getProblemDto().getTarget().getAngularMagnitudeTarget())
             ));
+
+            if (taskDto.getProblemDto().getTarget().getTargetsFrontDu() != 0 && taskDto.getProblemDto().getTarget().getTargetsDepth() != 0) {
+                builder.append(String.format(", Фц = %s, Гл = %d", formatTextDivision(taskDto.getProblemDto().getTarget().getTargetsFrontDu()), taskDto.getProblemDto().getTarget().getTargetsDepth()));
+            }
+            builder.append(". ");
+
+            builder.append(String.format("Подавить! Я «Лена».\n" +
+                    "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
+                    "1) Л92, «-»; 2) Л50, «+»; 3) Л19, «-»; 4) П20, Все «-», Фр. 1-24; 5) П9, Преобладание «+», Фр. 0-72; 6) Цель подавлена. \n"));
+
+            //формат для плюсов и минусов доделать
+            tr = paragraph.appendText(builder.toString());
             tr.getCharacterFormat().setFontSize(12);
 
             paragraph = sec.addParagraph();
