@@ -322,9 +322,9 @@ public class Generate2 {
         }
 
         List<Double> ts_result = ts(load, dal_isch);
-        double pric = ts_result.get(0);
-        double dxt = ts_result.get(1);
-        double vd = ts_result.get(2);
+        double pric = ts_result.get(1);
+        double dxt = ts_result.get(2);
+        double vd = ts_result.get(3);
         pric = Math.round(pric);
 
         String vzr = null;
@@ -368,22 +368,22 @@ public class Generate2 {
         int rashod = 0;
 
 
-        double kc = 0;
+        double cos_ps = 0;
         double muD = 0;
         double shu100 = 0;
 
         if (analysisResult.getPs() > 500) {
             double ps_rad = converseToRad(analysisResult.getPs());
-            double sin_pc = round(Math.sin(ps_rad), 2);
-            kc = round(Math.cos(ps_rad), 2);
-            muD = target.getDistanceFromKNPtoTarget() / 1000 * sin_pc;
-            shu100 = sin_pc * 100000 / analysisResult.getDalTop();
+            double sin_ps = round(Math.sin(ps_rad), 2);
+            cos_ps = round(Math.cos(ps_rad), 2);
+            muD = target.getDistanceFromKNPtoTarget() * 1.0 / 1000 * sin_ps;
+            shu100 = sin_ps * 100000 / analysisResult.getDalTop();
 
             double pr1 = Math.abs(target.getTargetsFrontDu() * muD);
-            double pr2 = Math.abs(target.getTargetsDepth() * kc);
+            double pr2 = Math.abs(target.getTargetsDepth() * cos_ps);
 
-            double ugl1 = Math.abs(target.getTargetsFrontDu() *ku * kc);
-            double ugl2 = Math.abs(target.getTargetsDepth() / 100 * shu100);
+            double ugl1 = Math.abs(target.getTargetsFrontDu() * ku * cos_ps);
+            double ugl2 = Math.abs(target.getTargetsDepth() * 1.0 / 100 * shu100);
 
             gc_op = (int) Math.round(pr1 + pr2);
             fcdu_op = (int) Math.round(ugl1 + ugl2);
@@ -531,9 +531,9 @@ public class Generate2 {
 
                     int pr1 = (int) (alfa * muD);
                     if (opDirection.equals("l")) pr1 *= -1;
-                    int pr2 = (int) (-dD * kc);
+                    int pr2 = (int) (-dD * cos_ps);
 
-                    int ugl1 = (int) (-alfa * ku * kc);
+                    int ugl1 = (int) (-alfa * ku * cos_ps);
                     int ugl2 = (int) (dD / 100 * shu100);
                     if (opDirection.equals("r")) ugl2 *= -1;
 
