@@ -288,8 +288,8 @@ public class Generate2 {
         if (target.getTargetsFrontDu() == 0) {
             bat_veer_v = "сосредоточенный";
         } else {
+            //todo Спросить у Полковника про домножение на ku
             if (analysisResult.getPs() < 500) {
-
                 bat_veer = ((double) targetsFrontDu) / 6 * ku;
             } else {
                 bat_veer = ((double) targetsFrontDu) / 6;
@@ -335,7 +335,7 @@ public class Generate2 {
         int up = 0;
         if (target.getTargetsDepth() >= 100) {
             up = 3;
-            skachok = " скачок " + Math.round(target.getTargetsDepth() / 3 / dxt) + ',';
+            skachok = " скачок " + Math.round(target.getTargetsDepth() * 1.0 / 3 / dxt) + ',';
         } else {
             up = 1;
             skachok = "";

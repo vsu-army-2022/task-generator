@@ -103,7 +103,8 @@ class Generate2Test {
         assertEquals("+0-04", solutionDto.getCommands().get(2).getDe());
         assertEquals("Л20, «-»", solutionDto.getCommands().get(2).getObservation());
 
-        assertEquals("Батарее! Веер 0-06, скачок 3, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
+//        assertEquals("Батарее! Веер 0-06, скачок 3, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
+        assertEquals("Батарее! Веер 0-11, установок 2, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
         assertEquals(4, solutionDto.getCommands().get(3).getPR());
         assertEquals(0, solutionDto.getCommands().get(3).getYR());
         assertEquals("+0-04", solutionDto.getCommands().get(3).getDe());
