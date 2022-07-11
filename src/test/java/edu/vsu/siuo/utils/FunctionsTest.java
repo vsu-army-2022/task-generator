@@ -1,9 +1,6 @@
 package edu.vsu.siuo.utils;
 
-import edu.vsu.siuo.domains.AnalysisResult;
-import edu.vsu.siuo.domains.OP;
-import edu.vsu.siuo.domains.ObjectPosition;
-import edu.vsu.siuo.domains.Target;
+import edu.vsu.siuo.domains.*;
 import edu.vsu.siuo.domains.enums.Powers;
 import org.junit.jupiter.api.Test;
 
@@ -225,10 +222,23 @@ class FunctionsTest {
     @Test
     public void grpCount_1() {
         int d = 4978;
-        Map<Integer, Map<String, Integer>> grp = new HashMap<>();
-        grp.put(1, Map.of("D", 4247, "dD", -247, "dd", 14));
-        grp.put(0, Map.of("D", 2155, "dD", -155, "dd", 10));
-        grp.put(2, Map.of("D", 6339, "dD", -339, "dd", 20));
+//        Map<Integer, Map<String, Integer>> grp = new HashMap<>();
+//        grp.put(1, Map.of("D", 4247, "dD", -247, "dd", 14));
+//        grp.put(0, Map.of("D", 2155, "dD", -155, "dd", 10));
+//        grp.put(2, Map.of("D", 6339, "dD", -339, "dd", 20));
+
+        GRP grp = new GRP();
+        grp.setDistance_1(4247);
+        grp.setDistance_2(2155);
+        grp.setDistance_3(6339);
+
+        grp.setDifDistance_1(-247);
+        grp.setDifDistance_1(-155);
+        grp.setDifDistance_1(-339);
+
+        grp.setTurn_1(14);
+        grp.setTurn_1(10);
+        grp.setTurn_1(20);
 
         List<Double> result = Functions.grpCount(grp, d);
         assertEquals(-279, result.get(0));
@@ -238,10 +248,23 @@ class FunctionsTest {
     @Test
     public void grpCount_2() {
         int d = 4612;
-        Map<Integer, Map<String, Integer>> grp = new HashMap<>();
-        grp.put(1, Map.of("D", 5397, "dD", -397, "dd", 17));
-        grp.put(0, Map.of("D", 3255, "dD", -255, "dd", 12));
-        grp.put(2, Map.of("D", 7468, "dD", -468, "dd", 23));
+//        Map<Integer, Map<String, Integer>> grp = new HashMap<>();
+//        grp.put(1, Map.of("D", 5397, "dD", -397, "dd", 17));
+//        grp.put(0, Map.of("D", 3255, "dD", -255, "dd", 12));
+//        grp.put(2, Map.of("D", 7468, "dD", -468, "dd", 23));
+
+        GRP grp = new GRP();
+        grp.setDistance_1(5397);
+        grp.setDistance_2(3255);
+        grp.setDistance_3(7468);
+
+        grp.setDifDistance_1(-397);
+        grp.setDifDistance_1(-255);
+        grp.setDifDistance_1(-468);
+
+        grp.setTurn_1(17);
+        grp.setTurn_1(12);
+        grp.setTurn_1(23);
 
         List<Double> result = Functions.grpCount(grp, d);
         assertEquals(-345, result.get(0));

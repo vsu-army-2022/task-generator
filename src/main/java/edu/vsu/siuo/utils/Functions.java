@@ -1,9 +1,7 @@
 package edu.vsu.siuo.utils;
 
-import edu.vsu.siuo.domains.AnalysisResult;
-import edu.vsu.siuo.domains.OP;
-import edu.vsu.siuo.domains.ObjectPosition;
-import edu.vsu.siuo.domains.Target;
+import edu.vsu.siuo.domains.*;
+import edu.vsu.siuo.domains.dto.ShotDto;
 import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Types;
@@ -18,6 +16,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static edu.vsu.siuo.utils.Utils.rand;
 
 public class Functions {
 
@@ -206,36 +206,56 @@ public class Functions {
      * @param strD Дальность до цели
      * @return Список, содержащий дальность [0] и доворот [1] исчисленные
      */
-    public static List<Double> grpCount(Map<Integer, Map<String, Integer>> grp, double strD) {
+    public static List<Double> grpCount(GRP grp, double strD) {
         //Вычисление исчисленных опорных дальностей
 
 
-        // create deep copy of map
-        Map<Integer, Map<String, Integer>> grpCopy = new HashMap<>();
+//        // create deep copy of map
+//        Map<Integer, Map<String, Integer>> grpCopy = new HashMap<>();
+//
+//        for (int key : grp.keySet()) {
+//            grpCopy.put(key, new HashMap<>());
+//            for (String key2 : grp.get(key).keySet()) {
+//                int value2 = grp.get(key).get(key2);
+//                grpCopy.get(key).put(key2, value2);
+//            }
+//        }
+        grp.setDistance_1(grp.getDistance_1() - grp.getDifDistance_1());
+        grp.setDistance_2(grp.getDistance_2() - grp.getDifDistance_2());
+        grp.setDistance_3(grp.getDistance_3() - grp.getDifDistance_3());
 
-        for (int key : grp.keySet()) {
-            grpCopy.put(key, new HashMap<>());
-            for (String key2 : grp.get(key).keySet()) {
-                int value2 = grp.get(key).get(key2);
-                grpCopy.get(key).put(key2, value2);
-            }
-        }
-
-
-        grpCopy.forEach((key, value) -> grpCopy.get(key).replace("D", grpCopy.get(key).get("D") - grpCopy.get(key).get("dD")));
+//
+//        grpCopy.forEach((key, value) -> grpCopy.get(key).replace("D", grpCopy.get(key).get("D") - grpCopy.get(key).get("dD")));
 
 
         Map<String, Integer> left = new HashMap<>();
         Map<String, Integer> right = new HashMap<>();
 
         // Вычисление промежутка, в котором находится цель, между двумя опорными дальностями
-        if (strD < grpCopy.get(1).get("D")) {
-            left.putAll(grpCopy.get(0));
-            right.putAll(grpCopy.get(1));
+
+        if (strD < grp.getDistance_2()) {
+            left.put("D", grp.getDistance_1());
+            left.put("dD", grp.getDifDistance_1());
+            left.put("dd", grp.getTurn_1());
+            right.put("D", grp.getDistance_2());
+            right.put("dD", grp.getDifDistance_2());
+            right.put("dd", grp.getTurn_2());
         } else {
-            left.putAll(grpCopy.get(1));
-            right.putAll(grpCopy.get(2));
+            left.put("D", grp.getDistance_2());
+            left.put("dD", grp.getDifDistance_2());
+            left.put("dd", grp.getTurn_2());
+            right.put("D", grp.getDistance_3());
+            right.put("dD", grp.getDifDistance_3());
+            right.put("dd", grp.getTurn_3());
         }
+
+//        if (strD < grpCopy.get(1).get("D")) {
+//            left.putAll(grpCopy.get(0));
+//            right.putAll(grpCopy.get(1));
+//        } else {
+//            left.putAll(grpCopy.get(1));
+//            right.putAll(grpCopy.get(2));
+//        }
 
         // Расчет исчисленных дальности и доворота до цели
         List<Double> ret = Stream
@@ -321,5 +341,69 @@ public class Functions {
         } else {
             return ts.get(power).get((int) (distance - 200) / 200);
         }
+    }
+
+
+    public static Map<Integer, ShotDto> generateShot(Target target) {
+
+        List<Types> gen_n = Types.getNoEmptyTypes();
+
+        // генерируем наблюдения
+        Map<Integer, ShotDto> shot = new HashMap<>();
+
+        shot.put(0, new ShotDto());
+        shot.put(1, new ShotDto());
+        shot.put(2, new ShotDto());
+
+        if (target.getTargetsDepth() < 100) {
+            shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
+            shot.get(0).setType(gen_n.get(rand(1, 2)));
+
+            shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
+            shot.get(1).setType(shot.get(0).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N);
+
+            shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
+            shot.get(2).setType(gen_n.get(rand(1, 2)));
+        } else {
+            shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(60, 95));
+            shot.get(0).setType(gen_n.get(rand(0, 2)));
+
+            shot.get(1).setA((rand(0, 1) == 1 ? 1 : -1) * rand(30, 55));
+            shot.get(2).setA((rand(0, 1) == 1 ? 1 : -1) * rand(3, 26));
+
+            if (shot.get(0).getType() == Types.XZ) {
+                shot.get(1).setType(gen_n.get(rand(1, 2)));
+                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
+            } else {
+                shot.get(1).setType(shot.get(0).getType() == Types.ONE_P ? Types.ONE_P : Types.ONE_N);
+                shot.get(2).setType((shot.get(1).getType() == Types.ONE_N ? Types.ONE_P : Types.ONE_N));
+            }
+        }
+
+        shot.put(3, new ShotDto());
+        shot.get(3).setA((rand(0, 1) == 1 ? 1 : -1) * rand(5, 21));
+        shot.get(3).setType(gen_n.get(rand(3, 4)));
+
+        shot.put(4, new ShotDto());
+
+        if (target.getTargetsFrontDu() == 0) {
+            shot.get(3).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget()))); // rand(round(40*1000/distanceFromKNPtoTarget),round(280*1000/distanceFromKNPtoTarget));
+            shot.get(4).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+        } else {
+            if (target.getTargetsFrontDu() < 120) {
+                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(90 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(120 * 1000 / target.getDistanceFromKNPtoTarget())));
+            } else {
+                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(140 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(190 * 1000 / target.getDistanceFromKNPtoTarget())));
+            }
+            shot.get(4).setF(target.getTargetsFrontDu() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+        }
+
+        if (target.getTargetsDepth() < 100) {
+            shot.get(4).setType(gen_n.get(rand(5, 6)));
+        } else {
+            shot.get(4).setType(gen_n.get(rand(7, 8)));
+        }
+        shot.get(4).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
+        return shot;
     }
 }
