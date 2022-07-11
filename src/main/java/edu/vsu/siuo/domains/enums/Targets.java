@@ -9,7 +9,7 @@ public enum Targets {
     BATR("батарея"),
     VZV("взвод артиллерийский"),
     RAP("РЛС"),
-    PTUR("птур в окопе"),
+    PTUR("птур: в окопе"),
     ;
 
     private final String description;
