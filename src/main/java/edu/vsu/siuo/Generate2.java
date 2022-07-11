@@ -259,8 +259,8 @@ public class Generate2 {
             fcdu_op = Math.round(ugl1 + ugl2);
 
             // todo check it
-            target.setTargetsDepth((int) gc_op);
-            target.setTargetsFrontDu((int) fcdu_op);
+            target.setTargetsDepthOP(Math.round(gc_op));
+            target.setTargetsFrontDuOP(Math.round(fcdu_op));
         }
 
         return conditionsDto;
@@ -403,8 +403,8 @@ public class Generate2 {
         solutionDto.setDCi((int) dal_isch);
 
         solutionDto.setDeCt((int) analysisResult.getDovTop());
-        solutionDto.setDeltaDeCt((int) dai);
-        solutionDto.setDeCi((int) dov_isch);
+        solutionDto.setDeltaDeCt((int) Math.round(dai));
+        solutionDto.setDeCi((int) Math.round(dov_isch));
 
         solutionDto.setKY((int) ku);
         solutionDto.setShY((int) shu);
