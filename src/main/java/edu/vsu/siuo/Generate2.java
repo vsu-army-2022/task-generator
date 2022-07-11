@@ -283,20 +283,6 @@ public class Generate2 {
         int gc_op = 0;
         int fcdu_op = 0;
 
-        double bat_veer;
-        String bat_veer_v;
-        if (target.getTargetsFrontDu() == 0) {
-            bat_veer_v = "сосредоточенный";
-        } else {
-            //todo Спросить у Полковника про домножение на ku
-            if (analysisResult.getPs() < 500) {
-                bat_veer = ((double) targetsFrontDu) / 6 * ku;
-            } else {
-                bat_veer = ((double) targetsFrontDu) / 6;
-            }
-            bat_veer_v = modAngDash(bat_veer);
-        }
-
         List<Double> ts_result = ts(load, dal_isch);
         double pric = ts_result.get(1);
         double dxt = ts_result.get(2);
@@ -370,6 +356,20 @@ public class Generate2 {
 
             solutionDto.setFDuOp(fcdu_op);
             solutionDto.setGCOp(gc_op);
+        }
+
+        double bat_veer;
+        String bat_veer_v;
+        if (target.getTargetsFrontDu() == 0) {
+            bat_veer_v = "сосредоточенный";
+        } else {
+            //todo Спросить у Полковника про домножение на ku
+            if (analysisResult.getPs() < 500) {
+                bat_veer = ((double) targetsFrontDu) / 6 * ku;
+            } else {
+                bat_veer = ((double) fcdu_op) / 6;
+            }
+            bat_veer_v = modAngDash(bat_veer);
         }
 
 
