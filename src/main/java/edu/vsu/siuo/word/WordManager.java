@@ -184,7 +184,7 @@ public class WordManager {
             }
         }
         //save
-        this.document.saveToFile(path + '/' + fileName, FileFormat.Docx);
+        this.document.saveToFile(path + '\\' + fileName, FileFormat.Docx);
     }
 
     public static String GenerateNameFile(String taskTopic) {
