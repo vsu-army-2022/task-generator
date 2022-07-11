@@ -45,7 +45,7 @@ class Generate2Test {
         knp.setH(41);
         conditionsDto.setKnp(knp);
 
-        conditionsDto.setPower(Powers.Power2);
+        conditionsDto.setPower(Powers.Power1);
         conditionsDto.setDistance(List.of(4, 6, 8));
         conditionsDto.setRange(List.of(196, 324, 415));
         conditionsDto.setDirection(List.of(6, 12, 16));
@@ -56,7 +56,7 @@ class Generate2Test {
         target.setAngularMagnitudeTarget(8);
         target.setTargetsFrontDu(64);
         target.setTargetsDepth(62);
-        target.setType(Targets.PTUR);
+        target.setType(Targets.PU);
 
         conditionsDto.setTarget(target);
 
@@ -71,17 +71,17 @@ class Generate2Test {
         SolutionDto solutionDto = Generate2.generateSolution(conditionsDto);
 
         assertEquals(5529, solutionDto.getDCt());
-        // deltaD?
-        // assertEquals(5843, solutionDto.getDeCi());
+        assertEquals(314, solutionDto.getDeltaDCt());
+        assertEquals(5843, solutionDto.getDCi());
         assertEquals(350, solutionDto.getDeCt());
-        // ?
-        // assertEquals(362, solutionDto.getDeCi());
+        assertEquals(12, solutionDto.getDeltaDeCt());
+        assertEquals(362, solutionDto.getDeCi());
         // assertEquals(38, solutionDto.getFDuOp());
         // assertEquals(186, solutionDto.getGCOp());
         assertEquals(621, solutionDto.getPs());
         assertEquals(Direction.LEFT, solutionDto.getOp());
-        // assertEquals(21, solutionDto.getDeltaX());
-        // assertEquals(14, solutionDto.getVD());
+         assertEquals(21, solutionDto.getDeltaX());
+         assertEquals(14, solutionDto.getVD());
 
         solutionDto.getCommands();
 

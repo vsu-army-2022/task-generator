@@ -246,23 +246,6 @@ public class Generate2 {
 
         conditionsDto.setTarget(target);
 
-        long gc_op = 0;
-        long fcdu_op = 0;
-        if (analysisResult.getPs() > 500) {
-            double pr1 = Math.abs(target.getTargetsFrontDu() * muD);
-            double pr2 = Math.abs(target.getTargetsDepth() * kc);
-
-            double ugl1 = Math.abs(target.getTargetsFrontDu() * ku * kc);
-            double ugl2 = Math.abs(target.getTargetsDepth() / 100 * shu100);
-
-            gc_op = Math.round(pr1 + pr2);
-            fcdu_op = Math.round(ugl1 + ugl2);
-
-            // todo check it
-            target.setTargetsDepthOP(Math.round(gc_op));
-            target.setTargetsFrontDuOP(Math.round(fcdu_op));
-        }
-
         return conditionsDto;
     }
 
@@ -278,8 +261,8 @@ public class Generate2 {
         List<Integer> range = conditionsDto.getRange();
         List<Integer> direction = conditionsDto.getDirection();
 
-        long fcdu_op = target.getTargetsDepth();
-        long gc_op = target.getTargetsFrontDu();
+        long gc = target.getTargetsDepth();
+        long fcdu = target.getTargetsFrontDu();
         int targetsFrontDu = target.getTargetsFrontDu();
 
 
@@ -395,6 +378,19 @@ public class Generate2 {
             kc = round(Math.cos(ps_rad), 2);
             muD = target.getDistanceFromKNPtoTarget() / 1000 * sin_pc;
             shu100 = sin_pc * 100000 / analysisResult.getDalTop();
+        }
+
+        long gc_op = 0;
+        long fcdu_op = 0;
+        if (analysisResult.getPs() > 500) {
+            double pr1 = Math.abs(target.getTargetsFrontDu() * muD);
+            double pr2 = Math.abs(target.getTargetsDepth() * kc);
+
+            double ugl1 = Math.abs(target.getTargetsFrontDu() * ku * kc);
+            double ugl2 = Math.abs(target.getTargetsDepth() / 100 * shu100);
+
+            gc_op = Math.round(pr1 + pr2);
+            fcdu_op = Math.round(ugl1 + ugl2);
         }
 
 
