@@ -373,9 +373,9 @@ public class Generate2 {
         }
 
 
-        solutionDto.setDCt((int) dalTop);
+        solutionDto.setDCt((int) Math.round(dalTop));
         solutionDto.setDeltaDCt((int) ddi);
-        solutionDto.setDCi((int) dal_isch);
+        solutionDto.setDCi((int) Math.round(dal_isch));
 
         solutionDto.setDeCt((int) analysisResult.getDovTop());
         solutionDto.setDeltaDeCt((int) Math.round(dai));
@@ -383,19 +383,19 @@ public class Generate2 {
 
         solutionDto.setKY((int) ku);
         solutionDto.setShY((int) shu);
-        solutionDto.setDeltaX((int) dxt);
+        solutionDto.setDeltaX((int) Math.round(dxt));
 
         solutionDto.setPs((int) analysisResult.getPs());
 
         solutionDto.setOp(analysisResult.getOpDirection());
-        solutionDto.setVD((int) vd);
+        solutionDto.setVD((int) Math.round(vd));
 
         List<SolutionDto.TaskCommand> commands = new ArrayList<>();
 
         SolutionDto.TaskCommand firstCommand = new SolutionDto.TaskCommand();
         firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType().getDescription() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load.getDescription() + ". Шкала тысячных, основному 1 сн. Огонь!");
         firstCommand.setPR((int) pric);
-        firstCommand.setYR((int) urov);
+        firstCommand.setYR(Math.round(urov));
         firstCommand.setDe((int) Math.round(dov_isch));
         firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
         commands.add(firstCommand);
