@@ -45,9 +45,9 @@ public class SolutionDto {
     @Data
     public static class TaskCommand {
         private String description;
-        private int pR;
-        private int yR;
-        private String de;
+        private Integer pR;
+        private Integer yR;
+        private Integer de;
         private String observation;
     }
 }
