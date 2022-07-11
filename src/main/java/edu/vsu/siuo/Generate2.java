@@ -317,16 +317,6 @@ public class Generate2 {
             uu_v = " установок " + uu + ',';
         }
 
-        String skachok = "";
-        int up;
-        if (target.getTargetsDepth() >= 100) {
-            up = 3;
-            skachok = " скачок " + Math.round(target.getTargetsDepth() * 1.0 / 3 / dxt) + ',';
-        } else {
-            up = 1;
-            skachok = "";
-        }
-
         int rashod = 0;
 
 
@@ -370,6 +360,16 @@ public class Generate2 {
                 bat_veer = ((double) fcdu_op) / 6;
             }
             bat_veer_v = modAngDash(bat_veer);
+        }
+
+        String skachok = "";
+        int up;
+        if (gc_op >= 100) {
+            up = 3;
+            skachok = " скачок " + Math.round(gc_op * 1.0 / 3 / dxt) + ',';
+        } else {
+            up = 1;
+            skachok = "";
         }
 
 
