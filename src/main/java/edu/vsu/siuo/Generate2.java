@@ -188,36 +188,12 @@ public class Generate2 {
 
         GRP grp = new GRP((int) analysisResult.getDalTop());
 
-        double ku = 0, shu = 0;
-
-        if (analysisResult.getDalTop() != 0) {
-            ku = round(target.getDistanceFromKNPtoTarget() / analysisResult.getDalTop(), 1);
-            shu = Math.round(analysisResult.getPs() / analysisResult.getDalTop() * 100);
-        }
-
-        double ps_rad;
-        double sin_pc;
-        double kc = 0;
-        double muD = 0;
-        double shu100 = 0;
-
-        if (analysisResult.getPs() > 500) { // ПРК: находим коэффециенты Мюд,Кс, Шу100
-            ps_rad = converseToRad(analysisResult.getPs());
-            sin_pc = round(Math.sin(ps_rad), 2);
-            kc = round(Math.cos(ps_rad), 2);
-            muD = target.getDistanceFromKNPtoTarget() / 1000 * sin_pc;
-            shu100 = sin_pc * 100000 / analysisResult.getDalTop();
-            //echo 'kc = '.kc.' muD = '.muD.' shu100 = '.shu100;
-        }
-
         // исчисленная дальность и доворот
         List<Double> grp_count = grpCount(grp, analysisResult.getDalTop());
         double ddi = grp_count.get(0);
-        double dai = grp_count.get(1);
 
 
         double dal_isch = analysisResult.getDalTop() + ddi;
-        double dov_isch = analysisResult.getDovTop() + dai;
 
         Powers zaryd = null;
         if (dal_isch < 4800) {
@@ -286,7 +262,7 @@ public class Generate2 {
         // уровень
         long urov = 0;
         if (analysisResult.getDalTop() != 0) {
-            int target_h = knp.getH() + target.getDistanceFromKNPtoTarget() * target.getAngleFromKNPtoTarget() / 1000; //высота цели
+            int target_h = knp.getH() + target.getDistanceFromKNPtoTarget() * target.getAngularMagnitudeTarget() / 1000; //высота цели
             double angularMagnitude_op = (target_h - op.getH()) / analysisResult.getDalTop() * 1000;
 
             urov = 3000 + Math.round(angularMagnitude_op);
@@ -468,7 +444,7 @@ public class Generate2 {
                     if (har.equals("pre_n") || har.equals("pre_p")) dD = 25;
                 }
                 if (fcdu_op >= 100) {
-                    if (har.equals("all_n") || har.equals("all_p")) dD = (int) fcdu_op;
+                    if (har.equals("all_n") || har.equals("all_p")) dD = (int) Math.round(fcdu_op);
                     if (har.equals("pre_n") || har.equals("pre_p")) dD = Math.round(2 / 3 * fcdu_op);
                     if (har.equals("rav_n") || har.equals("rav_p")) dD = Math.round(1 / 2 * fcdu_op);
                 }
@@ -483,7 +459,7 @@ public class Generate2 {
 
 
                 if (fr != null && koef_fr >= 1.5 && analysisResult.getPs() <= 500) { // если есть фронт разрыва
-                    int veer_raz = (int) ((targetsFrontDu - fr) / 6 * ku);
+                    int veer_raz = (int) Math.round(((targetsFrontDu - fr) * 1.0 / 6 * ku));
                     if (veer_raz < -0.99) komand = "Соединить к основному в " + modAngDash(veer_raz) + ". Огонь!";
                     else if (veer_raz > 0.99) komand = "Разделить от основного в " + modAngDash(veer_raz) + ". Огонь!";
                 }
@@ -519,9 +495,9 @@ public class Generate2 {
                     pricel = (int) Math.round(dD / dxt);
                     if (per_ned.equals("p")) pricel *= -1;
 
-                    int kof_1 = (int) (-alfa * ku);
-                    int kof_2 = (int) (dD / 100 * shu);
-                    if ((opDirection.equals("l") && per_ned.equals("n")) || (opDirection.equals("r") && per_ned.equals("p"))) {
+                    int kof_1 = (int) Math.round((-alfa * ku));
+                    int kof_2 = (int) Math.round((dD / 100 * shu));
+                    if ((opDirection.equals(Direction.LEFT) && per_ned.equals("n")) || (opDirection.equals(Direction.RIGHT) && per_ned.equals("p"))) {
                         kof_2 = -1 * kof_2;
                     }
                     betta = Math.round(kof_1 + kof_2);
@@ -529,13 +505,13 @@ public class Generate2 {
 
                     if (per_ned.equals("n")) dD *= -1;
 
-                    int pr1 = (int) (alfa * muD);
-                    if (opDirection.equals("l")) pr1 *= -1;
-                    int pr2 = (int) (-dD * cos_ps);
+                    int pr1 = (int) Math.round((alfa * muD));
+                    if (opDirection.equals(Direction.LEFT)) pr1 *= -1;
+                    int pr2 = (int) Math.round((-dD * cos_ps));
 
-                    int ugl1 = (int) (-alfa * ku * cos_ps);
-                    int ugl2 = (int) (dD / 100 * shu100);
-                    if (opDirection.equals("r")) ugl2 *= -1;
+                    int ugl1 = (int) Math.round((-alfa * ku * cos_ps));
+                    int ugl2 = (int) Math.round((dD / 100 * shu100));
+                    if (opDirection.equals(Direction.RIGHT)) ugl2 *= -1;
 
                     pricel = (int) Math.round(pr1 / dxt + pr2 / dxt);
                     betta = Math.round(ugl1 + ugl2);
@@ -549,7 +525,7 @@ public class Generate2 {
             SolutionDto.TaskCommand command = new SolutionDto.TaskCommand();
             command.setDescription(komand);
             command.setPR(pricel);
-            command.setDe(String.valueOf(betta));
+            command.setDe(angDash(betta));
             command.setObservation(nablud);
             commands.add(command);
         }

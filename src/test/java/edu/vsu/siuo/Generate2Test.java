@@ -70,9 +70,9 @@ class Generate2Test {
 
         SolutionDto solutionDto = Generate2.generateSolution(conditionsDto);
 
-        assertEquals(5529, solutionDto.getDCt());
+        assertEquals(5530, solutionDto.getDCt());
         assertEquals(314, solutionDto.getDeltaDCt());
-        assertEquals(5843, solutionDto.getDCi());
+        assertEquals(5844, solutionDto.getDCi());
         assertEquals(350, solutionDto.getDeCt());
         assertEquals(12, solutionDto.getDeltaDeCt());
         assertEquals(362, solutionDto.getDeCi());
@@ -80,16 +80,52 @@ class Generate2Test {
         assertEquals(186, solutionDto.getGCOp());
         assertEquals(621, solutionDto.getPs());
         assertEquals(Direction.LEFT, solutionDto.getOp());
-         assertEquals(21, solutionDto.getDeltaX());
-         assertEquals(14, solutionDto.getVD());
+        assertEquals(21, solutionDto.getDeltaX());
+        assertEquals(14, solutionDto.getVD());
 
         solutionDto.getCommands();
 
-        assertEquals("«Дон», стой! Цель 21, «птур в окопе». ОФ, Взрыватель «О». Заряд 2. Шкала тысячных, основному 1 сн. Огонь!", solutionDto.getCommands().get(0).getDescription());
-        // assertEquals(286, solutionDto.getCommands().get(0).getPR());
-        // assertEquals(3005, solutionDto.getCommands().get(0).getYR());
-        // assertEquals("ОН\t+1-25", solutionDto.getCommands().get(0).getDe());
-        // assertEquals("Л76, «+»", solutionDto.getCommands().get(0).getObservation());
+        assertEquals("«Дон», стой! Цель 21, «пехота укрытая». ОФ, Взрыватель «О и Ф». Заряд 1. Шкала тысячных, основному 1 сн. Огонь!", solutionDto.getCommands().get(0).getDescription());
+        assertEquals(196, solutionDto.getCommands().get(0).getPR());
+        assertEquals(2995, solutionDto.getCommands().get(0).getYR());
+        assertEquals("ОН +3-62", solutionDto.getCommands().get(0).getDe());
+        assertEquals("П83, «+»", solutionDto.getCommands().get(0).getObservation());
+
+        assertEquals("Огонь!", solutionDto.getCommands().get(1).getDescription());
+        assertEquals(-16, solutionDto.getCommands().get(1).getPR());
+        assertEquals(0, solutionDto.getCommands().get(1).getYR());
+        assertEquals("-0-18", solutionDto.getCommands().get(1).getDe());
+        assertEquals("Л32, «-»", solutionDto.getCommands().get(1).getObservation());
+
+        assertEquals("Огонь!", solutionDto.getCommands().get(2).getDescription());
+        assertEquals(7, solutionDto.getCommands().get(2).getPR());
+        assertEquals(0, solutionDto.getCommands().get(2).getYR());
+        assertEquals("+0-04", solutionDto.getCommands().get(2).getDe());
+        assertEquals("Л20, «-»", solutionDto.getCommands().get(2).getObservation());
+
+        assertEquals("Батарее! Веер 0-06, скачок 3, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
+        assertEquals(4, solutionDto.getCommands().get(3).getPR());
+        assertEquals(0, solutionDto.getCommands().get(3).getYR());
+        assertEquals("+0-04", solutionDto.getCommands().get(3).getDe());
+        assertEquals("П5, Все «+», Фр. 0-96", solutionDto.getCommands().get(3).getObservation());
+
+        assertEquals("Огонь!", solutionDto.getCommands().get(4).getDescription());
+        assertEquals(-8, solutionDto.getCommands().get(4).getPR());
+        assertEquals(0, solutionDto.getCommands().get(4).getYR());
+        assertEquals("+0-18", solutionDto.getCommands().get(4).getDe());
+        assertEquals("Л7, Преобладание «-», Фр. 0-61", solutionDto.getCommands().get(4).getObservation());
+
+        assertEquals("Огонь!", solutionDto.getCommands().get(5).getDescription());
+        assertEquals(5, solutionDto.getCommands().get(5).getPR());
+        assertEquals(0, solutionDto.getCommands().get(5).getYR());
+        assertEquals("-0-10", solutionDto.getCommands().get(5).getDe());
+        assertEquals("Цель подавлена", solutionDto.getCommands().get(5).getObservation());
+
+        assertEquals("Стой, записать! Цель 21, «пехота укрытая». «Лена»! «Амур» стрельбу по цели 21 закончил. Расход 111. Я «Амур».", solutionDto.getCommands().get(6).getDescription());
+        assertEquals(0, solutionDto.getCommands().get(6).getPR());
+        assertEquals(0, solutionDto.getCommands().get(6).getYR());
+        assertEquals("", solutionDto.getCommands().get(6).getDe());
+        assertEquals("", solutionDto.getCommands().get(6).getObservation());
 
     }
 }

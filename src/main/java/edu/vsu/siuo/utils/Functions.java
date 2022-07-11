@@ -35,8 +35,8 @@ public class Functions {
      * @param a угол в делениях угломера
      */
     public static String angDash(double a) {
-        int c = ((int) Math.abs(a)) / 100;
-        int d = (int) Math.abs(a) % 100;
+        int c = ((int) Math.abs(Math.round(a))) / 100;
+        int d = (int) Math.abs(Math.round(a)) % 100;
         String dd = (d < 10 ? "0" + d : Integer.toString(d));
 
         String result = (a < 0 ? "-" : "+") + c + "-" + dd;
@@ -50,8 +50,8 @@ public class Functions {
     }
 
     public static String modAngDash(double a) {
-        int c = Math.abs((int) a) / 100;
-        int d = (int) Math.abs(a) % 100;
+        int c = Math.abs((int) Math.round(a)) / 100;
+        int d = (int) Math.abs(Math.round(a)) % 100;
         return c + "-" + (d < 10 ? "0" + d : d);
     }
 
@@ -63,7 +63,7 @@ public class Functions {
 
         // дальность топографическая
         double dt = Math.sqrt(kat_x * kat_x + kat_y * kat_y);
-        int dal = (int) dt;
+        int dal = (int) Math.round(dt);
 
 //        // доворот, пс
 //        if (kat_x == 0) kat_x = 0.0000000001; // скрываем ошибку (на ноль делить нельзя)
@@ -164,7 +164,7 @@ public class Functions {
 
     public static String vPricel(double d) {
         if (d > 0) {
-            return "+" + (int) d;
+            return "+" + (int) Math.round(d);
         }
         // fixme сравнение с eps?
         // if d == 0
@@ -327,7 +327,7 @@ public class Functions {
                 remainder = distance % 200;
             }
             closelyDistance = distance - remainder;
-            int closelyIndex = (int) (closelyDistance - 200) / 200;
+            int closelyIndex = (int) Math.round((closelyDistance - 200) / 200);
             ArrayList<Double> closelyValue = ts.get(power).get(closelyIndex);
             int nextIndex;
             nextIndex = (remainder > 0 && closelyIndex + 1 < ts.get(power).size() ? closelyIndex + 1 : closelyIndex - 1);
@@ -339,7 +339,7 @@ public class Functions {
             result.add(closelyValue.get(3) + Math.abs(closelyValue.get(3) - nextValue.get(3)) / distanceDiffernce * remainder);
             return result;
         } else {
-            return ts.get(power).get((int) (distance - 200) / 200);
+            return ts.get(power).get((int) Math.round((distance - 200) / 200));
         }
     }
 

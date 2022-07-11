@@ -233,12 +233,12 @@ class FunctionsTest {
         grp.setDistance_3(6339);
 
         grp.setDifDistance_1(-247);
-        grp.setDifDistance_1(-155);
-        grp.setDifDistance_1(-339);
+        grp.setDifDistance_2(-155);
+        grp.setDifDistance_3(-339);
 
         grp.setTurn_1(14);
-        grp.setTurn_1(10);
-        grp.setTurn_1(20);
+        grp.setTurn_2(10);
+        grp.setTurn_3(20);
 
         List<Double> result = Functions.grpCount(grp, d);
         assertEquals(-279, result.get(0));
