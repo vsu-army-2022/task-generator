@@ -78,8 +78,8 @@ public class SIUOController implements Initializable {
         WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type)));
         wordManager.Write(Generate2.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
 
-        Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
-                  this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
+//        Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
+//                  this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
     }
 
     @FXML
