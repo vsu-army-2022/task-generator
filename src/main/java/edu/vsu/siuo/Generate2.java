@@ -283,19 +283,7 @@ public class Generate2 {
         int gc_op = 0;
         int fcdu_op = 0;
 
-        double bat_veer;
-        String bat_veer_v;
-        if (target.getTargetsFrontDu() == 0) {
-            bat_veer_v = "сосредоточенный";
-        } else {
-            //todo Спросить у Полковника про домножение на ku
-            if (analysisResult.getPs() < 500) {
-                bat_veer = ((double) targetsFrontDu) / 6 * ku;
-            } else {
-                bat_veer = ((double) targetsFrontDu) / 6;
-            }
-            bat_veer_v = modAngDash(bat_veer);
-        }
+
 
         List<Double> ts_result = ts(load, dal_isch);
         double pric = ts_result.get(1);
@@ -372,31 +360,45 @@ public class Generate2 {
             solutionDto.setGCOp(gc_op);
         }
 
+        double bat_veer;
+        String bat_veer_v;
+        if (target.getTargetsFrontDu() == 0) {
+            bat_veer_v = "сосредоточенный";
+        } else {
+            //todo Спросить у Полковника про домножение на ku
+            if (analysisResult.getPs() < 500) {
+                bat_veer = ((double) targetsFrontDu) / 6 * ku;
+            } else {
+                bat_veer = ((double) fcdu_op) / 6; //взять фронт с оп
+            }
+            bat_veer_v = modAngDash(bat_veer);
+        }
 
-        solutionDto.setDCt((int) dalTop);
-        solutionDto.setDeltaDCt((int) ddi);
-        solutionDto.setDCi((int) dal_isch);
 
-        solutionDto.setDeCt((int) analysisResult.getDovTop());
+        solutionDto.setDCt((int) Math.round(dalTop));
+        solutionDto.setDeltaDCt((int) Math.round(ddi));
+        solutionDto.setDCi((int) Math.round(dal_isch));
+
+        solutionDto.setDeCt((int) Math.round(analysisResult.getDovTop()));
         solutionDto.setDeltaDeCt((int) Math.round(dai));
         solutionDto.setDeCi((int) Math.round(dov_isch));
 
-        solutionDto.setKY((int) ku);
-        solutionDto.setShY((int) shu);
-        solutionDto.setDeltaX((int) dxt);
+        solutionDto.setKY((int) Math.round(ku));
+        solutionDto.setShY((int) Math.round(shu));
+        solutionDto.setDeltaX((int) Math.round(dxt));
 
-        solutionDto.setPs((int) analysisResult.getPs());
+        solutionDto.setPs((int) Math.round(analysisResult.getPs()));
 
         solutionDto.setOp(analysisResult.getOpDirection());
-        solutionDto.setVD((int) vd);
+        solutionDto.setVD((int) Math.round(vd));
 
         List<SolutionDto.TaskCommand> commands = new ArrayList<>();
 
         SolutionDto.TaskCommand firstCommand = new SolutionDto.TaskCommand();
         firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType().getDescription() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load.getDescription() + ". Шкала тысячных, основному 1 сн. Огонь!");
-        firstCommand.setPR((int) pric);
-        firstCommand.setYR((int) urov);
-        firstCommand.setDe("ОН " + angDash(dov_isch));
+        firstCommand.setPR((int) Math.round(pric));
+        firstCommand.setYR(Math.round(urov));
+        firstCommand.setDe((int) Math.round(dov_isch));
         firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
         commands.add(firstCommand);
 
@@ -525,7 +527,7 @@ public class Generate2 {
             SolutionDto.TaskCommand command = new SolutionDto.TaskCommand();
             command.setDescription(komand);
             command.setPR(pricel);
-            command.setDe(angDash(betta));
+            command.setDe(betta);
             command.setObservation(nablud);
             commands.add(command);
         }
