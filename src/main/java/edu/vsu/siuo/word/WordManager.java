@@ -109,17 +109,17 @@ public class WordManager {
             tr.getCharacterFormat().setFontSize(12);
             tr.getCharacterFormat().setBold(true);
             paragraph = sec.addParagraph();
-            tr = paragraph.appendText(String.format("Дцт = %d\t∆Д = %d\tДци = %d\t∂цт = +0-%d\t∆∂ = -0-%d\t∂ци = +0-%d\nКу = %d\tШу = 0-%d\t" +
-                    "ПС = %d\tОП (кнп) - Слева\t∆Xтыс = %d\tВд = %d",
+            tr = paragraph.appendText(String.format("Дцт = %d\t∆Д = %s\tДци = %s\t∂цт = %s\t∆∂ = %s\t∂ци = %s\nКу = %d\tШу = 0-%d\t" +
+                    "ПС = %s\tОП (кнп) - Слева\t∆Xтыс = %d\tВд = %d",
                     taskDto.getSolutionDto().getDCt(),
-                    taskDto.getSolutionDto().getDeltaDCt(),
-                    taskDto.getSolutionDto().getDCi(),
-                    taskDto.getSolutionDto().getDCt(),
-                    taskDto.getSolutionDto().getDeltaDeCt(),
-                    taskDto.getSolutionDto().getDeCi(),
+                    formatTextValueWithSigned(taskDto.getSolutionDto().getDeltaDCt()),
+                    formatTextWithSeparation(taskDto.getSolutionDto().getDCi()),
+                    formatTextWithSeparation(taskDto.getSolutionDto().getDCt()),
+                    formatTextDivision(taskDto.getSolutionDto().getDeltaDeCt()),
+                    formatTextDivision(taskDto.getSolutionDto().getDeCi()),
                     taskDto.getSolutionDto().getKY(),
                     taskDto.getSolutionDto().getShY(),
-                    taskDto.getSolutionDto().getPs(),
+                    formatTextWithSeparation(taskDto.getSolutionDto().getPs()),
                     taskDto.getSolutionDto().getDeltaX(),
                     taskDto.getSolutionDto().getVD()));
             tr.getCharacterFormat().setFontSize(12);
