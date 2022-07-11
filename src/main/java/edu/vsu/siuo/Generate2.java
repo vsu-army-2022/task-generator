@@ -245,7 +245,6 @@ public class Generate2 {
         conditionsDto.setDirection(direction);
 
         conditionsDto.setTarget(target);
-
         return conditionsDto;
     }
 
@@ -261,8 +260,6 @@ public class Generate2 {
         List<Integer> range = conditionsDto.getRange();
         List<Integer> direction = conditionsDto.getDirection();
 
-        long gc = target.getTargetsDepth();
-        long fcdu = target.getTargetsFrontDu();
         int targetsFrontDu = target.getTargetsFrontDu();
 
 
@@ -306,6 +303,9 @@ public class Generate2 {
             ku = round(target.getDistanceFromKNPtoTarget() / dalTop, 1);
             shu = Math.round(analysisResult.getPs() / dalTop * 100);
         }
+
+        int gc_op = 0;
+        int fcdu_op = 0;
 
         double bat_veer;
         String bat_veer_v;
@@ -378,19 +378,22 @@ public class Generate2 {
             kc = round(Math.cos(ps_rad), 2);
             muD = target.getDistanceFromKNPtoTarget() / 1000 * sin_pc;
             shu100 = sin_pc * 100000 / analysisResult.getDalTop();
-        }
 
-        long gc_op = 0;
-        long fcdu_op = 0;
-        if (analysisResult.getPs() > 500) {
             double pr1 = Math.abs(target.getTargetsFrontDu() * muD);
             double pr2 = Math.abs(target.getTargetsDepth() * kc);
 
-            double ugl1 = Math.abs(target.getTargetsFrontDu() * ku * kc);
+            double ugl1 = Math.abs(target.getTargetsFrontDu() *ku * kc);
             double ugl2 = Math.abs(target.getTargetsDepth() / 100 * shu100);
 
-            gc_op = Math.round(pr1 + pr2);
-            fcdu_op = Math.round(ugl1 + ugl2);
+            gc_op = (int) Math.round(pr1 + pr2);
+            fcdu_op = (int) Math.round(ugl1 + ugl2);
+
+            // todo check it
+            target.setTargetsDepthOP(Math.round(gc_op));
+            target.setTargetsFrontDuOP(Math.round(fcdu_op));
+
+            solutionDto.setFDuOp(fcdu_op);
+            solutionDto.setGCOp(gc_op);
         }
 
 
@@ -410,11 +413,6 @@ public class Generate2 {
 
         solutionDto.setOp(analysisResult.getOpDirection());
         solutionDto.setVD((int) vd);
-
-        if (analysisResult.getPs() > 500) {
-            solutionDto.setFDuOp((int) fcdu_op);
-            solutionDto.setGCOp((int) gc_op);
-        }
 
         List<SolutionDto.TaskCommand> commands = new ArrayList<>();
 
