@@ -89,7 +89,7 @@ public class WordManager {
                     //Дк
                     taskDto.getProblemDto().getTarget().getDistanceFromKNPtoTarget(),
                     //εц
-                    formatTextDivision(taskDto.getProblemDto().getTarget().getAngularMagnitude_target())
+                    formatTextDivision(taskDto.getProblemDto().getTarget().getAngularMagnitudeTarget())
             ));
             tr.getCharacterFormat().setFontSize(12);
 
