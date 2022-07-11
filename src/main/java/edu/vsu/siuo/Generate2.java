@@ -283,7 +283,19 @@ public class Generate2 {
         int gc_op = 0;
         int fcdu_op = 0;
 
-
+        double bat_veer;
+        String bat_veer_v;
+        if (target.getTargetsFrontDu() == 0) {
+            bat_veer_v = "сосредоточенный";
+        } else {
+            //todo Спросить у Полковника про домножение на ku
+            if (analysisResult.getPs() < 500) {
+                bat_veer = ((double) targetsFrontDu) / 6 * ku;
+            } else {
+                bat_veer = ((double) targetsFrontDu) / 6;
+            }
+            bat_veer_v = modAngDash(bat_veer);
+        }
 
         List<Double> ts_result = ts(load, dal_isch);
         double pric = ts_result.get(1);
@@ -360,44 +372,30 @@ public class Generate2 {
             solutionDto.setGCOp(gc_op);
         }
 
-        double bat_veer;
-        String bat_veer_v;
-        if (target.getTargetsFrontDu() == 0) {
-            bat_veer_v = "сосредоточенный";
-        } else {
-            //todo Спросить у Полковника про домножение на ku
-            if (analysisResult.getPs() < 500) {
-                bat_veer = ((double) targetsFrontDu) / 6 * ku;
-            } else {
-                bat_veer = ((double) fcdu_op) / 6; //взять фронт с оп
-            }
-            bat_veer_v = modAngDash(bat_veer);
-        }
 
+        solutionDto.setDCt((int) dalTop);
+        solutionDto.setDeltaDCt((int) ddi);
+        solutionDto.setDCi((int) dal_isch);
 
-        solutionDto.setDCt((int) Math.round(dalTop));
-        solutionDto.setDeltaDCt((int) Math.round(ddi));
-        solutionDto.setDCi((int) Math.round(dal_isch));
-
-        solutionDto.setDeCt((int) Math.round(analysisResult.getDovTop()));
+        solutionDto.setDeCt((int) analysisResult.getDovTop());
         solutionDto.setDeltaDeCt((int) Math.round(dai));
         solutionDto.setDeCi((int) Math.round(dov_isch));
 
-        solutionDto.setKY((int) Math.round(ku));
-        solutionDto.setShY((int) Math.round(shu));
-        solutionDto.setDeltaX((int) Math.round(dxt));
+        solutionDto.setKY((int) ku);
+        solutionDto.setShY((int) shu);
+        solutionDto.setDeltaX((int) dxt);
 
-        solutionDto.setPs((int) Math.round(analysisResult.getPs()));
+        solutionDto.setPs((int) analysisResult.getPs());
 
         solutionDto.setOp(analysisResult.getOpDirection());
-        solutionDto.setVD((int) Math.round(vd));
+        solutionDto.setVD((int) vd);
 
         List<SolutionDto.TaskCommand> commands = new ArrayList<>();
 
         SolutionDto.TaskCommand firstCommand = new SolutionDto.TaskCommand();
         firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType().getDescription() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load.getDescription() + ". Шкала тысячных, основному 1 сн. Огонь!");
-        firstCommand.setPR((int) Math.round(pric));
-        firstCommand.setYR(Math.round(urov));
+        firstCommand.setPR((int) pric);
+        firstCommand.setYR((int) urov);
         firstCommand.setDe((int) Math.round(dov_isch));
         firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
         commands.add(firstCommand);
@@ -446,9 +444,9 @@ public class Generate2 {
                     if (har.equals("pre_n") || har.equals("pre_p")) dD = 25;
                 }
                 if (fcdu_op >= 100) {
-                    if (har.equals("all_n") || har.equals("all_p")) dD = (int) Math.round(fcdu_op);
-                    if (har.equals("pre_n") || har.equals("pre_p")) dD = Math.round(2 / 3 * fcdu_op);
-                    if (har.equals("rav_n") || har.equals("rav_p")) dD = Math.round(1 / 2 * fcdu_op);
+                    if (har.equals("all_n") || har.equals("all_p")) dD = Math.round(fcdu_op);
+                    if (har.equals("pre_n") || har.equals("pre_p")) dD = (int) Math.round(2.0 / 3 * fcdu_op);
+                    if (har.equals("rav_n") || har.equals("rav_p")) dD = (int) Math.round(1.0 / 2 * fcdu_op);
                 }
 
                 int koef_fr;
@@ -481,7 +479,7 @@ public class Generate2 {
 
 
             // 1 команда на поражение батарее
-            if (har_next != null && !har_next.equals("one_n") && !har_next.equals("one_p") && !har_next.equals("net") && !har_next.equals("xz")) {
+            if (!har_next.equals("one_n") && !har_next.equals("one_p") && !har_next.equals("net") && !har_next.equals("xz")) {
                 if (flag_k == 1) {
                     komand = "Батарее! Веер " + bat_veer_v + ',' + uu_v + skachok + " по 2 снаряда беглый. Огонь!";
                     flag_k = 0;
