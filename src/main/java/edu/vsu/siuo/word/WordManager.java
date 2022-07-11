@@ -9,8 +9,6 @@ import com.spire.doc.documents.VerticalAlignment;
 import com.spire.doc.fields.TextRange;
 import edu.vsu.siuo.domains.dto.TaskDto;
 
-import javax.swing.*;
-import javax.xml.parsers.DocumentBuilder;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -134,14 +132,14 @@ public class WordManager {
                 data.add(new String[]{
                         String.format("%d", i + 1),
                         taskDto.getSolutionDto().getCommands().get(i).getDescription(),
-                        taskDto.getSolutionDto().getCommands().get(i).getPR() != 0
+                        taskDto.getSolutionDto().getCommands().get(i).getPR() != null
                                 ? formatTextValueWithSigned(taskDto.getSolutionDto().getCommands().get(i).getPR())
                                 : "",
-                        taskDto.getSolutionDto().getCommands().get(i).getYR() != 0
+                        taskDto.getSolutionDto().getCommands().get(i).getYR() != null
                                 ? formatTextWithSeparation(taskDto.getSolutionDto().getCommands().get(i).getYR())
                                 : "",
-                        taskDto.getSolutionDto().getCommands().get(i).getDe() != ""
-                                ? taskDto.getSolutionDto().getCommands().get(i).getDe()
+                        taskDto.getSolutionDto().getCommands().get(i).getDe() != null
+                                ? formatTextDivision(taskDto.getSolutionDto().getCommands().get(i).getDe())
                                 : "",
                         taskDto.getSolutionDto().getCommands().get(i).getObservation() != ""
                                 ? taskDto.getSolutionDto().getCommands().get(i).getObservation()

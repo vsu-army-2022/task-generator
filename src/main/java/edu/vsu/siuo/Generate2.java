@@ -396,7 +396,7 @@ public class Generate2 {
         firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType().getDescription() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load.getDescription() + ". Шкала тысячных, основному 1 сн. Огонь!");
         firstCommand.setPR((int) pric);
         firstCommand.setYR((int) urov);
-        firstCommand.setDe("ОН " + angDash(dov_isch));
+        firstCommand.setDe((int) Math.round(dov_isch));
         firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
         commands.add(firstCommand);
 
@@ -444,9 +444,9 @@ public class Generate2 {
                     if (har.equals("pre_n") || har.equals("pre_p")) dD = 25;
                 }
                 if (fcdu_op >= 100) {
-                    if (har.equals("all_n") || har.equals("all_p")) dD = (int) Math.round(fcdu_op);
-                    if (har.equals("pre_n") || har.equals("pre_p")) dD = Math.round(2 / 3 * fcdu_op);
-                    if (har.equals("rav_n") || har.equals("rav_p")) dD = Math.round(1 / 2 * fcdu_op);
+                    if (har.equals("all_n") || har.equals("all_p")) dD = Math.round(fcdu_op);
+                    if (har.equals("pre_n") || har.equals("pre_p")) dD = (int) Math.round(2.0 / 3 * fcdu_op);
+                    if (har.equals("rav_n") || har.equals("rav_p")) dD = (int) Math.round(1.0 / 2 * fcdu_op);
                 }
 
                 int koef_fr;
@@ -479,7 +479,7 @@ public class Generate2 {
 
 
             // 1 команда на поражение батарее
-            if (har_next != null && !har_next.equals("one_n") && !har_next.equals("one_p") && !har_next.equals("net") && !har_next.equals("xz")) {
+            if (!har_next.equals("one_n") && !har_next.equals("one_p") && !har_next.equals("net") && !har_next.equals("xz")) {
                 if (flag_k == 1) {
                     komand = "Батарее! Веер " + bat_veer_v + ',' + uu_v + skachok + " по 2 снаряда беглый. Огонь!";
                     flag_k = 0;
@@ -525,7 +525,7 @@ public class Generate2 {
             SolutionDto.TaskCommand command = new SolutionDto.TaskCommand();
             command.setDescription(komand);
             command.setPR(pricel);
-            command.setDe(angDash(betta));
+            command.setDe(betta);
             command.setObservation(nablud);
             commands.add(command);
         }
