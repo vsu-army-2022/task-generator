@@ -332,7 +332,7 @@ public class Generate2 {
         }
 
         String skachok = "";
-        int up = 0;
+        int up;
         if (target.getTargetsDepth() >= 100) {
             up = 3;
             skachok = " скачок " + Math.round(target.getTargetsDepth() * 1.0 / 3 / dxt) + ',';
