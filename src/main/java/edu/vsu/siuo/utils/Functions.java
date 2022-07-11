@@ -233,7 +233,7 @@ public class Functions {
 
         // Вычисление промежутка, в котором находится цель, между двумя опорными дальностями
 
-        if (strD < grp.getDifDistance_2()) {
+        if (strD < grp.getDistance_2()) {
             left.put("D", grp.getDistance_1());
             left.put("dD", grp.getDifDistance_1());
             left.put("dd", grp.getTurn_1());
