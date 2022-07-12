@@ -185,6 +185,18 @@ public class Functions {
         return as + h + fs;
     }
 
+    public static Double cosec(double value){
+        return 1.0 / Math.sin(value);
+    }
+
+    public static Double sec(double value){
+        return 1.0 / Math.cos(value);
+    }
+
+    public static Double cotan(double value){
+        return Math.cos(value) / Math.sin(value);
+    }
+
     public static String formatNablDalnomer(String a, String h, double d, double ak, double dk) {
         if (!a.equals("")) a = modAngDash(ak + Double.parseDouble(a));
         if (h.equals("xz")) h = "«?»";
@@ -391,11 +403,11 @@ public class Functions {
             shot.get(4).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
         } else {
             if (target.getTargetsFrontDu() < 120) {
-                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(90 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(120 * 1000 / target.getDistanceFromKNPtoTarget())));
+                shot.get(3).setF((int) Math.round(target.getTargetsFrontDu() + rand(Math.round(90 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(120 * 1000 / target.getDistanceFromKNPtoTarget()))));
             } else {
-                shot.get(3).setF(target.getTargetsFrontDu() + rand(Math.round(140 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(190 * 1000 / target.getDistanceFromKNPtoTarget())));
+                shot.get(3).setF((int) Math.round(target.getTargetsFrontDu() + rand(Math.round(140 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(190 * 1000 / target.getDistanceFromKNPtoTarget()))));
             }
-            shot.get(4).setF(target.getTargetsFrontDu() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+            shot.get(4).setF((int) Math.round(target.getTargetsFrontDu() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget()))));
         }
 
         if (target.getTargetsDepth() < 100) {

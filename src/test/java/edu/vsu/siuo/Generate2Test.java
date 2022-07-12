@@ -30,6 +30,106 @@ class Generate2Test {
     }
 
     @Test
+    void generateTrueSolution1() {
+        ConditionsDto conditionsDto = new ConditionsDto();
+
+        OP op = new OP();
+        op.setMainDirection(1600);
+        op.setX(52577);
+        op.setY(47917);
+        op.setH(154);
+        conditionsDto.setOp(op);
+
+        ObjectPosition knp = new ObjectPosition();
+        knp.setX(54025);
+        knp.setY(50082);
+        knp.setH(79);
+        conditionsDto.setKnp(knp);
+
+        conditionsDto.setPower(Powers.Power4);
+        conditionsDto.setDistance(List.of(2, 4, 6));
+        conditionsDto.setRange(List.of(87, 267, 413));
+        conditionsDto.setDirection(List.of(13, 20, 27));
+
+        Target target = new Target();
+        target.setAngleFromKNPtoTarget(2170);
+        target.setDistanceFromKNPtoTarget(2670);
+        target.setAngularMagnitudeTarget(1);
+        target.setTargetsFrontDu(43);
+        target.setTargetsDepth(47);
+        target.setType(Targets.VZV);
+
+        conditionsDto.setTarget(target);
+
+        Map<Integer, ShotDto> shot = new HashMap<>();
+        shot.put(0, new ShotDto(Types.ONE_N, +70));
+        shot.put(1, new ShotDto(Types.ONE_P, +47));
+        shot.put(2, new ShotDto(Types.ONE_N, +5));
+        shot.put(3, new ShotDto(Types.ALL_N, -12, 85));
+        shot.put(4, new ShotDto(Types.PRE_N, 16, 34));
+        conditionsDto.setShot(shot);
+
+        SolutionDto solutionDto = Generate2.generateSolution(conditionsDto);
+
+        assertEquals(4213, solutionDto.getDCt());
+        assertEquals(305, solutionDto.getDeltaDCt());
+        assertEquals(4518, solutionDto.getDCi());
+        assertEquals(-38, solutionDto.getDeCt());
+        assertEquals(22, solutionDto.getDeltaDeCt());
+        assertEquals(-16, solutionDto.getDeCi());
+        assertEquals(27, solutionDto.getFDuOp());
+        assertEquals(105, solutionDto.getGCOp());
+        assertEquals(608, solutionDto.getPs());
+        assertEquals(Direction.RIGHT, solutionDto.getOp());
+        assertEquals(8.736, solutionDto.getDeltaX()); // 8.9 должно быть
+        assertEquals(25, solutionDto.getVD());
+
+        solutionDto.getCommands();
+
+        assertEquals("«Дон», стой! Цель 21, «взвод артиллерийский». ОФ, Взрыватель «О и Ф». Заряд 4. Шкала тысячных, основному 1 сн. Огонь!", solutionDto.getCommands().get(0).getDescription());
+        assertEquals(352, solutionDto.getCommands().get(0).getPR());
+        assertEquals(2983, solutionDto.getCommands().get(0).getYR());
+        assertEquals(-16, solutionDto.getCommands().get(0).getDe());
+        assertEquals("П70, «-»", solutionDto.getCommands().get(0).getObservation());
+
+        assertEquals("Огонь!", solutionDto.getCommands().get(1).getDescription());
+        assertEquals(31, solutionDto.getCommands().get(1).getPR()); //должно быть 30
+        assertNull(solutionDto.getCommands().get(1).getYR());
+        assertEquals(-7, solutionDto.getCommands().get(1).getDe());
+        assertEquals("П47, «+»", solutionDto.getCommands().get(1).getObservation());
+
+        assertEquals("Огонь!", solutionDto.getCommands().get(2).getDescription());
+        assertEquals(-1, solutionDto.getCommands().get(2).getPR());
+        assertNull(solutionDto.getCommands().get(2).getYR());
+        assertEquals(-38, solutionDto.getCommands().get(2).getDe());
+        assertEquals("П5, «-»", solutionDto.getCommands().get(2).getObservation());
+
+        assertEquals("Батарее! Веер 0-05, скачок 4, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription()); //веер должен быть 0-04
+        assertEquals(6, solutionDto.getCommands().get(3).getPR());
+        assertNull(solutionDto.getCommands().get(3).getYR());
+        assertEquals(5, solutionDto.getCommands().get(3).getDe());
+        assertEquals("Л12, Все «-», Фр. 0-85", solutionDto.getCommands().get(3).getObservation());
+
+        assertEquals("Огонь!", solutionDto.getCommands().get(4).getDescription());
+        assertEquals(8, solutionDto.getCommands().get(4).getPR());
+        assertEquals(null, solutionDto.getCommands().get(4).getYR());
+        assertEquals(21, solutionDto.getCommands().get(4).getDe());
+        assertEquals("П16, Преобладание «-», Фр. 0-34", solutionDto.getCommands().get(4).getObservation());
+
+        assertEquals("Огонь!", solutionDto.getCommands().get(5).getDescription());
+        assertEquals(9, solutionDto.getCommands().get(5).getPR());
+        assertEquals(null, solutionDto.getCommands().get(5).getYR());
+        assertEquals(2, solutionDto.getCommands().get(5).getDe());
+        assertEquals("Цель подавлена", solutionDto.getCommands().get(5).getObservation());
+
+        assertEquals("Стой, записать! Цель 21, «взвод артиллерийский». «Лена»! «Амур» стрельбу по цели 21 закончил. Расход 111. Я «Амур».", solutionDto.getCommands().get(6).getDescription());
+        assertNull(solutionDto.getCommands().get(6).getPR());
+        assertNull(solutionDto.getCommands().get(6).getYR());
+        assertNull(solutionDto.getCommands().get(6).getDe());
+        assertEquals(null, solutionDto.getCommands().get(6).getObservation());
+    }
+
+    @Test
     void generateSolution() {
         ConditionsDto conditionsDto = new ConditionsDto();
 
@@ -81,7 +181,7 @@ class Generate2Test {
         // assertEquals(186, solutionDto.getGCOp());
         assertEquals(621, solutionDto.getPs());
         assertEquals(Direction.LEFT, solutionDto.getOp());
-        assertEquals(21, solutionDto.getDeltaX());
+        assertEquals(21.22, solutionDto.getDeltaX());
         assertEquals(14, solutionDto.getVD());
 
         solutionDto.getCommands();
@@ -95,13 +195,13 @@ class Generate2Test {
         assertEquals("Огонь!", solutionDto.getCommands().get(1).getDescription());
         assertEquals(-16, solutionDto.getCommands().get(1).getPR());
         assertNull(solutionDto.getCommands().get(1).getYR());
-        assertEquals(-18, solutionDto.getCommands().get(1).getDe());
+        assertEquals(-20, solutionDto.getCommands().get(1).getDe());
         assertEquals("Л32, «-»", solutionDto.getCommands().get(1).getObservation());
 
         assertEquals("Огонь!", solutionDto.getCommands().get(2).getDescription());
         assertEquals(7, solutionDto.getCommands().get(2).getPR());
         assertNull(solutionDto.getCommands().get(2).getYR());
-        assertEquals(4, solutionDto.getCommands().get(2).getDe());
+        assertEquals(5, solutionDto.getCommands().get(2).getDe());
         assertEquals("Л20, «-»", solutionDto.getCommands().get(2).getObservation());
 
 //        assertEquals("Батарее! Веер 0-06, скачок 3, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
@@ -167,8 +267,8 @@ class Generate2Test {
         shot.put(0, new ShotDto(Types.ONE_P, -81));
         shot.put(1, new ShotDto(Types.ONE_N, -49));
         shot.put(2, new ShotDto(Types.ONE_N, +24));
-        shot.put(3, new ShotDto(Types.ALL_N, +5, 96));
-        shot.put(4, new ShotDto(Types.PRE_P, -9, 61));
+        shot.put(3, new ShotDto(Types.ALL_N, +5, 109));
+        shot.put(4, new ShotDto(Types.PRE_P, -9, 79));
         conditionsDto.setShot(shot);
 
         SolutionDto solutionDto = Generate2.generateSolution(conditionsDto);
@@ -183,7 +283,7 @@ class Generate2Test {
         assertEquals(181, solutionDto.getGCOp());
         assertEquals(768, solutionDto.getPs());
         assertEquals(Direction.LEFT, solutionDto.getOp());
-        assertEquals(20, solutionDto.getDeltaX());
+        assertEquals(20.39, solutionDto.getDeltaX());
         assertEquals(15, solutionDto.getVD());
 
         solutionDto.getCommands();
@@ -197,31 +297,31 @@ class Generate2Test {
         assertEquals("Огонь!", solutionDto.getCommands().get(1).getDescription());
         assertEquals(0, solutionDto.getCommands().get(1).getPR());
         assertNull(solutionDto.getCommands().get(1).getYR());
-        assertEquals(+46, solutionDto.getCommands().get(1).getDe());
+        assertEquals(+45, solutionDto.getCommands().get(1).getDe());
         assertEquals("Л49, «-»", solutionDto.getCommands().get(1).getObservation());
 
         assertEquals("Огонь!", solutionDto.getCommands().get(2).getDescription());
         assertEquals(7, solutionDto.getCommands().get(2).getPR());
         assertNull(solutionDto.getCommands().get(2).getYR());
-        assertEquals(2, solutionDto.getCommands().get(2).getDe());
+        assertEquals(1, solutionDto.getCommands().get(2).getDe());
         assertEquals("П24, «-»", solutionDto.getCommands().get(2).getObservation());
 
 //        assertEquals("Батарее! Веер 0-06, скачок 3, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
         assertEquals("Батарее! Веер 0-05, скачок 3, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
         assertEquals(0, solutionDto.getCommands().get(3).getPR());
         assertNull(solutionDto.getCommands().get(3).getYR());
-        assertEquals(-13, solutionDto.getCommands().get(3).getDe());
+        assertEquals(-12, solutionDto.getCommands().get(3).getDe());
         assertEquals("П5, Все «-», Фр. 1-09", solutionDto.getCommands().get(3).getObservation());
 
         assertEquals("Огонь!", solutionDto.getCommands().get(4).getDescription());
         assertEquals(6, solutionDto.getCommands().get(4).getPR());
-        assertEquals(0, solutionDto.getCommands().get(4).getYR());
+        assertEquals(null, solutionDto.getCommands().get(4).getYR());
         assertEquals(-23, solutionDto.getCommands().get(4).getDe());
-        assertEquals("Л7, Преобладание «-», Фр. 0-61", solutionDto.getCommands().get(4).getObservation());
+        assertEquals("Л9, Преобладание «+», Фр. 0-79", solutionDto.getCommands().get(4).getObservation());
 
         assertEquals("Огонь!", solutionDto.getCommands().get(5).getDescription());
         assertEquals(-3, solutionDto.getCommands().get(5).getPR());
-        assertEquals(0, solutionDto.getCommands().get(5).getYR());
+        assertEquals(null, solutionDto.getCommands().get(5).getYR());
         assertEquals(17, solutionDto.getCommands().get(5).getDe());
         assertEquals("Цель подавлена", solutionDto.getCommands().get(5).getObservation());
 
@@ -229,7 +329,7 @@ class Generate2Test {
         assertNull(solutionDto.getCommands().get(6).getPR());
         assertNull(solutionDto.getCommands().get(6).getYR());
         assertNull(solutionDto.getCommands().get(6).getDe());
-        assertEquals("", solutionDto.getCommands().get(6).getObservation());
+        assertEquals(null, solutionDto.getCommands().get(6).getObservation());
     }
 
     @Test
@@ -295,25 +395,25 @@ class Generate2Test {
         assertEquals("Огонь!", solutionDto.getCommands().get(1).getDescription());
         assertEquals(2, solutionDto.getCommands().get(1).getPR());
         assertNull(solutionDto.getCommands().get(1).getYR());
-        assertEquals(-43, solutionDto.getCommands().get(1).getDe());
+        assertEquals(-45, solutionDto.getCommands().get(1).getDe());
         assertEquals("П49, «+»", solutionDto.getCommands().get(1).getObservation());
 
         assertEquals("Огонь!", solutionDto.getCommands().get(2).getDescription());
         assertEquals(-11, solutionDto.getCommands().get(2).getPR());
         assertNull(solutionDto.getCommands().get(2).getYR());
-        assertEquals(-5, solutionDto.getCommands().get(2).getDe());
+        assertEquals(-6, solutionDto.getCommands().get(2).getDe());
         assertEquals("Л17, «+»", solutionDto.getCommands().get(2).getObservation());
 
         assertEquals("Батарее! Веер сосредоточенный, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
         assertEquals(-1, solutionDto.getCommands().get(3).getPR());
         assertNull(solutionDto.getCommands().get(3).getYR());
-        assertEquals(10, solutionDto.getCommands().get(3).getDe());
+        assertEquals(11, solutionDto.getCommands().get(3).getDe());
         assertEquals("П11, Все «-», Фр. 0-09", solutionDto.getCommands().get(3).getObservation());
 
         assertEquals("Огонь!", solutionDto.getCommands().get(4).getDescription());
         assertEquals(1, solutionDto.getCommands().get(4).getPR());
         assertNull(solutionDto.getCommands().get(4).getYR());
-        assertEquals(-8, solutionDto.getCommands().get(4).getDe());
+        assertEquals(-9, solutionDto.getCommands().get(4).getDe());
         assertEquals("Л2, Преобладание «+», Фр. 0-06", solutionDto.getCommands().get(4).getObservation());
 
         assertEquals("Огонь!", solutionDto.getCommands().get(5).getDescription());
@@ -326,6 +426,6 @@ class Generate2Test {
         assertNull(solutionDto.getCommands().get(6).getPR());
         assertNull(solutionDto.getCommands().get(6).getYR());
         assertNull(solutionDto.getCommands().get(6).getDe());
-        assertEquals("", solutionDto.getCommands().get(6).getObservation());
+        assertEquals(null, solutionDto.getCommands().get(6).getObservation());
     }
 }

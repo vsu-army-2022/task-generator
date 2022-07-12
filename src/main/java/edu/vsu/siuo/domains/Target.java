@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class Target extends ObjectPosition{
-    private int targetsDepth;
-    private int targetsFrontDu;
-    private int targetsDepthOP;
-    private int targetsFrontDuOP;
+    private double targetsDepth;
+    private double targetsFrontDu;
+    private double targetsDepthOP;
+    private double targetsFrontDuOP;
     private int distanceFromKNPtoTarget;
     private int angleFromKNPtoTarget;
     private int angularMagnitudeTarget;

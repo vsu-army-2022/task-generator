@@ -88,7 +88,7 @@ public class WordManager {
             ));
 
             if (taskDto.getProblemDto().getTarget().getTargetsFrontDu() != 0 && taskDto.getProblemDto().getTarget().getTargetsDepth() != 0) {
-                builder.append(String.format(", Фц = %s, Гл = %d", formatTextDivision(taskDto.getProblemDto().getTarget().getTargetsFrontDu()), taskDto.getProblemDto().getTarget().getTargetsDepth()));
+                builder.append(String.format(", Фц = %s, Гл = %d", formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDu())), (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepth())));
             }
             builder.append(". ");
 
@@ -107,18 +107,18 @@ public class WordManager {
             tr.getCharacterFormat().setFontSize(12);
             tr.getCharacterFormat().setBold(true);
             paragraph = sec.addParagraph();
-            tr = paragraph.appendText(String.format("Дцт = %d\t∆Д = %s\tДци = %s\t∂цт = %s\t∆∂ = %s\t∂ци = %s\nКу = %d\tШу = 0-%d\t" +
-                    "ПС = %s\tОП (кнп) - Слева\t∆Xтыс = %d\tВд = %d",
+            tr = paragraph.appendText(String.format("Дцт = %d\t∆Д = %s\tДци = %s\t∂цт = %s\t∆∂ = %s\t∂ци = %s\nФц (оп) = %s\tГл(оп) = %d\t" +
+                    "ПС = %s\tОП (кнп) - Слева\t∆Xтыс = %.1f\tВд = %d",
                     taskDto.getSolutionDto().getDCt(),
                     formatTextValueWithSigned(taskDto.getSolutionDto().getDeltaDCt()),
-                    formatTextWithSeparation(taskDto.getSolutionDto().getDCi()),
-                    formatTextWithSeparation(taskDto.getSolutionDto().getDCt()),
+                    taskDto.getSolutionDto().getDCi(),
+                    formatTextWithSeparation(taskDto.getSolutionDto().getDeCt()),
                     formatTextDivision(taskDto.getSolutionDto().getDeltaDeCt()),
                     formatTextDivision(taskDto.getSolutionDto().getDeCi()),
-                    taskDto.getSolutionDto().getKY(),
-                    taskDto.getSolutionDto().getShY(),
+                    formatTextDivision(taskDto.getSolutionDto().getFDuOp()),
+                    taskDto.getSolutionDto().getGCOp(),
                     formatTextWithSeparation(taskDto.getSolutionDto().getPs()),
-                    taskDto.getSolutionDto().getDeltaX(),
+                    Math.round(taskDto.getSolutionDto().getDeltaX()*10)*1.0/10,
                     taskDto.getSolutionDto().getVD()));
             tr.getCharacterFormat().setFontSize(12);
 
@@ -214,11 +214,16 @@ public class WordManager {
     }
 
     private String formatTextWithSeparation(int value){
-        return String.format("%s-%s",
-             String.format("%d", value).substring(0, value > 999 ? 2 : 1),
-             String.format("%d",value).substring(value > 999 ? 2 : 1,
-                     value > 999 ? 4 : 3)
-        );
+        if (value > 99) {
+            return String.format("%s-%s",
+                    String.format("%d", value).substring(0, value > 999 ? 2 : 1),
+                    String.format("%d", value).substring(value > 999 ? 2 : 1,
+                            value > 999 ? 4 : 3)
+            );
+        } else if (value > 9){
+            return String.format("0-%d", value);
+        } else {
+            return String.format("0-0%d", value);
+        }
     }
-
 }

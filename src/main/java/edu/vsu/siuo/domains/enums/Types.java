@@ -14,7 +14,8 @@ public enum Types {
     PRE_P("Преобладание «+»"),
     PRE_N("Преобладание «-»"),
     RAV_P("Равенство «+» и «-» от-но ДГЦ"),
-    RAV_N("Равенство «+» и «-» от-но БГЦ");
+    RAV_N("Равенство «+» и «-» от-но БГЦ"),
+    TARGET_DESTROYED("Цель подавлена");
 
     private final String description;
 
