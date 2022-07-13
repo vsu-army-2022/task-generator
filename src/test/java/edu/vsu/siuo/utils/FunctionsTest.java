@@ -6,26 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FunctionsTest {
 
     private final double DELTA = 0.01;
-
-    Map<String, String> TYPES = Map.of(
-            "-11", "",
-            "xz", "«?»",
-            "one_p", "«+»",
-            "one_n", "«-»",
-            "all_p", "Все «+»",
-            "all_n", "Все «-»",
-            "pre_p", "Преобладание «+»",
-            "pre_n", "Преобладание «-»",
-            "rav_p", "Равенство «+» и «-» от-но ДГЦ",
-            "rav_n", "Равенство «+» и «-» от-но БГЦ"
-    );
 
     @Test
     public void converseToRad() {
