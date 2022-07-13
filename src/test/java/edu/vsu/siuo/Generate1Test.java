@@ -1,5 +1,6 @@
 package edu.vsu.siuo;
 
+import edu.vsu.siuo.domains.GeneratedShotResult;
 import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
@@ -71,7 +72,7 @@ class Generate1Test {
         shot.put(2, new ShotDto(Types.ONE_N, +10));
         shot.put(3, new ShotDto(Types.ALL_N, +5, 76));
         shot.put(4, new ShotDto(Types.RAV_P, +5, 44));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRLess5.generateSolution(conditionsDto);
 

@@ -401,11 +401,11 @@ public class GenerateDalnomerMore5 {
         firstCommand.setPR((int) Math.round(pric));
         firstCommand.setYR(Math.round(urov));
         firstCommand.setDe((int) Math.round(dov_isch));
-        firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
+        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr() , target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()));
         commands.add(firstCommand);
 
         int flag_k = 1; // для 1 команды батарее
-        int vilka = 200 /*8*vd*/;
+
 
         int kol_nabl = 0;
 
@@ -472,15 +472,9 @@ public class GenerateDalnomerMore5 {
 
                 rashod += 6 * uu * up * 2;
             } else {
-                dD = vilka;
+                dD = shot.get(i).getRazr();
 
-                if (har.equals("xz")) { // вилка
-                    dD = 0;
-                } else if (!har.equals(har_next) || vilka < 200 /*8*vd*/) {
-                    vilka = vilka / 2;
-                }
-
-                rashod++;
+                rashod+=2;
             }
 
 
@@ -567,6 +561,14 @@ public class GenerateDalnomerMore5 {
 
             // формируем наблюдение
             String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
+
+            // переопределяем 2 наблюдение, где 3 выстрела
+
+            if (i == 0) {
+                nablud = conditionsDto.getGeneratedShotResult().getVse3v();
+                komand = "3 снаряда, 20 секунд выстрел, огонь!";
+            }
+
 
             SolutionDto.TaskCommand command = new SolutionDto.TaskCommand();
             command.setDescription(komand);

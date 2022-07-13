@@ -1,5 +1,6 @@
 package edu.vsu.siuo;
 
+import edu.vsu.siuo.domains.GeneratedShotResult;
 import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
@@ -70,7 +71,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, +5));
         shot.put(3, new ShotDto(Types.ALL_N, -12, 85));
         shot.put(4, new ShotDto(Types.PRE_N, 16, 34));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -170,7 +171,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, -25));
         shot.put(3, new ShotDto(Types.ALL_P, -8, 127));
         shot.put(4, new ShotDto(Types.RAV_P, +14, 83));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -270,7 +271,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, -14));
         shot.put(3, new ShotDto(Types.ALL_N, +19, 201));
         shot.put(4, new ShotDto(Types.PRE_P, +7, 120));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -378,7 +379,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, -20));
         shot.put(3, new ShotDto(Types.ALL_P, +5, 96));
         shot.put(4, new ShotDto(Types.PRE_N, -7, 61));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -480,7 +481,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, +24));
         shot.put(3, new ShotDto(Types.ALL_N, +5, 109));
         shot.put(4, new ShotDto(Types.PRE_P, -9, 79));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -582,7 +583,7 @@ class Generate2Test {
         shot.put(3, new ShotDto(Types.ALL_N, +11, 9));
         shot.put(4, new ShotDto(Types.PRE_P, -2, 6));
 
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -679,7 +680,7 @@ class Generate2Test {
         shot.put(3, new ShotDto(Types.ALL_P, +13, 98));
         shot.put(4, new ShotDto(Types.PRE_P, -14, 63));
 
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
