@@ -206,8 +206,8 @@ public class GenerateNZRMore5 extends Generate {
 
         setFirstCommand(commands, target, vzr, load, pric, urov, dov_isch, shot);
 
+
         int flag_k = 1; // для 1 команды батарее
-        int vilka = 200 /*8*vd*/;
 
         int kol_nabl = 0;
 
@@ -219,6 +219,8 @@ public class GenerateNZRMore5 extends Generate {
         }
 
         int rashod = 0;
+        /*8*vd*/
+        int vilka = 200;
         for (int i = 0; i < kol_nabl; i++) {
             // считываем наблюдения
             int alfa = shot.get(i).getA();
@@ -293,7 +295,6 @@ public class GenerateNZRMore5 extends Generate {
                 pricel = dD / dxt;
                 if (per_ned.equals("p")) pricel *= -1;
                 betta = getBetta(per_ned, alfa, ku, dD, shu, opDirection);
-
             } else { // по ПРК
                 double psRadian = converseToRad(analysisResult.getPs());
                 double dk = target.getDistanceFromKNPtoTarget();
@@ -340,8 +341,6 @@ public class GenerateNZRMore5 extends Generate {
                         bettaSecondCircle *= -1;
                     }
                 }
-//                    System.out.println("Дальность: первый круг = " + deltaDistFirstCircleAbs +"\t второй круг = " + deltaDistSecondCircleAbs);
-//                    System.out.println("Угломер: первый круг = " + bettaFirstCircle + "\t второй круг = " + bettaSecondCircle + "\n\n\n");
                 betta = Math.round(bettaSecondCircle + bettaFirstCircle);
                 double deltaDist = deltaDistSecondCircleAbs + deltaDistFirstCircleAbs;
 
@@ -351,7 +350,7 @@ public class GenerateNZRMore5 extends Generate {
 
 
             // формируем наблюдение
-            GenerateNZRLess5.generateNablud(shot, commands, kol_nabl, i, komand, betta, pricel);
+            generateNablud(shot, commands, kol_nabl, i, komand, betta, pricel);
         }
         return generateLastCommand(solutionDto, target, uu, rashod, up, commands);
     }
