@@ -19,7 +19,7 @@ public class SolutionDto {
     /**
      * Коэффициент удаления, dK / dCt
      */
-    private int kY;
+    private double kY;
 
     /**
      * Шаг угломера

@@ -63,7 +63,6 @@ public class Functions {
 
         // дальность топографическая
         double dt = Math.sqrt(kat_x * kat_x + kat_y * kat_y);
-        int dal = (int) Math.round(dt);
 
 //        // доворот, пс
 //        if (kat_x == 0) kat_x = 0.0000000001; // скрываем ошибку (на ноль делить нельзя)
@@ -89,7 +88,7 @@ public class Functions {
 
         double a_du = converseToDelAngle(a);
 
-        return new double[]{dal, a_du}; //дальность топографическая между двумя точками, a_du угол (в делениях угломера) между основным направлением и целью
+        return new double[]{dt, a_du}; //дальность топографическая между двумя точками, a_du угол (в делениях угломера) между основным направлением и целью
     }
 
     public static AnalysisResult analyzePuo(Target target, ObjectPosition knp, Double np_x, Double np_y, OP op) {

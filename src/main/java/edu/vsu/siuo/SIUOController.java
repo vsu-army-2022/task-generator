@@ -1,9 +1,9 @@
 package edu.vsu.siuo;
 
+import edu.vsu.siuo.domains.dto.TaskDto;
 import edu.vsu.siuo.word.WordManager;
 import edu.vsu.siuo.domains.Settings;
 
-import edu.vsu.siuo.domains.dto.TaskDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -28,9 +28,9 @@ import static edu.vsu.siuo.word.WordManager.GenerateNameFile;
 
 public class SIUOController implements Initializable {
 
-    public static final String HZRSmall = "НЗР (ПС < 5-00)";
+    public static final String HZRSmall = "НЗР (Малое смещение)";
     public static final String HZRBig = "НЗР (Большое смещение)";
-    public static final String DalnomerSmall = "Дальномер (ПС < 5-00)";
+    public static final String DalnomerSmall = "Дальномер (Малое смещение)";
     public static final String DalnomerBig = "Дальномер (Большое смещение)";
 
     private static final Map<Integer, String> map;
@@ -75,9 +75,12 @@ public class SIUOController implements Initializable {
 
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
-        WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type)));
-        wordManager.Write(Generate2.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
-
+        WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(type)));
+        if (type == 0){
+            wordManager.WriteNZRLess5(GenerateNZRLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
+        } else if (type == 1){
+            wordManager.WriteNZRMore5(GenerateNZRMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
+        }
         Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
                   this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
     }
