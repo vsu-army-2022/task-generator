@@ -9,6 +9,7 @@ import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Targets;
 import edu.vsu.siuo.domains.enums.Types;
+import edu.vsu.siuo.utils.Functions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,7 +160,7 @@ public class GenerateDalnomerLess5 {
             zaryd = (rand(0, 1) == 1 ? Powers.Reduced : Powers.Full);
         }
 
-        GeneratedShotResult generatedShotResult = generateShot(target);
+        GeneratedShotResult generatedShotResult = generateShotDalnomer(target);
 
         ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, generatedShotResult);
 
@@ -230,7 +231,7 @@ public class GenerateDalnomerLess5 {
         int shu = 0;
 
         if (dalTop != 0) {
-            ku = target.getDistanceFromKNPtoTarget() * 1.0 / dalTop;
+            ku = target.getDistanceFromKNPtoTarget()*1.0 / dalTop;
             shu = (int) Math.round(analysisResult.getPs() / dalTop * 100);
         }
 
@@ -326,7 +327,7 @@ public class GenerateDalnomerLess5 {
         firstCommand.setPR((int) Math.round(pric));
         firstCommand.setYR(Math.round(urov));
         firstCommand.setDe((int) Math.round(dov_isch));
-        firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
+        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr(),target.getDistanceFromKNPtoTarget() ,target.getDistanceFromKNPtoTarget() ));
         commands.add(firstCommand);
 
         int flag_k = 1; // для 1 команды батарее
@@ -354,7 +355,7 @@ public class GenerateDalnomerLess5 {
             if (shot.get(i).getType() != null && shot.get(i + 1).getType() != null) {
                 har = shot.get(i).getType().name().toLowerCase();
                 har_next = shot.get(i + 1).getType().name().toLowerCase(Locale.ROOT);
-            } else if (i == kol_nabl - 1) {
+            } else if (i == kol_nabl - 1){
                 //har = Types.TARGET_DESTROYED.name().toLowerCase(Locale.ROOT);
                 har = shot.get(i).getType().name().toLowerCase();
             }
@@ -399,7 +400,7 @@ public class GenerateDalnomerLess5 {
                 rashod += 6 * uu * up * 2;
             } else {
                 dD = shot.get(i).getRazr();
-                rashod += 2;
+                rashod+=2;
             }
 
 
@@ -430,8 +431,8 @@ public class GenerateDalnomerLess5 {
             // формируем наблюдение
             String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
 
-            if (i == 0) {
-                nablud = conditionsDto.getGeneratedShotResult().getVse3v(); // todo fix it
+            if (i == 0){
+                nablud = conditionsDto.getGeneratedShotResult().getVse3v();
                 komand = "3 снаряда, 20 секунд выстрел, огонь!";
             }
 
