@@ -77,9 +77,9 @@ public class SIUOController implements Initializable {
     protected void buttonCreateTasksOnClick() throws IOException {
         WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(type)));
         if (type == 0){
-            wordManager.WriteNZRLess5(GenerateNZRLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
+            wordManager.Write(GenerateNZRLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
         } else if (type == 1){
-            wordManager.WriteNZRMore5(GenerateNZRMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
+            wordManager.Write(GenerateNZRMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
         }
         Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
                   this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
