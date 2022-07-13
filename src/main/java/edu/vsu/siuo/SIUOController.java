@@ -79,7 +79,11 @@ public class SIUOController implements Initializable {
         if (type == 0){
             wordManager.WriteNZRLess5(GenerateNZRLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
         } else if (type == 1){
-            wordManager.WriteNZRMore5(GenerateNZRMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
+            wordManager.WriteNZRLess5(GenerateNZRMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
+        } else if (type == 2){
+            wordManager.WriteNZRLess5(GenerateDalnomerLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
+        } else if (type == 3){
+            wordManager.WriteNZRLess5(GenerateDalnomerMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())));
         }
         Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
                   this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
