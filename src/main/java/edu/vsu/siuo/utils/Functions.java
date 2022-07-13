@@ -184,24 +184,24 @@ public class Functions {
         return as + h + fs;
     }
 
-    public static Double cosec(double value){
+    public static Double cosec(double value) {
         return 1.0 / Math.sin(value);
     }
 
-    public static Double sec(double value){
+    public static Double sec(double value) {
         return 1.0 / Math.cos(value);
     }
 
-    public static Double cotan(double value){
+    public static Double cotan(double value) {
         return Math.cos(value) / Math.sin(value);
     }
 
-    public static String formatNablDalnomer(String a, String h, double d, double ak, double dk) {
-        if (!a.equals("")) a = modAngDash(ak + Double.parseDouble(a));
-        if (h.equals("xz")) h = "«?»";
-        if (h.equals("one_p")) h = Double.toString(dk + d);
-        if (h.equals("one_n")) h = Double.toString(dk - d);
-        return a + ", " + h;
+    public static String formatNablDalnomer(int a, Types h, double d, double ak, double dk) {
+        String as = modAngDash(ak + a); //fixme?
+        String hs = h.getDescription();
+        if (h.equals(Types.ONE_P)) hs = Double.toString(dk + d);
+        if (h.equals(Types.ONE_N)) hs = Double.toString(dk - d);
+        return as + ", " + hs;
     }
 
     public static String formatNablSn(Double al, Double ap) {
@@ -355,7 +355,7 @@ public class Functions {
     }
 
 
-    public static Map<Integer, ShotDto> generateShot(Target target) {
+    public static GeneratedShotResult generateShot(Target target) {
 
         List<Types> gen_n = Types.getNoEmptyTypes();
 
@@ -415,6 +415,81 @@ public class Functions {
             shot.get(4).setType(gen_n.get(rand(7, 8)));
         }
         shot.get(4).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
-        return shot;
+        return new GeneratedShotResult(shot);
+    }
+
+    public static GeneratedShotResult generateShotDalnomer(Target target) {
+
+        List<Types> gen_n = Types.getNoEmptyTypes();
+
+        // генерируем наблюдения
+        Map<Integer, ShotDto> shot = new HashMap<>();
+
+        shot.put(0, new ShotDto());
+        shot.put(1, new ShotDto());
+        shot.put(2, new ShotDto());
+        shot.put(3, new ShotDto());
+
+        shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(40, 65));
+        shot.get(0).setType(gen_n.get(rand(0, 2)));
+
+        if (shot.get(0).getType() == Types.XZ) {
+            shot.get(0).setRazr(0);
+        } else {
+            shot.get(0).setRazr(rand(150, 250));
+        }
+
+            /* 3 выстрела */
+            int v3snar1A = (rand(0, 1) == 1 ? 1 : -1) * rand(20, 38);
+            int v3snar1D = rand(50, 120);
+            int v3snar0A = v3snar1A - rand(4, 11);
+            int v3snar0D = v3snar1D - rand(18, 32);
+            int v3snar2A = v3snar1A + rand(4, 11);
+            int v3snar2D = v3snar1D + rand(18, 32);
+
+
+        shot.get(1).setA(Math.round((v3snar0A + v3snar1A + v3snar2A) / 3));
+        shot.get(1).setType(gen_n.get(rand(1, 2)));
+        shot.get(1).setRazr(Math.round((v3snar0D + v3snar1D + v3snar2D) / 3));
+
+        String vse3v = "";
+        String vse3v_word = "";
+
+        // extracted for loop
+        vse3v = vse3v + '	' + formatNablDalnomer(v3snar0A, shot.get(1).getType(), v3snar0D, target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()) + '	';
+        vse3v_word = vse3v_word + formatNablDalnomer(v3snar0A, shot.get(1).getType(), v3snar0D, target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()) + "; ";
+
+        vse3v = vse3v + '	' + formatNablDalnomer(v3snar1A, shot.get(1).getType(), v3snar1D, target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()) + '	';
+        vse3v_word = vse3v_word + formatNablDalnomer(v3snar1A, shot.get(1).getType(), v3snar1D, target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()) + "; ";
+
+        vse3v = vse3v + '	' + formatNablDalnomer(v3snar2A, shot.get(1).getType(), v3snar2D, target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()) + '	';
+        vse3v_word = vse3v_word + formatNablDalnomer(v3snar2A, shot.get(1).getType(), v3snar2D, target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()) + "; ";
+
+
+        // на поражение
+        shot.get(3).setA((rand(0, 1) == 1 ? 1 : -1) * rand(5, 21));
+        shot.get(2).setType(gen_n.get(rand(3, 4)));
+
+        if (target.getAngularMagnitudeTarget() == 0) {
+            shot.get(2).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+            shot.get(3).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+        } else {
+            if (target.getAngularMagnitudeTarget() < 120) {
+                shot.get(2).setF(target.getAngularMagnitudeTarget() + rand(Math.round(90 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(120 * 1000 / target.getDistanceFromKNPtoTarget())));
+            } else {
+                shot.get(2).setF(target.getAngularMagnitudeTarget() + rand(Math.round(140 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(190 * 1000 / target.getDistanceFromKNPtoTarget())));
+            }
+            shot.get(3).setF(target.getAngularMagnitudeTarget() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+        }
+
+
+        if (target.getTargetsDepth() < 100) {
+            shot.get(3).setType(gen_n.get(rand(5, 6)));
+        } else {
+            shot.get(3).setType(gen_n.get(rand(7, 8)));
+        }
+        shot.get(3).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
+
+        return new GeneratedShotResult(shot, vse3v, vse3v_word);
     }
 }

@@ -63,7 +63,7 @@ public class GenerateNZRLess5 extends Generate {
         Powers load = conditionsDto.getPower();
         Target target = conditionsDto.getTarget();
         ObjectPosition knp = conditionsDto.getKnp();
-        Map<Integer, ShotDto> shot = conditionsDto.getShot();
+        Map<Integer, ShotDto> shot = conditionsDto.getGeneratedShotResult().getShot();
         List<Integer> distance = conditionsDto.getDistance();
         List<Integer> range = conditionsDto.getRange();
         List<Integer> direction = conditionsDto.getDirection();

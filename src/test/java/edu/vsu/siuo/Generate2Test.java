@@ -1,5 +1,6 @@
 package edu.vsu.siuo;
 
+import edu.vsu.siuo.domains.GeneratedShotResult;
 import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
@@ -70,7 +71,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, +5));
         shot.put(3, new ShotDto(Types.ALL_N, -12, 85));
         shot.put(4, new ShotDto(Types.PRE_N, 16, 34));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -170,7 +171,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, -25));
         shot.put(3, new ShotDto(Types.ALL_P, -8, 127));
         shot.put(4, new ShotDto(Types.RAV_P, +14, 83));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -270,7 +271,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, -14));
         shot.put(3, new ShotDto(Types.ALL_N, +19, 201));
         shot.put(4, new ShotDto(Types.PRE_P, +7, 120));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -378,7 +379,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, -20));
         shot.put(3, new ShotDto(Types.ALL_P, +5, 96));
         shot.put(4, new ShotDto(Types.PRE_N, -7, 61));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -480,7 +481,7 @@ class Generate2Test {
         shot.put(2, new ShotDto(Types.ONE_N, +24));
         shot.put(3, new ShotDto(Types.ALL_N, +5, 109));
         shot.put(4, new ShotDto(Types.PRE_P, -9, 79));
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -490,7 +491,7 @@ class Generate2Test {
         assertEquals(254, solutionDto.getDeCt());
         assertEquals(-6, solutionDto.getDeltaDeCt());
         assertEquals(248, solutionDto.getDeCi());
-        assertEquals(30, solutionDto.getFDuOp());
+        assertEquals(31, solutionDto.getFDuOp());
         assertEquals(181, solutionDto.getGCOp());
         assertEquals(768, solutionDto.getPs());
         assertEquals(Direction.LEFT, solutionDto.getOp());
@@ -582,7 +583,7 @@ class Generate2Test {
         shot.put(3, new ShotDto(Types.ALL_N, +11, 9));
         shot.put(4, new ShotDto(Types.PRE_P, -2, 6));
 
-        conditionsDto.setShot(shot);
+        conditionsDto.setGeneratedShotResult(new GeneratedShotResult(shot));
 
         SolutionDto solutionDto = GenerateNZRMore5.generateSolution(conditionsDto);
 
@@ -638,107 +639,5 @@ class Generate2Test {
         assertNull(solutionDto.getCommands().get(6).getYR());
         assertNull(solutionDto.getCommands().get(6).getDe());
         assertEquals(null, solutionDto.getCommands().get(6).getObservation());
-    }
-
-    @Test
-    void generateSolution2() {
-        ConditionsDto conditionsDto = new ConditionsDto();
-
-        OP op = new OP();
-        op.setMainDirection(1700);
-        op.setX(73751);
-        op.setY(26294);
-        op.setH(141);
-        conditionsDto.setOp(op);
-
-        ObjectPosition knp = new ObjectPosition();
-        knp.setX(76438);
-        knp.setY(30384);
-        knp.setH(116);
-        conditionsDto.setKnp(knp);
-
-        conditionsDto.setPower(Powers.Power2);
-        conditionsDto.setDistance(List.of(4, 6, 8));
-        conditionsDto.setRange(List.of(-218, -308, -410));
-        conditionsDto.setDirection(List.of(12, 18, 24));
-
-        Target target = new Target();
-        target.setAngleFromKNPtoTarget(1964);
-        target.setDistanceFromKNPtoTarget(3017);
-        target.setAngularMagnitudeTarget(-18);
-        target.setTargetsFrontDu(98);
-        target.setTargetsDepth(126);
-        target.setType(Targets.PO);
-
-        conditionsDto.setTarget(target);
-
-        Map<Integer, ShotDto> shot = new HashMap<>();
-        shot.put(0, new ShotDto(Types.ONE_N, 63));
-        shot.put(1, new ShotDto(Types.ONE_N, 46));
-        shot.put(2, new ShotDto(Types.ONE_P, 15));
-        shot.put(3, new ShotDto(Types.ALL_N, -20, 134));
-        shot.put(4, new ShotDto(Types.RAV_N, -10, 96));
-        conditionsDto.setShot(shot);
-
-        GenerateNZRMore5 generateNZRMore5 = new GenerateNZRMore5();
-        SolutionDto solutionDto = generateNZRMore5.generateSolution(conditionsDto);
-
-        assertEquals(6878, solutionDto.getDCt());
-        assertEquals(-336, solutionDto.getDeltaDCt());
-        assertEquals(6542, solutionDto.getDCi());
-        assertEquals(-378, solutionDto.getDeCt());
-        assertEquals(20, solutionDto.getDeltaDeCt());
-        assertEquals(-358, solutionDto.getDeCi());
-        assertEquals(42, solutionDto.getFDuOp());
-        assertEquals(282, solutionDto.getGCOp());
-        assertEquals(642, solutionDto.getPs());
-        assertEquals(Direction.RIGHT, solutionDto.getOp());
-        assertEquals(14, solutionDto.getDeltaX());
-        assertEquals(15, solutionDto.getVD());
-
-        solutionDto.getCommands();
-
-        assertEquals("«Дон», стой! Цель 21, «пехота». ОФ, Взрыватель «О». Заряд 2. Шкала тысячных, основному 1 сн. Огонь!", solutionDto.getCommands().get(0).getDescription());
-        assertEquals(301, solutionDto.getCommands().get(0).getPR());
-        assertEquals(2989, solutionDto.getCommands().get(0).getYR());
-        assertEquals(-358, solutionDto.getCommands().get(0).getDe());
-        assertEquals("П63, «-»", solutionDto.getCommands().get(0).getObservation());
-
-        assertEquals("Огонь!", solutionDto.getCommands().get(1).getDescription());
-        assertEquals(20, solutionDto.getCommands().get(1).getPR());
-        assertNull(solutionDto.getCommands().get(1).getYR());
-        assertEquals(-2, solutionDto.getCommands().get(1).getDe());
-        assertEquals("П46, «-»", solutionDto.getCommands().get(1).getObservation());
-
-        assertEquals("Огонь!", solutionDto.getCommands().get(2).getDescription());
-        assertEquals(18, solutionDto.getCommands().get(2).getPR());
-        assertNull(solutionDto.getCommands().get(2).getYR());
-        assertEquals(4, solutionDto.getCommands().get(2).getDe());
-        assertEquals("П15, «+»", solutionDto.getCommands().get(2).getObservation());
-
-        assertEquals("Батарее! Веер 0-07, скачок 5, по 2 снаряда беглый. Огонь!", solutionDto.getCommands().get(3).getDescription());
-        assertEquals(-4, solutionDto.getCommands().get(3).getPR());
-        assertNull(solutionDto.getCommands().get(3).getYR());
-        assertEquals(-14, solutionDto.getCommands().get(3).getDe());
-        assertEquals("Л20, Все «-», Фр. 1-34", solutionDto.getCommands().get(3).getObservation());
-
-        assertEquals("Огонь!", solutionDto.getCommands().get(4).getDescription());
-        assertEquals(8, solutionDto.getCommands().get(4).getPR());
-        assertEquals(0, solutionDto.getCommands().get(4).getYR());
-        assertEquals(24, solutionDto.getCommands().get(4).getDe());
-        assertEquals("Л10, Равенство «+» и «-» от-но БГЦ, Фр. 0-96", solutionDto.getCommands().get(4).getObservation());
-
-        assertEquals("Огонь!", solutionDto.getCommands().get(5).getDescription());
-        assertEquals(4, solutionDto.getCommands().get(5).getPR());
-        assertEquals(0, solutionDto.getCommands().get(5).getYR());
-        assertEquals(12, solutionDto.getCommands().get(5).getDe());
-        assertEquals("Цель подавлена", solutionDto.getCommands().get(5).getObservation());
-
-        assertEquals("Стой, записать! Цель 21, «пехота». «Лена»! «Амур» стрельбу по цели 21 закончил. Расход 111. Я «Амур».", solutionDto.getCommands().get(6).getDescription());
-        assertNull(solutionDto.getCommands().get(6).getPR());
-        assertNull(solutionDto.getCommands().get(6).getYR());
-        assertNull(solutionDto.getCommands().get(6).getDe());
-        assertEquals("", solutionDto.getCommands().get(6).getObservation());
-
     }
 }
