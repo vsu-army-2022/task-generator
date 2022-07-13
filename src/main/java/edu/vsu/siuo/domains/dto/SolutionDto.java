@@ -19,7 +19,7 @@ public class SolutionDto {
     /**
      * Коэффициент удаления, dK / dCt
      */
-    private int kY;
+    private double kY;
 
     /**
      * Шаг угломера
@@ -27,7 +27,7 @@ public class SolutionDto {
     private int shY;
 
 
-    private int deltaX;
+    private double deltaX;
 
     /**
      * Поправка на смещение - угол между линией наблюдения и линией цели

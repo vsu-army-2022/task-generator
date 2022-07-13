@@ -1,11 +1,9 @@
 package edu.vsu.siuo.domains.dto;
 
-import edu.vsu.siuo.Generate2;
 import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.enums.Powers;
-import edu.vsu.siuo.domains.enums.Targets;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

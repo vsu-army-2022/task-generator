@@ -9,6 +9,7 @@ import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Targets;
 import edu.vsu.siuo.domains.enums.Types;
+import edu.vsu.siuo.utils.Functions;
 
 import java.util.*;
 
@@ -17,7 +18,10 @@ import static edu.vsu.siuo.utils.Functions.*;
 import static edu.vsu.siuo.utils.Utils.rand;
 import static edu.vsu.siuo.utils.Utils.round;
 
-public class Generate2 {
+
+//todo ПРИ ПС > 5-00 КУ И ШУ НЕ ИСПОЛЬЗУЮТСЯ И НЕ ВЫВОДЯТСЯ
+
+public class GenerateNZRMore5 {
 
     public static List<TaskDto> generateTasks(int count) {
         List<TaskDto> taskDtos = new ArrayList<>();
@@ -186,7 +190,7 @@ public class Generate2 {
 //            grp.get(2).put("dd", grp.get(1).get("dd") + rand(-2, -8));
 //        }
 
-        GRP grp = new GRP((int) analysisResult.getDalTop());
+        GRP grp = new GRP((int) Math.round(analysisResult.getDalTop()));
 
         // исчисленная дальность и доворот
         List<Double> grp_count = grpCount(grp, analysisResult.getDalTop());
@@ -236,7 +240,7 @@ public class Generate2 {
         List<Integer> range = conditionsDto.getRange();
         List<Integer> direction = conditionsDto.getDirection();
 
-        int targetsFrontDu = target.getTargetsFrontDu();
+        double targetsFrontDu = target.getTargetsFrontDu();
 
 
         // Добавляем ГРП
@@ -262,7 +266,7 @@ public class Generate2 {
         // уровень
         long urov = 0;
         if (analysisResult.getDalTop() != 0) {
-            int target_h = knp.getH() + target.getDistanceFromKNPtoTarget() * target.getAngularMagnitudeTarget() / 1000; //высота цели
+            double target_h = knp.getH() + target.getDistanceFromKNPtoTarget() * target.getAngularMagnitudeTarget() * 1.0 / 1000; //высота цели
             double angularMagnitude_op = (target_h - op.getH()) / analysisResult.getDalTop() * 1000;
 
             urov = 3000 + Math.round(angularMagnitude_op);
@@ -280,14 +284,13 @@ public class Generate2 {
             shu = Math.round(analysisResult.getPs() / dalTop * 100);
         }
 
-        int gc_op = 0;
-        int fcdu_op = 0;
+        double gc_op = 0;
+        double fcdu_op = 0;
 
         List<Double> ts_result = ts(load, dal_isch);
         double pric = ts_result.get(1);
         double dxt = ts_result.get(2);
         double vd = ts_result.get(3);
-        pric = Math.round(pric);
 
         String vzr = null;
         if (target.getType().equals(Targets.PO) || target.getType().equals(Targets.RAP) || target.getType().equals(Targets.PTUR)) {
@@ -297,7 +300,7 @@ public class Generate2 {
             vzr = "О и Ф";
         }
         // todo fixme
-        int fcm = (target.getTargetsFrontDu() * target.getDistanceFromKNPtoTarget()) / 1000;
+        double fcm = (target.getTargetsFrontDu() * target.getDistanceFromKNPtoTarget()) / 1000;
 
 
         if (target.getTargetsDepth() > 200) target.setTargetsDepth(200);
@@ -337,15 +340,15 @@ public class Generate2 {
             double ugl1 = Math.abs(target.getTargetsFrontDu() * ku * cos_ps);
             double ugl2 = Math.abs(target.getTargetsDepth() * 1.0 / 100 * shu100);
 
-            gc_op = (int) Math.round(pr1 + pr2);
-            fcdu_op = (int) Math.round(ugl1 + ugl2);
+            gc_op = pr1 + pr2;
+            fcdu_op = ugl1 + ugl2;
 
             // todo check it
-            target.setTargetsDepthOP(Math.round(gc_op));
-            target.setTargetsFrontDuOP(Math.round(fcdu_op));
+            target.setTargetsDepthOP(gc_op);
+            target.setTargetsFrontDuOP(fcdu_op);
 
-            solutionDto.setFDuOp(fcdu_op);
-            solutionDto.setGCOp(gc_op);
+            solutionDto.setFDuOp((int) Math.round(fcdu_op));
+            solutionDto.setGCOp((int) Math.round(gc_op));
         }
 
         double bat_veer;
@@ -355,9 +358,9 @@ public class Generate2 {
         } else {
             //todo Спросить у Полковника про домножение на ku
             if (analysisResult.getPs() < 500) {
-                bat_veer = ((double) targetsFrontDu) / 6 * ku;
+                bat_veer = (targetsFrontDu) / 6 * ku;
             } else {
-                bat_veer = ((double) fcdu_op) / 6;
+                bat_veer = (fcdu_op) / 6;
             }
             bat_veer_v = modAngDash(bat_veer);
         }
@@ -366,36 +369,36 @@ public class Generate2 {
         int up;
         if (gc_op >= 100) {
             up = 3;
-            skachok = " скачок " + Math.round(gc_op * 1.0 / 3 / dxt) + ',';
+            skachok = " скачок " + Math.round(gc_op / 3 / dxt) + ',';
         } else {
             up = 1;
             skachok = "";
         }
 
 
-        solutionDto.setDCt((int) dalTop);
-        solutionDto.setDeltaDCt((int) ddi);
-        solutionDto.setDCi((int) dal_isch);
+        solutionDto.setDCt((int) Math.round(dalTop));
+        solutionDto.setDeltaDCt((int) Math.round(ddi));
+        solutionDto.setDCi((int) Math.round(dal_isch));
 
-        solutionDto.setDeCt((int) analysisResult.getDovTop());
+        solutionDto.setDeCt((int) Math.round(analysisResult.getDovTop()));
         solutionDto.setDeltaDeCt((int) Math.round(dai));
         solutionDto.setDeCi((int) Math.round(dov_isch));
 
-        solutionDto.setKY((int) ku);
-        solutionDto.setShY((int) shu);
-        solutionDto.setDeltaX((int) dxt);
+        solutionDto.setKY((int) Math.round(ku));
+        solutionDto.setShY((int) Math.round(shu));
+        solutionDto.setDeltaX(dxt);
 
-        solutionDto.setPs((int) analysisResult.getPs());
+        solutionDto.setPs((int) Math.round(analysisResult.getPs()));
 
         solutionDto.setOp(analysisResult.getOpDirection());
-        solutionDto.setVD((int) vd);
+        solutionDto.setVD((int) Math.round(vd));
 
         List<SolutionDto.TaskCommand> commands = new ArrayList<>();
 
         SolutionDto.TaskCommand firstCommand = new SolutionDto.TaskCommand();
         firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType().getDescription() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load.getDescription() + ". Шкала тысячных, основному 1 сн. Огонь!");
-        firstCommand.setPR((int) pric);
-        firstCommand.setYR((int) urov);
+        firstCommand.setPR((int) Math.round(pric));
+        firstCommand.setYR(Math.round(urov));
         firstCommand.setDe((int) Math.round(dov_isch));
         firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
         commands.add(firstCommand);
@@ -425,6 +428,9 @@ public class Generate2 {
             if (shot.get(i).getType() != null && shot.get(i + 1).getType() != null) {
                 har = shot.get(i).getType().name().toLowerCase();
                 har_next = shot.get(i + 1).getType().name().toLowerCase(Locale.ROOT);
+            } else if (i == kol_nabl - 1){
+                //har = Types.TARGET_DESTROYED.name().toLowerCase(Locale.ROOT);
+                har = shot.get(i).getType().name().toLowerCase();
             }
 
             Integer fr = shot.get(i).getF();
@@ -433,23 +439,22 @@ public class Generate2 {
 
             // последний 4 символ в строке
 
-            int dD = 0;
+            double dD = 0;
 
             // поражение цели
             if (!har.equals("one_n") && !har.equals("one_p") && !har.equals("empty") && !har.equals("xz")) {
 
-
-                if (fcdu_op < 100) {
+                if (gc_op < 100) {
                     if (har.equals("all_n") || har.equals("all_p")) dD = 50;
                     if (har.equals("pre_n") || har.equals("pre_p")) dD = 25;
-                }
-                if (fcdu_op >= 100) {
-                    if (har.equals("all_n") || har.equals("all_p")) dD = Math.round(fcdu_op);
-                    if (har.equals("pre_n") || har.equals("pre_p")) dD = (int) Math.round(2.0 / 3 * fcdu_op);
-                    if (har.equals("rav_n") || har.equals("rav_p")) dD = (int) Math.round(1.0 / 2 * fcdu_op);
+                    if (har.equals("rav_n") || har.equals("rav_p")) dD = 25;
+                } else {
+                    if (har.equals("all_n") || har.equals("all_p")) dD = gc_op;
+                    if (har.equals("pre_n") || har.equals("pre_p")) dD = (int) Math.round(2.0 / 3 * gc_op);
+                    if (har.equals("rav_n") || har.equals("rav_p")) dD = (int) Math.round(1.0 / 2 * gc_op);
                 }
 
-                int koef_fr;
+                double koef_fr;
 
                 if (targetsFrontDu != 0) {
                     koef_fr = fr / targetsFrontDu;
@@ -459,7 +464,7 @@ public class Generate2 {
 
 
                 if (fr != null && koef_fr >= 1.5 && analysisResult.getPs() <= 500) { // если есть фронт разрыва
-                    int veer_raz = (int) Math.round(((targetsFrontDu - fr) * 1.0 / 6 * ku));
+                    double veer_raz = (targetsFrontDu - fr) / 6 * ku;
                     if (veer_raz < -0.99) komand = "Соединить к основному в " + modAngDash(veer_raz) + ". Огонь!";
                     else if (veer_raz > 0.99) komand = "Разделить от основного в " + modAngDash(veer_raz) + ". Огонь!";
                 }
@@ -486,50 +491,90 @@ public class Generate2 {
                 }
             }
 
-            int betta = 0;
-            int pricel = 0;
+            double betta = 0;
+            double pricel = 0;
+            String per_ned = "";
 
-            if (har.length() > 4) {
-                String per_ned = String.valueOf(har.charAt(4));
-                if (analysisResult.getPs() <= 500) { // по формулам
-                    pricel = (int) Math.round(dD / dxt);
-                    if (per_ned.equals("p")) pricel *= -1;
-
-                    int kof_1 = (int) Math.round((-alfa * ku));
-                    int kof_2 = (int) Math.round((dD / 100 * shu));
-                    if ((opDirection.equals(Direction.LEFT) && per_ned.equals("n")) || (opDirection.equals(Direction.RIGHT) && per_ned.equals("p"))) {
-                        kof_2 = -1 * kof_2;
-                    }
-                    betta = Math.round(kof_1 + kof_2);
-                } else { // по ПРК
-
-                    if (per_ned.equals("n")) dD *= -1;
-
-                    int pr1 = (int) Math.round((alfa * muD));
-                    if (opDirection.equals(Direction.LEFT)) pr1 *= -1;
-                    int pr2 = (int) Math.round((-dD * cos_ps));
-
-                    int ugl1 = (int) Math.round((-alfa * ku * cos_ps));
-                    int ugl2 = (int) Math.round((dD / 100 * shu100));
-                    if (opDirection.equals(Direction.RIGHT)) ugl2 *= -1;
-
-                    pricel = (int) Math.round(pr1 / dxt + pr2 / dxt);
-                    betta = Math.round(ugl1 + ugl2);
-
-                }
+            if (har.length() > 4 ) {
+                per_ned = String.valueOf(har.charAt(4));
             }
+            if (analysisResult.getPs() <= 500) { // по формулам
+                pricel = dD / dxt;
+                if (per_ned.equals("p")) pricel *= -1;
+
+                double kof_1 = -alfa * ku;
+                double kof_2 = dD / 100 * shu;
+                if ((opDirection.equals(Direction.LEFT) && per_ned.equals("n")) || (opDirection.equals(Direction.RIGHT) && per_ned.equals("p"))) {
+                    kof_2 = -1 * kof_2;
+                }
+                betta = kof_1 + kof_2;
+            } else { // по ПРК
+                double psRadian = converseToRad(analysisResult.getPs());
+                double dk = target.getDistanceFromKNPtoTarget();
+                double deltaDistFirstCircleAbs = Math.abs(alfa * 0.001 * dk / Functions.cosec(psRadian));
+                double deltaDistSecondCircleAbs = Math.abs(dD / Functions.sec(psRadian));
+
+                double bettaSecondCircle = Math.abs(dD * Math.tan(psRadian) / 0.001 / analysisResult.getDalTop() / Functions.sec(psRadian));
+                double bettaFirstCircle = Math.abs(alfa * 0.001 * dk / Functions.cosec(psRadian)) * Functions.cotan(psRadian) / (0.001 * analysisResult.getDalTop());
+
+
+                //Left-Right PRK values
+                if(analysisResult.getOpDirection() == Direction.LEFT) {
+                    //first circle for left op position
+                    if(alfa < 0) {
+                        deltaDistFirstCircleAbs *= +1;
+                        bettaFirstCircle *= +1;
+                    } else {
+                        deltaDistFirstCircleAbs *= -1;
+                        bettaFirstCircle *= -1;
+                    }
+                    // second circle for left op position
+                    if (per_ned.equals("n")) {
+                        deltaDistSecondCircleAbs *= +1;
+                        bettaSecondCircle *= -1;
+                    } else {
+                        deltaDistSecondCircleAbs *= -1;
+                        bettaSecondCircle *= +1;
+                    }
+                } else {
+                    //first circle for right op position
+                    if (alfa < 0) {
+                        deltaDistFirstCircleAbs *= -1;
+                        bettaFirstCircle *= +1;
+                    } else {
+                        deltaDistFirstCircleAbs *= +1;
+                        bettaFirstCircle *= -1;
+                    }
+                    // second circle for right op position
+                    if (per_ned.equals("n")) {
+                        deltaDistSecondCircleAbs *= +1;
+                        bettaSecondCircle *= +1;
+                    } else {
+                        deltaDistSecondCircleAbs *= -1;
+                        bettaSecondCircle *= -1;
+                    }
+                }
+//                    System.out.println("Дальность: первый круг = " + deltaDistFirstCircleAbs +"\t второй круг = " + deltaDistSecondCircleAbs);
+//                    System.out.println("Угломер: первый круг = " + bettaFirstCircle + "\t второй круг = " + bettaSecondCircle + "\n\n\n");
+                betta = Math.round(bettaSecondCircle + bettaFirstCircle);
+                double deltaDist = deltaDistSecondCircleAbs + deltaDistFirstCircleAbs;
+
+                pricel = Math.round(deltaDist / dxt);
+                System.out.println();
+            }
+
 
             // формируем наблюдение
             String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
 
             SolutionDto.TaskCommand command = new SolutionDto.TaskCommand();
             command.setDescription(komand);
-            command.setPR(pricel);
-            command.setDe(betta);
+            command.setPR((int) Math.round(pricel));
+            command.setDe((int) Math.round(betta));
             command.setObservation(nablud);
             commands.add(command);
         }
-
+        rashod += 6 * uu * up * 2;
         SolutionDto.TaskCommand lastCommand = new SolutionDto.TaskCommand();
         lastCommand.setDescription("Стой, записать! Цель 21, «" + target.getType().getDescription() + "». «Лена»! «Амур» стрельбу по цели 21 закончил. Расход " + rashod + ". Я «Амур».");
         commands.add(lastCommand);
