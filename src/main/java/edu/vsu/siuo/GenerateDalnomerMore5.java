@@ -209,7 +209,7 @@ public class GenerateDalnomerMore5 {
             zaryd = (rand(0, 1) == 1 ? Powers.Reduced : Powers.Full);
         }
 
-        GeneratedShotResult generatedShotResult = generateShot(target);
+        GeneratedShotResult generatedShotResult = generateShotDalnomer(target);
 
 
         ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, generatedShotResult);

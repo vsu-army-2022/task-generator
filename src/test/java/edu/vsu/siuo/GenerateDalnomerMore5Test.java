@@ -1,22 +1,13 @@
 package edu.vsu.siuo;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.RepeatedTest;
 
 class GenerateDalnomerMore5Test {
 
-    @Test
-    void generateTasks() {
-    }
-
-    @Test
-    void generateTask() {
-    }
-
-    @Test
-    void generateConditionsForTask() {
-    }
-
-    @Test
-    void generateSolution() {
+    @RepeatedTest(10000)
+    @Disabled
+    void repeatedTest() {
+        GenerateDalnomerMore5.generateTask();
     }
 }

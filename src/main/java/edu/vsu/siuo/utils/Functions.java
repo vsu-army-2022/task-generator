@@ -428,6 +428,7 @@ public class Functions {
         shot.put(0, new ShotDto());
         shot.put(1, new ShotDto());
         shot.put(2, new ShotDto());
+        shot.put(3, new ShotDto());
 
         shot.get(0).setA((rand(0, 1) == 1 ? 1 : -1) * rand(40, 65));
         shot.get(0).setType(gen_n.get(rand(0, 2)));
