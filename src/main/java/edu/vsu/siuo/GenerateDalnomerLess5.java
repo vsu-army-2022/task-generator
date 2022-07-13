@@ -57,7 +57,7 @@ public class GenerateDalnomerLess5 extends Generate {
             return generateConditionsForTask();
         }
 
-        return getConditionDto(analysisResult, target, op, knp);
+        return getConditionDtoDalnomer(analysisResult, target, op, knp);
 
     }
 

@@ -8,7 +8,7 @@ public class ShotDto {
     Types type;
     int a;
     Integer f;
-    Integer razr = null;
+    Integer razr;
 
     public ShotDto(Types type, int a, Integer f) {
         this.a = a;

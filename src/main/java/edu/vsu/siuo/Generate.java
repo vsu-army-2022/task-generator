@@ -97,45 +97,18 @@ public class Generate {
     }
 
     static ConditionsDto getConditionDto(AnalysisResult analysisResult, Target target, OP op, ObjectPosition knp) {
+        GeneratedShotResult shot = generateShot(target);
 
-//        // генерируем ГРП
-//        Map<Integer, Map<String, Integer>> grp = new HashMap<>();
-//        grp.put(0, new HashMap<>());
-//        grp.put(1, new HashMap<>());
-//        grp.put(2, new HashMap<>());
-//
-//        // дальность
-//        //todo check it
-//        // берем первый разряд dal_top и прибавляем rand(0, 1)
-//        grp.get(1).put("D", ((int) analysisResult.getDalTop()) / 1000 + rand(0, 1));
-//        grp.get(0).put("D", grp.get(1).get("D") - 2);
-//        grp.get(2).put("D", grp.get(1).get("D") + 2);
-//
-//        for (int i = 0; i < 3; i++) {
-//            // todo check it
-//            grp.get(i).put("D", grp.get(i).get("D") * 1000);
-//        }
-//
-//        if (rand(0, 1) == 1) { // поправка на дальность
-//            grp.get(0).put("dD", rand(43, 260));
-//            grp.get(1).put("dD", grp.get(0).get("dD") + rand(90, 180));
-//            grp.get(2).put("dD", grp.get(1).get("dD") + rand(90, 180));
-//        } else {
-//            grp.get(0).put("dD", rand(-43, -260));
-//            grp.get(1).put("dD", grp.get(0).get("dD") + rand(-60, -150));
-//            grp.get(2).put("dD", grp.get(1).get("dD") + rand(-60, -150));
-//        }
-//
-//        if (rand(0, 1) == 1) {  // доворот
-//            grp.get(0).put("dd", rand(3, 15));
-//            grp.get(1).put("dd", grp.get(0).get("dd") + rand(2, 8));
-//            grp.get(2).put("dd", grp.get(1).get("dd") + rand(2, 8));
-//        } else {
-//            grp.get(0).put("dd", rand(-3, -15));
-//            grp.get(1).put("dd", grp.get(0).get("dd") + rand(-2, -8));
-//            grp.get(2).put("dd", grp.get(1).get("dd") + rand(-2, -8));
-//        }
+        return getConditionsDto(analysisResult, target, op, knp, shot);
+    }
 
+    static ConditionsDto getConditionDtoDalnomer(AnalysisResult analysisResult, Target target, OP op, ObjectPosition knp) {
+        GeneratedShotResult generatedShotResult = generateShotDalnomer(target);
+
+        return getConditionsDto(analysisResult, target, op, knp, generatedShotResult);
+    }
+
+    private static ConditionsDto getConditionsDto(AnalysisResult analysisResult, Target target, OP op, ObjectPosition knp, GeneratedShotResult generatedShotResult) {
         GRP grp = new GRP((int) Math.round(analysisResult.getDalTop()));
 
         // исчисленная дальность и доворот
@@ -153,9 +126,7 @@ public class Generate {
             zaryd = (rand(0, 1) == 1 ? Powers.Reduced : Powers.Full);
         }
 
-        GeneratedShotResult shot = generateShot(target);
-
-        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, shot);
+        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, generatedShotResult);
 
         conditionsDto.setPower(zaryd);
 
@@ -172,7 +143,7 @@ public class Generate {
         return conditionsDto;
     }
 
-    static GRP getGrp(List<Integer> distance, List<Integer> range, List<Integer> direction){
+    static GRP getGrp(List<Integer> distance, List<Integer> range, List<Integer> direction) {
         GRP grp = new GRP();
         grp.setDistance_1(distance.get(0) * 1000);
         grp.setDistance_2(distance.get(1) * 1000);
@@ -225,7 +196,7 @@ public class Generate {
         return dD;
     }
 
-    static double getGcOp(AnalysisResult analysisResult, Target target){
+    static double getGcOp(AnalysisResult analysisResult, Target target) {
         double ps_rad = converseToRad(analysisResult.getPs());
         double sin_ps = round(Math.sin(ps_rad), 2);
         double cos_ps = round(Math.cos(ps_rad), 2);
@@ -244,7 +215,7 @@ public class Generate {
 
     static void setFirstCommandDalnimer(List<SolutionDto.TaskCommand> commands, Target target, String vzr, Powers load, double pric, long urov, double dov_isch, Map<Integer, ShotDto> shot) {
         SolutionDto.TaskCommand firstCommand = getFirstCommand(target, vzr, load, pric, urov, dov_isch);
-        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr(),target.getDistanceFromKNPtoTarget() ,target.getDistanceFromKNPtoTarget() ));
+        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr(), target.getDistanceFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()));
         commands.add(firstCommand);
     }
 

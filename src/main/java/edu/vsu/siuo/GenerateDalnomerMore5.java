@@ -47,8 +47,6 @@ public class GenerateDalnomerMore5 extends Generate {
     public static ConditionsDto generateConditionsForTask() {
         // todo validation
 
-        List<TaskDto> taskDtos = new ArrayList<>();
-
         OP op = generateOP();
         ObjectPosition knp = generateKNPFromOP(op);
         Target target = generateTarget(op);
@@ -62,7 +60,7 @@ public class GenerateDalnomerMore5 extends Generate {
             return generateConditionsForTask();
         }
 
-        return getConditionDto(analysisResult, target, op, knp);
+        return getConditionDtoDalnomer(analysisResult, target, op, knp);
     }
 
     public static SolutionDto generateSolution(ConditionsDto conditionsDto) {
