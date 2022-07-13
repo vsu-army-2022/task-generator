@@ -153,7 +153,7 @@ public class Generate {
             zaryd = (rand(0, 1) == 1 ? Powers.Reduced : Powers.Full);
         }
 
-        Map<Integer, ShotDto> shot = generateShot(target);
+        GeneratedShotResult shot = generateShot(target);
 
         ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, shot);
 

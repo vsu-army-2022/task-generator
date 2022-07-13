@@ -491,7 +491,7 @@ class Generate2Test {
         assertEquals(254, solutionDto.getDeCt());
         assertEquals(-6, solutionDto.getDeltaDeCt());
         assertEquals(248, solutionDto.getDeCi());
-        assertEquals(31, solutionDto.getFDuOp());
+        assertEquals(30, solutionDto.getFDuOp());
         assertEquals(181, solutionDto.getGCOp());
         assertEquals(768, solutionDto.getPs());
         assertEquals(Direction.LEFT, solutionDto.getOp());
