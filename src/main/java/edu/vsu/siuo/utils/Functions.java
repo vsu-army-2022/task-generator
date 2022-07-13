@@ -184,15 +184,15 @@ public class Functions {
         return as + h + fs;
     }
 
-    public static Double cosec(double value){
+    public static Double cosec(double value) {
         return 1.0 / Math.sin(value);
     }
 
-    public static Double sec(double value){
+    public static Double sec(double value) {
         return 1.0 / Math.cos(value);
     }
 
-    public static Double cotan(double value){
+    public static Double cotan(double value) {
         return Math.cos(value) / Math.sin(value);
     }
 
@@ -355,7 +355,7 @@ public class Functions {
     }
 
 
-    public static Map<Integer, ShotDto> generateShot(Target target) {
+    public static GeneratedShotResult generateShot(Target target) {
 
         List<Types> gen_n = Types.getNoEmptyTypes();
 
@@ -415,10 +415,10 @@ public class Functions {
             shot.get(4).setType(gen_n.get(rand(7, 8)));
         }
         shot.get(4).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
-        return shot;
+        return new GeneratedShotResult(shot);
     }
 
-    public static Map<Integer, ShotDto> generateShotDalnomer(Target target) {
+    public static GeneratedShotResult generateShotDalnomer(Target target) {
 
         List<Types> gen_n = Types.getNoEmptyTypes();
 
@@ -438,15 +438,13 @@ public class Functions {
             shot.get(0).setRazr(rand(150, 250));
         }
 
-        /* 3 выстрела */
-
-
-        int v3snar1A = (rand(0, 1) == 1 ? 1 : -1) * rand(20, 38);
-        int v3snar1D = rand(50, 120);
-        int v3snar0A = v3snar1A - rand(4, 11);
-        int v3snar0D = v3snar1D - rand(18, 32);
-        int v3snar2A = v3snar1A + rand(4, 11);
-        int v3snar2D = v3snar1D + rand(18, 32);
+            /* 3 выстрела */
+            int v3snar1A = (rand(0, 1) == 1 ? 1 : -1) * rand(20, 38);
+            int v3snar1D = rand(50, 120);
+            int v3snar0A = v3snar1A - rand(4, 11);
+            int v3snar0D = v3snar1D - rand(18, 32);
+            int v3snar2A = v3snar1A + rand(4, 11);
+            int v3snar2D = v3snar1D + rand(18, 32);
 
 
         shot.get(1).setA(Math.round((v3snar0A + v3snar1A + v3snar2A) / 3));
@@ -465,8 +463,6 @@ public class Functions {
 
         vse3v = vse3v + '	' + formatNablDalnomer(v3snar2A, shot.get(1).getType(), v3snar2D, target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()) + '	';
         vse3v_word = vse3v_word + formatNablDalnomer(v3snar2A, shot.get(1).getType(), v3snar2D, target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()) + "; ";
-
-
 
 
         // на поражение
@@ -493,6 +489,6 @@ public class Functions {
         }
         shot.get(3).setA((rand(0, 1) == 1 ? 1 : -1) * rand(2, 16));
 
-        return shot;
+        return new GeneratedShotResult(shot, vse3v, vse3v_word);
     }
 }

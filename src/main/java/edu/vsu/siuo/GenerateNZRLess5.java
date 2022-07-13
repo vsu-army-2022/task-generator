@@ -160,9 +160,9 @@ public class GenerateNZRLess5 {
             zaryd = (rand(0, 1) == 1 ? Powers.Reduced : Powers.Full);
         }
 
-        Map<Integer, ShotDto> shot = generateShot(target);
+        GeneratedShotResult generatedShotResult = generateShot(target);
 
-        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, shot);
+        ConditionsDto conditionsDto = new ConditionsDto(op, knp, target, generatedShotResult);
 
         conditionsDto.setPower(zaryd);
 
@@ -186,7 +186,7 @@ public class GenerateNZRLess5 {
         Powers load = conditionsDto.getPower();
         Target target = conditionsDto.getTarget();
         ObjectPosition knp = conditionsDto.getKnp();
-        Map<Integer, ShotDto> shot = conditionsDto.getShot();
+        Map<Integer, ShotDto> shot = conditionsDto.getGeneratedShotResult().getShot();
         List<Integer> distance = conditionsDto.getDistance();
         List<Integer> range = conditionsDto.getRange();
         List<Integer> direction = conditionsDto.getDirection();

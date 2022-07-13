@@ -1,5 +1,6 @@
 package edu.vsu.siuo.domains.dto;
 
+import edu.vsu.siuo.domains.GeneratedShotResult;
 import edu.vsu.siuo.domains.OP;
 import edu.vsu.siuo.domains.ObjectPosition;
 import edu.vsu.siuo.domains.Target;
@@ -8,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Сгенерированное задание
@@ -20,17 +20,17 @@ public class ConditionsDto {
     private ObjectPosition knp;
     private Target target;
 
-    private Map<Integer, ShotDto> shot;
+    private GeneratedShotResult generatedShotResult;
 
     private Powers power;
     private List<Integer> distance;
     private List<Integer> range;
     private List<Integer> direction;
 
-    public ConditionsDto(OP op, ObjectPosition knp, Target target, Map<Integer, ShotDto> shot) {
+    public ConditionsDto(OP op, ObjectPosition knp, Target target, GeneratedShotResult generatedShotResult) {
         this.op = op;
         this.knp = knp;
         this.target = target;
-        this.shot = shot;
+        this.generatedShotResult = generatedShotResult;
     }
 }
