@@ -7,22 +7,18 @@ import edu.vsu.siuo.domains.Target;
 import edu.vsu.siuo.domains.dto.ConditionsDto;
 import edu.vsu.siuo.domains.dto.ShotDto;
 import edu.vsu.siuo.domains.dto.SolutionDto;
-import edu.vsu.siuo.domains.dto.TaskDto;
 import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Targets;
 import edu.vsu.siuo.domains.enums.Types;
-import edu.vsu.siuo.word.WordManager;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static edu.vsu.siuo.word.WordManager.GenerateNameFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -89,8 +85,6 @@ class Generate1Test {
         assertEquals(18, solutionDto.getDeltaX());
         assertEquals(19, solutionDto.getVD());
 
-        solutionDto.getCommands();
-
         assertEquals("«Дон», стой! Цель 21, «пехота укрытая». ОФ, Взрыватель «О и Ф». Заряд У. Шкала тысячных, основному 1 сн. Огонь!", solutionDto.getCommands().get(0).getDescription());
         assertEquals(264, solutionDto.getCommands().get(0).getPR());
         assertEquals(3011, solutionDto.getCommands().get(0).getYR());
@@ -117,13 +111,13 @@ class Generate1Test {
 
         assertEquals("Соединить к основному в 0-02. Огонь!", solutionDto.getCommands().get(4).getDescription()); //Соединить к основному в 0-01. Огонь!
         assertEquals(6, solutionDto.getCommands().get(4).getPR());
-        assertEquals(null, solutionDto.getCommands().get(4).getYR());
+        assertNull(solutionDto.getCommands().get(4).getYR());
         assertEquals(-2, solutionDto.getCommands().get(4).getDe());
         assertEquals("П5, Равенство «+» и «-» от-но ДГЦ, Фр. 0-44", solutionDto.getCommands().get(4).getObservation());
 
         assertEquals("Огонь!", solutionDto.getCommands().get(5).getDescription());
         assertEquals(-3, solutionDto.getCommands().get(5).getPR());
-        assertEquals(null, solutionDto.getCommands().get(5).getYR());
+        assertNull(solutionDto.getCommands().get(5).getYR());
         assertEquals(-2, solutionDto.getCommands().get(5).getDe());
         assertEquals("Цель подавлена", solutionDto.getCommands().get(5).getObservation());
 
@@ -131,14 +125,14 @@ class Generate1Test {
         assertNull(solutionDto.getCommands().get(6).getPR());
         assertNull(solutionDto.getCommands().get(6).getYR());
         assertNull(solutionDto.getCommands().get(6).getDe());
-        assertEquals(null, solutionDto.getCommands().get(6).getObservation());
+        assertNull(solutionDto.getCommands().get(6).getObservation());
 
-        WordManager wordManager = new WordManager("C:\\Users\\denis\\Desktop", "TEST.docx");
-        List< TaskDto > list = new ArrayList<>();
-        TaskDto taskDto = new TaskDto();
-        taskDto.setSolutionDto(solutionDto);
-        taskDto.setProblemDto(conditionsDto);
-        list.add(taskDto);
-        wordManager.WriteNZRLess5(list);
+//        WordManager wordManager = new WordManager("C:\\Users\\denis\\Desktop", "TEST.docx");
+//        List< TaskDto > list = new ArrayList<>();
+//        TaskDto taskDto = new TaskDto();
+//        taskDto.setSolutionDto(solutionDto);
+//        taskDto.setProblemDto(conditionsDto);
+//        list.add(taskDto);
+//        wordManager.WriteNZRLess5(list);
     }
 }

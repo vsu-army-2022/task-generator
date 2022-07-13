@@ -117,7 +117,6 @@ public class GenerateNZRLess5 extends Generate {
         // todo fixme
         double fcm = (target.getTargetsFrontDu() * target.getDistanceFromKNPtoTarget()) / 1000;
 
-
         if (target.getTargetsDepth() > 200) target.setTargetsDepth(200);
 
         if (dxt == 0) dxt = 0.0001;

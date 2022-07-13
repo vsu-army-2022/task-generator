@@ -189,12 +189,7 @@ public class Generate {
     static void generateNablud(Map<Integer, ShotDto> shot, List<SolutionDto.TaskCommand> commands, int kol_nabl, int i, String komand, double betta, double pricel) {
         String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
 
-        SolutionDto.TaskCommand command = new SolutionDto.TaskCommand();
-        command.setDescription(komand);
-        command.setPR((int) Math.round(pricel));
-        command.setDe((int) Math.round(betta));
-        command.setObservation(nablud);
-        commands.add(command);
+        GenerateDalnomerMore5.generateNabludForDal(commands, komand, betta, pricel, nablud);
     }
 
     static SolutionDto generateLastCommand(SolutionDto solutionDto, Target target, int uu, int rashod, int up, List<SolutionDto.TaskCommand> commands) {
@@ -242,13 +237,32 @@ public class Generate {
     }
 
     static void setFirstCommand(List<SolutionDto.TaskCommand> commands, Target target, String vzr, Powers load, double pric, long urov, double dov_isch, Map<Integer, ShotDto> shot) {
+        SolutionDto.TaskCommand firstCommand = getFirstCommand(target, vzr, load, pric, urov, dov_isch);
+        firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
+        commands.add(firstCommand);
+    }
+
+    static void setFirstCommandDalnimer(List<SolutionDto.TaskCommand> commands, Target target, String vzr, Powers load, double pric, long urov, double dov_isch, Map<Integer, ShotDto> shot) {
+        SolutionDto.TaskCommand firstCommand = getFirstCommand(target, vzr, load, pric, urov, dov_isch);
+        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr(),target.getDistanceFromKNPtoTarget() ,target.getDistanceFromKNPtoTarget() ));
+        commands.add(firstCommand);
+    }
+
+    static SolutionDto.TaskCommand getFirstCommand(Target target, String vzr, Powers load, double pric, long urov, double dov_isch) {
         SolutionDto.TaskCommand firstCommand = new SolutionDto.TaskCommand();
         firstCommand.setDescription("«Дон», стой! Цель 21, «" + target.getType().getDescription() + "». ОФ, Взрыватель «" + vzr + "». Заряд " + load.getDescription() + ". Шкала тысячных, основному 1 сн. Огонь!");
         firstCommand.setPR((int) Math.round(pric));
         firstCommand.setYR(Math.round(urov));
         firstCommand.setDe((int) Math.round(dov_isch));
-        firstCommand.setObservation(formatNabl(shot.get(0).getA(), shot.get(0).getType().getDescription(), shot.get(0).getF()));
-        commands.add(firstCommand);
+        return firstCommand;
     }
 
+    static void generateNabludForDal(List<SolutionDto.TaskCommand> commands, String komand, double betta, double pricel, String nablud) {
+        SolutionDto.TaskCommand command = new SolutionDto.TaskCommand();
+        command.setDescription(komand);
+        command.setPR((int) Math.round(pricel));
+        command.setDe((int) Math.round(betta));
+        command.setObservation(nablud);
+        commands.add(command);
+    }
 }
