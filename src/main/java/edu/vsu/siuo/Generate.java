@@ -157,12 +157,6 @@ public class Generate {
         return grp;
     }
 
-    static void generateNablud(Map<Integer, ShotDto> shot, List<SolutionDto.TaskCommand> commands, int kol_nabl, int i, String komand, double betta, double pricel) {
-        String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
-
-        GenerateDalnomerMore5.generateNabludForDal(commands, komand, betta, pricel, nablud);
-    }
-
     static SolutionDto generateLastCommand(SolutionDto solutionDto, Target target, int uu, int rashod, int up, List<SolutionDto.TaskCommand> commands) {
         rashod += 6 * uu * up * 2;
         SolutionDto.TaskCommand lastCommand = new SolutionDto.TaskCommand();
@@ -228,7 +222,23 @@ public class Generate {
         return firstCommand;
     }
 
-    static void generateNabludForDal(List<SolutionDto.TaskCommand> commands, String komand, double betta, double pricel, String nablud) {
+    static void generateNablud(Map<Integer, ShotDto> shot, List<SolutionDto.TaskCommand> commands, int kol_nabl, int i, String komand, double betta, double pricel) {
+        String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
+
+        setCommandsForNabl(commands, komand, betta, pricel, nablud);
+    }
+
+    static void generateNabludForDal(Map<Integer, ShotDto> shot, List<SolutionDto.TaskCommand> commands, int kol_nabl, int i, String komand, double betta, double pricel, ConditionsDto conditionsDto) {
+        String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
+
+        if (i == 0){
+            nablud = conditionsDto.getGeneratedShotResult().getVse3v();
+            komand = "3 снаряда, 20 секунд выстрел, огонь!";
+        }
+        setCommandsForNabl(commands, komand, betta, pricel, nablud);
+    }
+
+    private static void setCommandsForNabl(List<SolutionDto.TaskCommand> commands, String komand, double betta, double pricel, String nablud) {
         SolutionDto.TaskCommand command = new SolutionDto.TaskCommand();
         command.setDescription(komand);
         command.setPR((int) Math.round(pricel));

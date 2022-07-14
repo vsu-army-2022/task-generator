@@ -261,8 +261,9 @@ public class GenerateDalnomerLess5 extends Generate {
             }
 
             // формируем наблюдение
-            generateNablud(shot, commands, kol_nabl, i, komand, betta, pricel);
+            generateNabludForDal(shot, commands, kol_nabl, i, komand, betta, pricel, conditionsDto);
         }
+
         return generateLastCommand(solutionDto, target, uu, rashod, up, commands);
     }
 }

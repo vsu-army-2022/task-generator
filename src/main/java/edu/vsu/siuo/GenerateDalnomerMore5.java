@@ -357,18 +357,9 @@ public class GenerateDalnomerMore5 extends Generate {
 
 
             // формируем наблюдение
-            String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
-
-            // переопределяем 2 наблюдение, где 3 выстрела
-
-            if (i == 0) {
-                nablud = conditionsDto.getGeneratedShotResult().getVse3v();
-                komand = "3 снаряда, 20 секунд выстрел, огонь!";
-            }
-
-
-            generateNabludForDal(commands, komand, betta, pricel, nablud);
+            generateNabludForDal(shot, commands, kol_nabl, i, komand, betta, pricel, conditionsDto);
         }
+
         return generateLastCommand(solutionDto, target, uu, rashod, up, commands);
     }
 }

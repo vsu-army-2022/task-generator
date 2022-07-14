@@ -267,6 +267,7 @@ public class GenerateNZRLess5 extends Generate {
             // формируем наблюдение
             generateNablud(shot, commands, kol_nabl, i, komand, betta, pricel);
         }
+
         return generateLastCommand(solutionDto, target, uu, rashod, up, commands);
     }
 }

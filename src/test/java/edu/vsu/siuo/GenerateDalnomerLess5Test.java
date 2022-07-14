@@ -132,12 +132,12 @@ class GenerateDalnomerLess5Test {
         assertNull(solutionDto.getCommands().get(6).getDe());
         assertEquals(null, solutionDto.getCommands().get(6).getObservation());
 
-        WordManager wordManager = new WordManager("C:\\Users\\denis\\Desktop", "TEST.docx");
-        List< TaskDto > list = new ArrayList<>();
-        TaskDto taskDto = new TaskDto();
-        taskDto.setSolutionDto(solutionDto);
-        taskDto.setProblemDto(conditionsDto);
-        list.add(taskDto);
-        wordManager.WriteNZRLess5(list);
+//        WordManager wordManager = new WordManager("C:\\Users\\denis\\Desktop", "TEST.docx");
+//        List< TaskDto > list = new ArrayList<>();
+//        TaskDto taskDto = new TaskDto();
+//        taskDto.setSolutionDto(solutionDto);
+//        taskDto.setProblemDto(conditionsDto);
+//        list.add(taskDto);
+//        wordManager.WriteNZRLess5(list);
     }
 }
