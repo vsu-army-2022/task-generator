@@ -249,16 +249,16 @@ public class GenerateNZRMore5 extends Generate {
 
                 dD = getdD(gc_op, har, dD);
 
-                double koef_fr;
+//                double koef_fr;
+//
+//                if (targetsFrontDu != 0) {
+//                    koef_fr = fr / targetsFrontDu;
+//                } else {
+//                    koef_fr = 0;
+//                }
 
-                if (targetsFrontDu != 0) {
-                    koef_fr = fr / targetsFrontDu;
-                } else {
-                    koef_fr = 0;
-                }
 
-
-                if (fr != null && koef_fr >= 1.5 && analysisResult.getPs() <= 500) { // если есть фронт разрыва
+                if (!target.getType().equals(Targets.RAP) && !target.getType().equals(Targets.PTUR)) {
                     double veer_raz = (targetsFrontDu - fr) / 6 * ku;
                     if (veer_raz < -0.99) komand = "Соединить к основному в " + modAngDash(veer_raz) + ". Огонь!";
                     else if (veer_raz > 0.99) komand = "Разделить от основного в " + modAngDash(veer_raz) + ". Огонь!";
