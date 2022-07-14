@@ -56,7 +56,7 @@ public class Functions {
     }
 
 
-    public static double[] findDalnUgol(double x1, double y1, double x2, double y2) {
+    public static double[] findDalnUgol(double x1, double y1, double x2, double y2) { //цель, ОП
         // катеты ОП - цели
         double kat_x = x1 - x2;
         double kat_y = y1 - y2;
@@ -435,17 +435,34 @@ public class Functions {
 
         if (shot.get(0).getType() == Types.XZ) {
             shot.get(0).setRazr(0);
-        } else {
+        } else if (shot.get(0).getType() == Types.ONE_P) {
             shot.get(0).setRazr(rand(150, 250));
+        } else if (shot.get(0).getType() == Types.ONE_N) {
+            shot.get(0).setRazr(rand(-250, -150));
         }
 
-            /* 3 выстрела */
-            int v3snar1A = (rand(0, 1) == 1 ? 1 : -1) * rand(20, 38);
-            int v3snar1D = rand(50, 120);
-            int v3snar0A = v3snar1A - rand(4, 11);
-            int v3snar0D = v3snar1D - rand(18, 32);
-            int v3snar2A = v3snar1A + rand(4, 11);
-            int v3snar2D = v3snar1D + rand(18, 32);
+
+        int sum = (rand(0, 1) == 1 ? 1 : -1) * rand(15, 60);
+
+        /* 3 выстрела */
+        int v3snar1A = sum * rand(10, 100) / 100;
+        sum -= v3snar1A;
+        int v3snar1D = rand(50, 120);
+        int v3snar0A = sum * rand(10, 100) / 100;
+        sum -= v3snar0A;
+        int v3snar0D = v3snar1D - rand(18, 32);
+        int v3snar2A = sum;
+        int v3snar2D = v3snar1D + rand(18, 32);
+
+
+
+//        /* 3 выстрела */
+//        int v3snar1A = (rand(0, 1) == 1 ? 1 : -1) * rand(20, 38);
+//        int v3snar1D = rand(50, 120);
+//        int v3snar0A = v3snar1A - rand(4, 11);
+//        int v3snar0D = v3snar1D - rand(18, 32);
+//        int v3snar2A = v3snar1A + rand(4, 11);
+//        int v3snar2D = v3snar1D + rand(18, 32);
 
 
         shot.get(1).setA(Math.round((v3snar0A + v3snar1A + v3snar2A) / 3));
@@ -470,16 +487,16 @@ public class Functions {
         shot.get(3).setA((rand(0, 1) == 1 ? 1 : -1) * rand(5, 21));
         shot.get(2).setType(gen_n.get(rand(3, 4)));
 
-        if (target.getAngularMagnitudeTarget() == 0) {
+        if (target.getTargetsFrontDu() == 0) {
             shot.get(2).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
             shot.get(3).setF(rand(Math.round(14 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
         } else {
-            if (target.getAngularMagnitudeTarget() < 120) {
+            if (target.getTargetsFrontDu() < 120) {
                 shot.get(2).setF(target.getAngularMagnitudeTarget() + rand(Math.round(90 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(120 * 1000 / target.getDistanceFromKNPtoTarget())));
             } else {
                 shot.get(2).setF(target.getAngularMagnitudeTarget() + rand(Math.round(140 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(190 * 1000 / target.getDistanceFromKNPtoTarget())));
             }
-            shot.get(3).setF(target.getAngularMagnitudeTarget() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget())));
+            shot.get(3).setF((int) (target.getTargetsFrontDu() + (rand(0, 1) == 1 ? 1 : -1) * rand(Math.round(6 * 1000 / target.getDistanceFromKNPtoTarget()), Math.round(28 * 1000 / target.getDistanceFromKNPtoTarget()))));
         }
 
 

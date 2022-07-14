@@ -209,7 +209,7 @@ public class Generate {
 
     static void setFirstCommandDalnimer(List<SolutionDto.TaskCommand> commands, Target target, String vzr, Powers load, double pric, long urov, double dov_isch, Map<Integer, ShotDto> shot) {
         SolutionDto.TaskCommand firstCommand = getFirstCommand(target, vzr, load, pric, urov, dov_isch);
-        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr(), target.getDistanceFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()));
+        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr(), target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()));
         commands.add(firstCommand);
     }
 
