@@ -257,12 +257,14 @@ public class GenerateNZRLess5 extends Generate {
             double betta = 0;
             double pricel = 0;
 
+            String per_ned = null;
+
             if (har.length() > 4) {
-                String per_ned = String.valueOf(har.charAt(4));
+                per_ned = String.valueOf(har.charAt(4));
                 pricel = dD / dxt;
                 if (per_ned.equals("p")) pricel *= -1;
-                betta = getBetta(per_ned, alfa, ku, dD, shu, opDirection);
             }
+            betta = getBetta(per_ned, alfa, ku, dD, shu, opDirection);
 
             // формируем наблюдение
             generateNablud(shot, commands, kol_nabl, i, komand, betta, pricel);
