@@ -35,7 +35,7 @@ public class WordManager {
             //add a paragraph
             Paragraph paragraph = sec.addParagraph();
             TextRange tr = paragraph.appendText(
-                    String.format("Тема %d. Вариант №%d от %s", taskDto.getTaskTopic(), taskDto.getTaskNumber(), getFormatTimeNow())
+                    String.format("Вариант №%d от %s", taskDto.getTaskNumber(), getFormatTimeNow())
             );
             tr.getCharacterFormat().setFontSize(12);
             tr.getCharacterFormat().setBold(true);
