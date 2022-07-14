@@ -33,8 +33,27 @@ public class WordManager {
         for (TaskDto taskDto : taskDtos) {
             Section sec = this.document.addSection();
             //add a paragraph
+            StringBuilder builderName = new StringBuilder();
+            if (typeAlgorithm == 0){
+                builderName.append("НЗР (Малое смещение)");
+            }else if (typeAlgorithm == 1){
+                builderName.append("НЗР (Большое смещение)");
+            }
+            else if (typeAlgorithm == 2){
+                builderName.append("Дальномер (Малое смещение)");
+            }
+            else if (typeAlgorithm == 3){
+                builderName.append("Дальномер (Большое смещение)");
+            }
             Paragraph paragraph = sec.addParagraph();
             TextRange tr = paragraph.appendText(
+                    builderName.toString()
+            );
+            tr.getCharacterFormat().setFontSize(12);
+            tr.getCharacterFormat().setBold(true);
+            tr.getCharacterFormat().setItalic(true);
+            paragraph = sec.addParagraph();
+            tr = paragraph.appendText(
                     String.format("Вариант №%d от %s", taskDto.getTaskNumber(), getFormatTimeNow())
             );
             tr.getCharacterFormat().setFontSize(12);
