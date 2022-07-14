@@ -266,13 +266,6 @@ public class GenerateDalnomerMore5 extends Generate {
 //                    koef_fr = 0;
 //                }
 
-
-                if (!target.getType().equals(Targets.RAP) && !target.getType().equals(Targets.PTUR)) {
-                    double veer_raz = (targetsFrontDu - fr) / 6 * ku;
-                    if (veer_raz < -0.99) komand = "Соединить к основному в " + modAngDash(veer_raz) + ". Огонь!";
-                    else if (veer_raz > 0.99) komand = "Разделить от основного в " + modAngDash(veer_raz) + ". Огонь!";
-                }
-
                 rashod += 6 * uu * up * 2;
             } else {
                 dD = shot.get(i).getRazr();
