@@ -122,7 +122,7 @@ public class WordManager {
 
             paragraph = sec.addParagraph();
             tr = paragraph.appendText(
-                    String.format("Тема %d. Вариант №%d от %s \n", taskDto.getTaskTopic(), taskDto.getTaskNumber(), getFormatTimeNow())
+                    String.format("Вариант №%d от %s \n", taskDto.getTaskNumber(), getFormatTimeNow())
             );
             tr.getCharacterFormat().setFontSize(12);
             tr.getCharacterFormat().setBold(true);
