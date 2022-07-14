@@ -137,12 +137,12 @@ public class WordManager {
                     formatTextDivision(taskDto.getSolutionDto().getDeCt()),
                     formatTextDivision(taskDto.getSolutionDto().getDeltaDeCt()),
                     formatTextDivision(taskDto.getSolutionDto().getDeCi())));
-            if (typeAlgorithm == 0 && !(taskDto.getSolutionDto().getKY() == 0.0 || taskDto.getSolutionDto().getShY() == 0 )) {
+            if ((typeAlgorithm == 0 || typeAlgorithm == 2) && !(taskDto.getSolutionDto().getKY() == 0.0 || taskDto.getSolutionDto().getShY() == 0 )) {
                 builder2.append(String.format("Ку = %.1f\tШу = %s\t",
                         ((double)Math.round(taskDto.getSolutionDto().getKY()*10))/10,
                         formatTextWithSeparation(taskDto.getSolutionDto().getShY())));
             }
-            if (typeAlgorithm != 0 && !(taskDto.getProblemDto().getTarget().getTargetsFrontDuOP() == 0 || taskDto.getProblemDto().getTarget().getTargetsDepthOP() == 0.0)) {
+            if ((typeAlgorithm != 0 || typeAlgorithm != 2 )&& !(taskDto.getProblemDto().getTarget().getTargetsFrontDuOP() == 0 || taskDto.getProblemDto().getTarget().getTargetsDepthOP() == 0.0)) {
                 builder2.append(String.format("Фц (оп) = %s\tГл (оп) = %d\t",
                         formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDuOP())),
                         (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepth())));
