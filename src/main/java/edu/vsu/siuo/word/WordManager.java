@@ -62,13 +62,13 @@ public class WordManager {
             paragraph = sec.addParagraph();
             StringBuilder builder = new StringBuilder();
             builder.append(String.format("Батарея 122мм гаубицы Д-30 занимает боевой порядок:\n" +
-                            "ОП:  \tХ = %d; \tУ = %d; \th = %d м («Дон»)\n" +
-                            "КНП: \tХ = %d; \tУ = %d; \th = %d м («Амур»)\n" +
-                            "КНП адн: Х = %d; У = %d; \th = %d м («Лена»)\n" +
+                            "ОП:      Х = %d; \tУ = %d; \th = %d м («Дон»)\n" +
+                            "КНП:     Х = %d; \tУ = %d; \th = %d м («Амур»)\n" +
+                            "КНП адн: Х = %d; \tУ = %d; \th = %d м («Лена»)\n" +
                             "α он = %s\n" +
                             "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
                             "В дальности: %s; %s; %s. В направлении: %s; %s; %s.\n" +
-                            "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «%s». \nДивизионный: αц = %s, Дк = %d, εц = %s",
+                            "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «%s». Дивизионный: αц = %s, Дк = %d, εц = %s",
                     //ОП
                     taskDto.getProblemDto().getOp().getX(), taskDto.getProblemDto().getOp().getY(), taskDto.getProblemDto().getOp().getH(),
                     //КНП
@@ -133,7 +133,7 @@ public class WordManager {
 
             builder.append(String.format("Подавить! Я «Лена».\n" +
                     "В должности командира батареи провести пристрелку и стрельбу на поражение цели 21, если в ходе стрельбы получены следующие наблюдения:\n" +
-                    "1) " + data.get(0)[5] + "; 2) " + data.get(1)[5] + "; 3) " + data.get(2)[5] + "; 4) " + data.get(3)[5] + "; 5) " + data.get(4)[5] + "; 6) Цель подавлена. \n"));
+                    "1) " + data.get(0)[5] + "; \n2) " + data.get(1)[5] + "; \n3) " + data.get(2)[5] + "; \n4) " + data.get(3)[5] + "; \n5) " + data.get(4)[5] + "; \n6) Цель подавлена. \n"));
 
             //формат для плюсов и минусов доделать
             tr = paragraph.appendText(builder.toString());
@@ -164,7 +164,7 @@ public class WordManager {
             if ((typeAlgorithm != 0 || typeAlgorithm != 2 )&& !(taskDto.getProblemDto().getTarget().getTargetsFrontDuOP() == 0 || taskDto.getProblemDto().getTarget().getTargetsDepthOP() == 0.0)) {
                 builder2.append(String.format("Фц (оп) = %s\tГл (оп) = %d\t",
                         formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDuOP())),
-                        (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepth())));
+                        (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepthOP())));
             }
             builder2.append(String.format("ПС = %s\tОП (кнп) - %s\t\n∆Xтыс = %.1f\tВд = %d",
                     formatTextWithSeparation(taskDto.getSolutionDto().getPs()),
@@ -172,7 +172,7 @@ public class WordManager {
                     Math.round(taskDto.getSolutionDto().getDeltaX()*10)*1.0/10,
                     taskDto.getSolutionDto().getVD()));
             tr = paragraph.appendText(builder2.toString());
-            tr.getCharacterFormat().setFontSize(12);
+            tr.getCharacterFormat().setFontSize(14);
 
             //Define the data for table
             String[] header = {"№", "Команда на ОП.", "Пр.", "Ур.", "Дов.", "Наблюдения."};
