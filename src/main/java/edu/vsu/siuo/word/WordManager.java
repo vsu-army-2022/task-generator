@@ -115,14 +115,14 @@ public class WordManager {
                         String.format("%d", i + 1),
                         taskDto.getSolutionDto().getCommands().get(i).getDescription(),
                         i != 0
-                                ? taskDto.getSolutionDto().getCommands().get(i).getPR() != null
+                                ? taskDto.getSolutionDto().getCommands().get(i).getPR() != null && taskDto.getSolutionDto().getCommands().get(i).getPR() != 0
                                     ? formatTextValueWithSigned(taskDto.getSolutionDto().getCommands().get(i).getPR())
                                     : ""
                                 : String.format("%d", taskDto.getSolutionDto().getCommands().get(0).getPR()),
-                        taskDto.getSolutionDto().getCommands().get(i).getYR() != null
+                        taskDto.getSolutionDto().getCommands().get(i).getYR() != null && taskDto.getSolutionDto().getCommands().get(i).getYR() != 0
                                 ? formatTextWithSeparation(taskDto.getSolutionDto().getCommands().get(i).getYR())
                                 : "",
-                        taskDto.getSolutionDto().getCommands().get(i).getDe() != null
+                        taskDto.getSolutionDto().getCommands().get(i).getDe() != null && taskDto.getSolutionDto().getCommands().get(i).getDe() != 0
                                 ? formatTextDivision(taskDto.getSolutionDto().getCommands().get(i).getDe())
                                 : "",
                         taskDto.getSolutionDto().getCommands().get(i).getObservation() != ""
