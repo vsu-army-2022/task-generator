@@ -7,10 +7,7 @@ import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Types;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -288,9 +285,9 @@ public class Functions {
         ts.put(Powers.Power3, new ArrayList<>());
         ts.put(Powers.Power4, new ArrayList<>());
 
-        try (InputStream stream = ClassLoader.getSystemResourceAsStream("edu/vsu/siuo/ts.txt")){
-            assert stream != null; //todo fix it
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        try (InputStream stream = ClassLoader.getSystemResourceAsStream("edu/vsu/siuo/ts.txt")) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(stream)));
+
             String line = reader.readLine();
             while (line != null) {
                 if (line.contains("Полный")) {
