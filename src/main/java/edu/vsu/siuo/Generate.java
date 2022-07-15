@@ -180,15 +180,15 @@ public class Generate {
         return kof_1 + kof_2;
     }
 
-    static double getdD(double gc_op, String har, double dD) {
-        if (gc_op < 100) {
+    static double getdD(double gc, String har, double dD) {
+        if (gc < 100) {
             if (har.equals("all_n") || har.equals("all_p")) dD = 50;
             if (har.equals("pre_n") || har.equals("pre_p")) dD = 25;
             if (har.equals("rav_n") || har.equals("rav_p")) dD = 25;
         } else {
-            if (har.equals("all_n") || har.equals("all_p")) dD = gc_op;
-            if (har.equals("pre_n") || har.equals("pre_p")) dD = (int) Math.round(2.0 / 3 * gc_op);
-            if (har.equals("rav_n") || har.equals("rav_p")) dD = (int) Math.round(1.0 / 2 * gc_op);
+            if (har.equals("all_n") || har.equals("all_p")) dD = gc;
+            if (har.equals("pre_n") || har.equals("pre_p")) dD = (int) Math.round(2.0 / 3 * gc);
+            if (har.equals("rav_n") || har.equals("rav_p")) dD = (int) Math.round(1.0 / 2 * gc);
         }
         return dD;
     }

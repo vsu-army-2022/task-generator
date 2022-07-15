@@ -123,11 +123,12 @@ public class GenerateDalnomerMore5 extends Generate {
             vzr = "О и Ф";
         }
         // todo fixme
-        double fcm = (target.getTargetsFrontDu() * target.getDistanceFromKNPtoTarget()) / 1000;
+        double fcm = (target.getTargetsFrontDuOP() * target.getDistanceFromKNPtoTarget()) / 1000;
 
         if (target.getTargetsDepth() > 200) target.setTargetsDepth(200);
 
-        if (dxt == 0) dxt = 0.0001;
+        if (dxt == 0) dxt = 0.0000001;
+
         int uu;
         // скачок, УУ, УП
         if (fcm > 300 && target.getType().equals(Targets.PO) || fcm > 150 && target.getType().equals(Targets.PU)) {
