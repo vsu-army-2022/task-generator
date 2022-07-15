@@ -33,8 +33,27 @@ public class WordManager {
         for (TaskDto taskDto : taskDtos) {
             Section sec = this.document.addSection();
             //add a paragraph
+            StringBuilder builderName = new StringBuilder();
+            if (typeAlgorithm == 0){
+                builderName.append("НЗР (Малое смещение)");
+            }else if (typeAlgorithm == 1){
+                builderName.append("НЗР (Большое смещение)");
+            }
+            else if (typeAlgorithm == 2){
+                builderName.append("Дальномер (Малое смещение)");
+            }
+            else if (typeAlgorithm == 3){
+                builderName.append("Дальномер (Большое смещение)");
+            }
             Paragraph paragraph = sec.addParagraph();
             TextRange tr = paragraph.appendText(
+                    builderName.toString()
+            );
+            tr.getCharacterFormat().setFontSize(12);
+            tr.getCharacterFormat().setBold(true);
+            tr.getCharacterFormat().setItalic(true);
+            paragraph = sec.addParagraph();
+            tr = paragraph.appendText(
                     String.format("Вариант №%d от %s", taskDto.getTaskNumber(), getFormatTimeNow())
             );
             tr.getCharacterFormat().setFontSize(12);
@@ -85,7 +104,7 @@ public class WordManager {
             ));
 
             if (taskDto.getProblemDto().getTarget().getTargetsFrontDu() != 0.0 && taskDto.getProblemDto().getTarget().getTargetsDepth() != 0) {
-                builder.append(String.format(", Фц = %s, Гл = %d", formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDu())), (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepth())));
+                builder.append(String.format(", Фц = %s, Гл = %d", formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDu())).substring(1), (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepth())));
             }
             builder.append(". ");
 
@@ -122,7 +141,7 @@ public class WordManager {
 
             paragraph = sec.addParagraph();
             tr = paragraph.appendText(
-                    String.format("Тема %d. Вариант №%d от %s \n", taskDto.getTaskTopic(), taskDto.getTaskNumber(), getFormatTimeNow())
+                    String.format("Вариант №%d от %s \n", taskDto.getTaskNumber(), getFormatTimeNow())
             );
             tr.getCharacterFormat().setFontSize(12);
             tr.getCharacterFormat().setBold(true);

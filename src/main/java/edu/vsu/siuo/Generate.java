@@ -170,9 +170,12 @@ public class Generate {
 
     static double getBetta(String per_ned, int alfa, double ku, double dD, int shu, Direction opDirection) {
         double kof_1 = -alfa * ku;
-        double kof_2 = dD / 100 * shu;
-        if ((opDirection.equals(Direction.LEFT) && per_ned.equals("n")) || (opDirection.equals(Direction.RIGHT) && per_ned.equals("p"))) {
-            kof_2 = -1 * kof_2;
+        double kof_2 = 0;
+        if (per_ned != null){
+            kof_2 = dD / 100 * shu;
+            if ((opDirection.equals(Direction.LEFT) && per_ned.equals("n")) || (opDirection.equals(Direction.RIGHT) && per_ned.equals("p"))) {
+                kof_2 = -1 * kof_2;
+            }
         }
         return kof_1 + kof_2;
     }
@@ -209,7 +212,7 @@ public class Generate {
 
     static void setFirstCommandDalnimer(List<SolutionDto.TaskCommand> commands, Target target, String vzr, Powers load, double pric, long urov, double dov_isch, Map<Integer, ShotDto> shot) {
         SolutionDto.TaskCommand firstCommand = getFirstCommand(target, vzr, load, pric, urov, dov_isch);
-        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr(), target.getDistanceFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()));
+        firstCommand.setObservation(formatNablDalnomer(shot.get(0).getA(), shot.get(0).getType(), shot.get(0).getRazr(), target.getAngleFromKNPtoTarget(), target.getDistanceFromKNPtoTarget()));
         commands.add(firstCommand);
     }
 
