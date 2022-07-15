@@ -190,6 +190,7 @@ public class WordManager {
                 Paragraph p = row.getCells().get(i).addParagraph();
                 p.getFormat().setHorizontalAlignment(HorizontalAlignment.Center);
                 TextRange txtRange = p.appendText(header[i]);
+                txtRange.getCharacterFormat().setFontSize(16);
                 txtRange.getCharacterFormat().setBold(true);
             }
 
@@ -206,8 +207,9 @@ public class WordManager {
                 dataRow.setHeightType(TableRowHeightType.Auto);
                 for (int c = 0; c < data.get(r).length; c++) {
                     dataRow.getCells().get(c).getCellFormat().setVerticalAlignment(VerticalAlignment.Middle);
-                    dataRow.getCells().get(c).addParagraph().appendText(data.get(r)[c]);
-
+                    Paragraph p = dataRow.getCells().get(c).addParagraph();
+                    TextRange txtRange = p.appendText(data.get(r)[c]);
+                    txtRange.getCharacterFormat().setFontSize(14);
                 }
             }
         }
