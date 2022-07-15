@@ -39,6 +39,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "javafx-sdk-18.0.1\*"; DestDir: "{app}\javafx-sdk-18.0.1"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "jdk-16\*"; DestDir: "{app}\jdk-16"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "ts.txt"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
