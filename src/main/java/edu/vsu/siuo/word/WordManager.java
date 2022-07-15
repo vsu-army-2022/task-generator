@@ -172,7 +172,7 @@ public class WordManager {
                     Math.round(taskDto.getSolutionDto().getDeltaX()*10)*1.0/10,
                     taskDto.getSolutionDto().getVD()));
             tr = paragraph.appendText(builder2.toString());
-            tr.getCharacterFormat().setFontSize(12);
+            tr.getCharacterFormat().setFontSize(14);
 
             //Define the data for table
             String[] header = {"№", "Команда на ОП.", "Пр.", "Ур.", "Дов.", "Наблюдения."};
