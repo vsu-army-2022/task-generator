@@ -104,7 +104,7 @@ public class WordManager {
             ));
 
             if (taskDto.getProblemDto().getTarget().getTargetsFrontDu() != 0.0 && taskDto.getProblemDto().getTarget().getTargetsDepth() != 0) {
-                builder.append(String.format(", Фц = %s, Гл = %d", formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDu())), (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepth())));
+                builder.append(String.format(", Фц = %s, Гл = %d", formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDu())).substring(1), (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepth())));
             }
             builder.append(". ");
 

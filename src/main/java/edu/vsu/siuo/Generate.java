@@ -170,9 +170,12 @@ public class Generate {
 
     static double getBetta(String per_ned, int alfa, double ku, double dD, int shu, Direction opDirection) {
         double kof_1 = -alfa * ku;
-        double kof_2 = dD / 100 * shu;
-        if ((opDirection.equals(Direction.LEFT) && per_ned.equals("n")) || (opDirection.equals(Direction.RIGHT) && per_ned.equals("p"))) {
-            kof_2 = -1 * kof_2;
+        double kof_2 = 0;
+        if (per_ned != null){
+            kof_2 = dD / 100 * shu;
+            if ((opDirection.equals(Direction.LEFT) && per_ned.equals("n")) || (opDirection.equals(Direction.RIGHT) && per_ned.equals("p"))) {
+                kof_2 = -1 * kof_2;
+            }
         }
         return kof_1 + kof_2;
     }

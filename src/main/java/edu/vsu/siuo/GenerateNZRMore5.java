@@ -291,63 +291,57 @@ public class GenerateNZRMore5 extends Generate {
             if (har.length() > 4) {
                 per_ned = String.valueOf(har.charAt(4));
             }
-            if (analysisResult.getPs() <= 500) { // по формулам
-                pricel = dD / dxt;
-                if (per_ned.equals("p")) pricel *= -1;
-                betta = getBetta(per_ned, alfa, ku, dD, shu, opDirection);
-            } else { // по ПРК
-                double psRadian = converseToRad(analysisResult.getPs());
-                double dk = target.getDistanceFromKNPtoTarget();
-                double deltaDistFirstCircleAbs = Math.abs(alfa * 0.001 * dk / Functions.cosec(psRadian));
-                double deltaDistSecondCircleAbs = Math.abs(dD / Functions.sec(psRadian));
 
-                double bettaSecondCircle = Math.abs(dD * Math.tan(psRadian) / 0.001 / analysisResult.getDalTop() / Functions.sec(psRadian));
-                double bettaFirstCircle = Math.abs(alfa * 0.001 * dk / Functions.cosec(psRadian)) * Functions.cotan(psRadian) / (0.001 * analysisResult.getDalTop());
+            double psRadian = converseToRad(analysisResult.getPs());
+            double dk = target.getDistanceFromKNPtoTarget();
+            double deltaDistFirstCircleAbs = Math.abs(alfa * 0.001 * dk / Functions.cosec(psRadian));
+            double deltaDistSecondCircleAbs = Math.abs(dD / Functions.sec(psRadian));
+
+            double bettaSecondCircle = Math.abs(dD * Math.tan(psRadian) / 0.001 / analysisResult.getDalTop() / Functions.sec(psRadian));
+            double bettaFirstCircle = Math.abs(alfa * 0.001 * dk / Functions.cosec(psRadian)) * Functions.cotan(psRadian) / (0.001 * analysisResult.getDalTop());
 
 
-                //Left-Right PRK values
-                if (analysisResult.getOpDirection() == Direction.LEFT) {
-                    //first circle for left op position
-                    if (alfa < 0) {
-                        deltaDistFirstCircleAbs *= +1;
-                        bettaFirstCircle *= +1;
-                    } else {
-                        deltaDistFirstCircleAbs *= -1;
-                        bettaFirstCircle *= -1;
-                    }
-                    // second circle for left op position
-                    if (per_ned.equals("n")) {
-                        deltaDistSecondCircleAbs *= +1;
-                        bettaSecondCircle *= -1;
-                    } else {
-                        deltaDistSecondCircleAbs *= -1;
-                        bettaSecondCircle *= +1;
-                    }
+            //Left-Right PRK values
+            if (analysisResult.getOpDirection() == Direction.LEFT) {
+                //first circle for left op position
+                if (alfa < 0) {
+                    deltaDistFirstCircleAbs *= +1;
+                    bettaFirstCircle *= +1;
                 } else {
-                    //first circle for right op position
-                    if (alfa < 0) {
-                        deltaDistFirstCircleAbs *= -1;
-                        bettaFirstCircle *= +1;
-                    } else {
-                        deltaDistFirstCircleAbs *= +1;
-                        bettaFirstCircle *= -1;
-                    }
-                    // second circle for right op position
-                    if (per_ned.equals("n")) {
-                        deltaDistSecondCircleAbs *= +1;
-                        bettaSecondCircle *= +1;
-                    } else {
-                        deltaDistSecondCircleAbs *= -1;
-                        bettaSecondCircle *= -1;
-                    }
+                    deltaDistFirstCircleAbs *= -1;
+                    bettaFirstCircle *= -1;
                 }
-                betta = Math.round(bettaSecondCircle + bettaFirstCircle);
-                double deltaDist = deltaDistSecondCircleAbs + deltaDistFirstCircleAbs;
-
-                pricel = Math.round(deltaDist / dxt);
-                System.out.println();
+                // second circle for left op position
+                if (per_ned.equals("n")) {
+                    deltaDistSecondCircleAbs *= +1;
+                    bettaSecondCircle *= -1;
+                } else {
+                    deltaDistSecondCircleAbs *= -1;
+                    bettaSecondCircle *= +1;
+                }
+            } else {
+                //first circle for right op position
+                if (alfa < 0) {
+                    deltaDistFirstCircleAbs *= -1;
+                    bettaFirstCircle *= +1;
+                } else {
+                    deltaDistFirstCircleAbs *= +1;
+                    bettaFirstCircle *= -1;
+                }
+                // second circle for right op position
+                if (per_ned.equals("n")) {
+                    deltaDistSecondCircleAbs *= +1;
+                    bettaSecondCircle *= +1;
+                } else {
+                    deltaDistSecondCircleAbs *= -1;
+                    bettaSecondCircle *= -1;
+                }
             }
 
+            betta = Math.round(bettaSecondCircle + bettaFirstCircle);
+            double deltaDist = deltaDistSecondCircleAbs + deltaDistFirstCircleAbs;
+
+            pricel = Math.round(deltaDist / dxt);
 
             // формируем наблюдение
             generateNablud(shot, commands, kol_nabl, i, komand, betta, pricel);
