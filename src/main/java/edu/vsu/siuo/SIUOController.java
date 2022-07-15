@@ -85,8 +85,11 @@ public class SIUOController implements Initializable {
         } else if (type == 3){
             wordManager.Write(GenerateDalnomerMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
         }
-        Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
-                  this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
+
+        if (checkBoxOpenFile.isSelected()) {
+            Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
+                    this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
+        }
     }
 
     @FXML
