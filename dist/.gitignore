@@ -1,0 +1,4 @@
+*.jar
+javafx-sdk-18.0.1
+jdk-16
+launch4j.log
