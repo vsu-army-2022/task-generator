@@ -199,8 +199,8 @@ public class Functions {
     public static String formatNablDalnomer(int a, Types h, double d, double ak, double dk) {
         String as = modAngDash(ak + a); //fixme?
         String hs = h.getDescription();
-        if (h.equals(Types.ONE_P)) hs = Double.toString(dk + d);
-        if (h.equals(Types.ONE_N)) hs = Double.toString(dk - d);
+        if (h.equals(Types.ONE_P)) hs = Integer.toString((int)Math.round(dk + d));
+        if (h.equals(Types.ONE_N)) hs = Integer.toString((int)Math.round(dk - d));
         return as + ", " + hs;
     }
 

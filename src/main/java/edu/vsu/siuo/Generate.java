@@ -232,11 +232,12 @@ public class Generate {
     }
 
     static void generateNabludForDal(Map<Integer, ShotDto> shot, List<SolutionDto.TaskCommand> commands, int kol_nabl, int i, String komand, double betta, double pricel, ConditionsDto conditionsDto) {
-        String nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
-
+        String nablud;
         if (i == 0){
             nablud = conditionsDto.getGeneratedShotResult().getVse3v();
             komand = "3 снаряда, 20 секунд выстрел, огонь!";
+        } else {
+            nablud = (i + 1 == kol_nabl ? "Цель подавлена" : formatNabl(shot.get(i + 1).getA(), shot.get(i + 1).getType().getDescription(), shot.get(i + 1).getF()));
         }
         setCommandsForNabl(commands, komand, betta, pricel, nablud);
     }
