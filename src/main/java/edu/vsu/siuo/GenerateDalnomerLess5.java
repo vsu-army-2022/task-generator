@@ -122,7 +122,8 @@ public class GenerateDalnomerLess5 extends Generate {
 
         if (target.getTargetsDepth() > 200) target.setTargetsDepth(200);
 
-        if (dxt == 0) dxt = 0.0001;
+        if (dxt == 0) dxt = 0.0000001;
+
         int uu;
         // скачок, УУ, УП
         if (fcm > 300 && target.getType().equals(Targets.PO) || fcm > 150 && target.getType().equals(Targets.PU)) {
@@ -218,7 +219,7 @@ public class GenerateDalnomerLess5 extends Generate {
             // поражение цели
             if (!har.equals("one_n") && !har.equals("one_p") && !har.equals("empty") && !har.equals("xz")) {
 
-                dD = getdD(gc_op, har, dD);
+                dD = getdD(target.getTargetsDepth(), har, dD);
 
 //                double koef_fr;
 //
