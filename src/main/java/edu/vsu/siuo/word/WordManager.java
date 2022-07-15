@@ -62,9 +62,9 @@ public class WordManager {
             paragraph = sec.addParagraph();
             StringBuilder builder = new StringBuilder();
             builder.append(String.format("Батарея 122мм гаубицы Д-30 занимает боевой порядок:\n" +
-                            "ОП:   Х = %d; \tУ = %d; \th = %d м («Дон»)\n" +
-                            "КНП:  Х = %d; \tУ = %d; \th = %d м («Амур»)\n" +
-                            "КНП адн: Х = %d; У = %d; \th = %d м («Лена»)\n" +
+                            "ОП:      Х = %d; \tУ = %d; \th = %d м («Дон»)\n" +
+                            "КНП:     Х = %d; \tУ = %d; \th = %d м («Амур»)\n" +
+                            "КНП адн: Х = %d; \tУ = %d; \th = %d м («Лена»)\n" +
                             "α он = %s\n" +
                             "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
                             "В дальности: %s; %s; %s. В направлении: %s; %s; %s.\n" +
