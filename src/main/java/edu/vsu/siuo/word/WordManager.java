@@ -35,28 +35,28 @@ public class WordManager {
             //add a paragraph
             StringBuilder builderName = new StringBuilder();
             if (typeAlgorithm == 0){
-                builderName.append("НЗР (Малое смещение)");
+                builderName.append("НЗР (Малое смещение)\n");
             }else if (typeAlgorithm == 1){
-                builderName.append("НЗР (Большое смещение)");
+                builderName.append("НЗР (Большое смещение)\n");
             }
             else if (typeAlgorithm == 2){
-                builderName.append("Дальномер (Малое смещение)");
+                builderName.append("Дальномер (Малое смещение)\n");
             }
             else if (typeAlgorithm == 3){
-                builderName.append("Дальномер (Большое смещение)");
+                builderName.append("Дальномер (Большое смещение)\n");
             }
             Paragraph paragraph = sec.addParagraph();
             TextRange tr = paragraph.appendText(
                     builderName.toString()
             );
-            tr.getCharacterFormat().setFontSize(12);
+            tr.getCharacterFormat().setFontSize(14);
             tr.getCharacterFormat().setBold(true);
             tr.getCharacterFormat().setItalic(true);
             paragraph = sec.addParagraph();
             tr = paragraph.appendText(
                     String.format("Вариант №%d от %s", taskDto.getTaskNumber(), getFormatTimeNow())
             );
-            tr.getCharacterFormat().setFontSize(12);
+            tr.getCharacterFormat().setFontSize(14);
             tr.getCharacterFormat().setBold(true);
 
             paragraph = sec.addParagraph();
@@ -68,7 +68,7 @@ public class WordManager {
                             "α он = %s\n" +
                             "В батарее рассчитаны поправки для заряда «%s» на %d, %d, %d км.\n" +
                             "В дальности: %s; %s; %s. В направлении: %s; %s; %s.\n" +
-                            "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «%s». Дивизионный: αц = %s, Дк = %d, εц = %s",
+                            "Командир дивизиона («Лена») передал: «Амур», стой! Цель 21, «%s». \nДивизионный: αц = %s, Дк = %d, εц = %s",
                     //ОП
                     taskDto.getProblemDto().getOp().getX(), taskDto.getProblemDto().getOp().getY(), taskDto.getProblemDto().getOp().getH(),
                     //КНП
@@ -115,14 +115,14 @@ public class WordManager {
                         String.format("%d", i + 1),
                         taskDto.getSolutionDto().getCommands().get(i).getDescription(),
                         i != 0
-                                ? taskDto.getSolutionDto().getCommands().get(i).getPR() != null
+                                ? taskDto.getSolutionDto().getCommands().get(i).getPR() != null && taskDto.getSolutionDto().getCommands().get(i).getPR() != 0
                                     ? formatTextValueWithSigned(taskDto.getSolutionDto().getCommands().get(i).getPR())
                                     : ""
                                 : String.format("%d", taskDto.getSolutionDto().getCommands().get(0).getPR()),
-                        taskDto.getSolutionDto().getCommands().get(i).getYR() != null
+                        taskDto.getSolutionDto().getCommands().get(i).getYR() != null && taskDto.getSolutionDto().getCommands().get(i).getYR() != 0
                                 ? formatTextWithSeparation(taskDto.getSolutionDto().getCommands().get(i).getYR())
                                 : "",
-                        taskDto.getSolutionDto().getCommands().get(i).getDe() != null
+                        taskDto.getSolutionDto().getCommands().get(i).getDe() != null && taskDto.getSolutionDto().getCommands().get(i).getDe() != 0
                                 ? formatTextDivision(taskDto.getSolutionDto().getCommands().get(i).getDe())
                                 : "",
                         taskDto.getSolutionDto().getCommands().get(i).getObservation() != ""
@@ -137,19 +137,19 @@ public class WordManager {
 
             //формат для плюсов и минусов доделать
             tr = paragraph.appendText(builder.toString());
-            tr.getCharacterFormat().setFontSize(12);
+            tr.getCharacterFormat().setFontSize(14);
 
             paragraph = sec.addParagraph();
             tr = paragraph.appendText(
                     String.format("Вариант №%d от %s \n", taskDto.getTaskNumber(), getFormatTimeNow())
             );
-            tr.getCharacterFormat().setFontSize(12);
+            tr.getCharacterFormat().setFontSize(14);
             tr.getCharacterFormat().setBold(true);
             paragraph = sec.addParagraph();
 
 
             StringBuilder builder2 = new StringBuilder();
-            builder2.append(String.format("Дцт = %d\t∆Д = %s\tДци = %s\t∂цт = %s\t∆∂ = %s\t∂ци = %s\n",
+            builder2.append(String.format("Дцт = %d\t∆Д = %s\tДци = %s\t\n∂цт = %s\t∆∂ = %s\t∂ци = %s\n",
                     taskDto.getSolutionDto().getDCt(),
                     formatTextValueWithSigned(taskDto.getSolutionDto().getDeltaDCt()),
                     taskDto.getSolutionDto().getDCi(),
@@ -166,7 +166,7 @@ public class WordManager {
                         formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDuOP())),
                         (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepth())));
             }
-            builder2.append(String.format("ПС = %s\tОП (кнп) - %s\t∆Xтыс = %.1f\tВд = %d",
+            builder2.append(String.format("ПС = %s\tОП (кнп) - %s\t\n∆Xтыс = %.1f\tВд = %d",
                     formatTextWithSeparation(taskDto.getSolutionDto().getPs()),
                     (taskDto.getSolutionDto().getOp().equals(Direction.RIGHT) ? "Справа" : "Слева"),
                     Math.round(taskDto.getSolutionDto().getDeltaX()*10)*1.0/10,
