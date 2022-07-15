@@ -16,6 +16,8 @@ import static edu.vsu.siuo.utils.Utils.rand;
 
 public class Functions {
 
+    public static final String TS_PATH = "ts.txt";
+
     public static double converseToRad(double a) {
         return a * Math.PI / 30 / 100;
     }
@@ -285,8 +287,8 @@ public class Functions {
         ts.put(Powers.Power3, new ArrayList<>());
         ts.put(Powers.Power4, new ArrayList<>());
 
-        try (InputStream stream = ClassLoader.getSystemResourceAsStream("edu/vsu/siuo/ts.txt")) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(stream)));
+        try (InputStream stream = new FileInputStream(TS_PATH)) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
             String line = reader.readLine();
             while (line != null) {
