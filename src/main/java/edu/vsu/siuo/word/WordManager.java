@@ -166,7 +166,7 @@ public class WordManager {
                         formatTextDivision((int) Math.round(taskDto.getProblemDto().getTarget().getTargetsFrontDuOP())),
                         (int) Math.round(taskDto.getProblemDto().getTarget().getTargetsDepthOP())));
             }
-            builder2.append(String.format("ПС = %s\tОП (кнп) - %s\t\n∆Xтыс = %.1f\tВд = %d",
+            builder2.append(String.format("ПС = %s\ntОП (кнп) - %s\t∆Xтыс = %.1f\tВд = %d",
                     formatTextWithSeparation(taskDto.getSolutionDto().getPs()),
                     (taskDto.getSolutionDto().getOp().equals(Direction.RIGHT) ? "Справа" : "Слева"),
                     Math.round(taskDto.getSolutionDto().getDeltaX()*10)*1.0/10,
