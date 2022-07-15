@@ -345,7 +345,6 @@ public class GenerateDalnomerMore5 extends Generate {
                 double deltaDist = deltaDistSecondCircleAbs + deltaDistFirstCircleAbs;
 
                 pricel = Math.round(deltaDist / dxt);
-                System.out.println();
             }
 
 
