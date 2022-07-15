@@ -6,13 +6,8 @@ import edu.vsu.siuo.domains.enums.Direction;
 import edu.vsu.siuo.domains.enums.Powers;
 import edu.vsu.siuo.domains.enums.Types;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -289,8 +284,10 @@ public class Functions {
         ts.put(Powers.Power2, new ArrayList<>());
         ts.put(Powers.Power3, new ArrayList<>());
         ts.put(Powers.Power4, new ArrayList<>());
-        try (FileReader fr = new FileReader("src/main/resources/edu/vsu/siuo/ts.txt")) {
-            BufferedReader reader = new BufferedReader(fr);
+
+        try (InputStream stream = ClassLoader.getSystemResourceAsStream("edu/vsu/siuo/ts.txt")) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(stream)));
+
             String line = reader.readLine();
             while (line != null) {
                 if (line.contains("Полный")) {
@@ -453,7 +450,6 @@ public class Functions {
         int v3snar0D = v3snar1D - rand(18, 32);
         int v3snar2A = sum;
         int v3snar2D = v3snar1D + rand(18, 32);
-
 
 
 //        /* 3 выстрела */
