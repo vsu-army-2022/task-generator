@@ -1,9 +1,7 @@
 package edu.vsu.siuo;
 
-import edu.vsu.siuo.domains.dto.TaskDto;
-import edu.vsu.siuo.word.WordManager;
 import edu.vsu.siuo.domains.Settings;
-
+import edu.vsu.siuo.word.WordManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -17,12 +15,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import static edu.vsu.siuo.word.WordManager.GenerateNameFile;
 
@@ -34,6 +31,7 @@ public class SIUOController implements Initializable {
     public static final String DalnomerBig = "Дальномер (Большое смещение)";
 
     private static final Map<Integer, String> map;
+    public static final String LOG_FILE_PATH = "log.txt";
 
     static {
         map = new HashMap<>();
@@ -75,21 +73,42 @@ public class SIUOController implements Initializable {
 
     @FXML
     protected void buttonCreateTasksOnClick() throws IOException {
-        WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(type)));
-        if (type == 0){
-            wordManager.Write(GenerateNZRLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
-        } else if (type == 1){
-            wordManager.Write(GenerateNZRMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
-        } else if (type == 2){
-            wordManager.Write(GenerateDalnomerLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
-        } else if (type == 3){
-            wordManager.Write(GenerateDalnomerMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
+        try {
+            WordManager wordManager = new WordManager(this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(type)));
+            if (type == 0) {
+                wordManager.Write(GenerateNZRLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
+            } else if (type == 1) {
+                wordManager.Write(GenerateNZRMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
+            } else if (type == 2) {
+                wordManager.Write(GenerateDalnomerLess5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
+            } else if (type == 3) {
+                wordManager.Write(GenerateDalnomerMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
+            }
+
+            if (settings.getOpenFile()) {
+                Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
+                        this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
+            }
+
+        } catch (Exception e) {
+            logToFile(e);
+        }
+    }
+
+    // todo migrate to slf4j/log4j
+    private void logToFile(Exception e) throws IOException {
+        FileWriter writer = new FileWriter(LOG_FILE_PATH, true);
+
+        writer.append(e.getMessage());
+        writer.append("\n\n");
+
+        for (StackTraceElement element : e.getStackTrace()) {
+            writer.append(element.toString());
+            writer.append("\n");
         }
 
-        if (settings.getOpenFile()) {
-            Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
-                    this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
-        }
+        writer.append("\n\n");
+        writer.close();
     }
 
     @FXML
