@@ -86,7 +86,7 @@ public class SIUOController implements Initializable {
             wordManager.Write(GenerateDalnomerMore5.generateTasks(Integer.parseInt(textFieldNumberOfTasks.getText())), type);
         }
 
-        if (checkBoxOpenFile.isSelected()) {
+        if (settings.getOpenFile()) {
             Process p = Runtime.getRuntime().exec(String.format("rundll32 url.dll,FileProtocolHandler %s\\%s",
                     this.selectedDirectory.getAbsolutePath(), GenerateNameFile(map.get(this.type))));
         }
@@ -177,6 +177,7 @@ public class SIUOController implements Initializable {
         }
         selectedDirectory = new File(settings.getDefaultPath());
         labelSettingsPath.setText(settings.getDefaultPath());
+        checkBoxOpenFile.setSelected(settings.getOpenFile());
         selectedPane = paneMain;
         selectedPane.setVisible(true);
         paneSettings.setVisible(false);
